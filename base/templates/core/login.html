@@ -1,0 +1,38 @@
+{% extends 'core/base.html'  %}
+{% block extra_head %}
+<style>
+.errorlist {
+  padding    : 0px;
+  list-style : none;
+  color      : red;
+}
+</style>
+{% endblock %}
+{% block body %}
+{% if form.errors %}
+<div class='alert alert-warning'>
+  Por favor llene la información marcada
+</div>
+{% endif %}
+<form method='POST' action='' enctype='multipart/form-data'>
+  {% csrf_token %}
+  <p style='height:200px;'></p>
+  <div style='max-width:400px;padding:30px;margin:0px auto;'>
+    <div class='row'>
+      <div class='col-lg-3'>{{ form.usuario.label }}</div>
+      <div class='col-lg-9'>
+        {{ form.usuario }}
+        {{ form.usuario.errors }}</div>
+    </div>
+    <div class='row'>
+      <div class='col-lg-3'>{{ form.contrasena.label }}</div>
+      <div class='col-lg-9'>
+        {{ form.contrasena }}
+        {{ form.contrasena.errors }}
+      </div>
+    </div>
+    <hr />
+    <button class='btn btn-primary pull-right'>Guardar</button><br />
+  </div>
+</form>
+{% endblock %}

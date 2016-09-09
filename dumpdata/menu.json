@@ -1,0 +1,170 @@
+[
+  {
+    "model": "navegacion.menu",
+    "pk": 1,
+    "fields": {
+      "nombre": "Configuracion",
+       "app": "",
+       "modelo": "",
+       "padre": null,
+       "icono": "fa fa-cog",
+       "permiso": null,
+       "listar": false,
+       "nivel": 0,
+       "activo": true}
+  },
+  {
+    "model": "navegacion.menu",
+    "pk": 2,
+    "fields": {
+      "nombre": "Usuarios",
+       "app": "usuario",
+       "modelo": "usuario",
+       "padre": 1,
+       "icono": "fa fa-user-plus",
+       "permiso": null,
+       "listar": true,
+       "nivel": 0,
+       "activo": true}
+  },
+  {
+    "model": "navegacion.menu",
+    "pk": 3,
+    "fields": {
+      "nombre": "Perfiles",
+       "app": "usuario",
+       "modelo": "perfil",
+       "padre": 1,
+       "icono": "fa fa-user-plus",
+       "permiso": null,
+       "listar": true,
+       "nivel": 0,
+       "activo": true}
+  },
+  {
+    "model": "navegacion.menu",
+    "pk": 4,
+    "fields": {
+      "nombre": "Catalogos",
+       "app": "",
+       "modelo": "",
+       "padre": null,
+       "icono": "fa fa-list-ul",
+       "permiso": null,
+       "listar": true,
+       "nivel": 0,
+       "activo": true}
+  },
+  {
+    "model": "navegacion.menu",
+    "pk": 5,
+    "fields": {
+      "nombre": "Ciclo Escolar",
+       "app": "catalogo",
+       "modelo": "ciclo_escolar",
+       "padre": 4,
+       "icono": "fa fa-calendar",
+       "permiso": null,
+       "listar": true,
+       "nivel": 0,
+       "activo": true}
+  },
+  {
+    "model": "navegacion.menu",
+    "pk": 6,
+    "fields": {
+      "nombre": "Conceptos",
+       "app": "catalogo",
+       "modelo": "concepto",
+       "padre": 4,
+       "icono": "fa fa-list-alt",
+       "permiso": null,
+       "listar": true,
+       "nivel": 0,
+       "activo": true}
+  },
+  {
+    "model": "navegacion.menu",
+    "pk": 7,
+    "fields": {
+      "nombre": "Categorias",
+       "app": "catalogo",
+       "modelo": "categoria",
+       "padre": 4,
+       "icono": "fa fa-th",
+       "permiso": null,
+       "listar": true,
+       "nivel": 0,
+       "activo": true}
+  },
+  {
+    "model": "navegacion.menu",
+    "pk": 8,
+    "fields": {
+      "nombre": "Alumnos",
+       "app": "catalogo",
+       "modelo": "alumno",
+       "padre": 4,
+       "icono": "fa fa-users",
+       "permiso": null,
+       "listar": true,
+       "nivel": 0,
+       "activo": true}
+  },
+  {
+    "model": "navegacion.menu",
+    "pk": 9,
+    "fields": {
+      "nombre": "Inscripciónes",
+       "app": "",
+       "modelo": "",
+       "padre": null,
+       "icono": "fa fa-user",
+       "permiso": null,
+       "listar": true,
+       "nivel": 0,
+       "activo": true}
+  },
+    {
+    "model": "navegacion.menu",
+    "pk": 10,
+    "fields": {
+      "nombre": "Inscripción",
+       "app": "inscripcion",
+       "modelo": "inscripcion",
+       "padre": 9,
+       "icono": "fa fa-user-plus",
+       "permiso": null,
+       "listar": true,
+       "nivel": 0,
+       "activo": true}
+  },
+    {
+    "model": "navegacion.menu",
+    "pk": 11,
+    "fields": {
+      "nombre": "Reportes",
+       "app": "",
+       "modelo": "",
+       "padre": null,
+       "icono": "fa fa-folder",
+       "permiso": null,
+       "listar": true,
+       "nivel": 0,
+       "activo": true}
+  },
+    {
+    "model": "navegacion.menu",
+    "pk": 12,
+    "fields": {
+      "nombre": "Movimientos",
+       "app": "reporte",
+       "modelo": "movimiento",
+       "padre": 11,
+       "icono": "fa fa-file",
+       "permiso": null,
+       "listar": true,
+       "nivel": 0,
+       "activo": true}
+  }
+]

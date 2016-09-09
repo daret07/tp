@@ -1,0 +1,17 @@
+{% extends 'core/print.html' %}
+{% block extra_head %}
+{{ block.super }}
+<style>
+* {
+  font-family: Arial;
+  font-size:10px;
+}
+</style>
+{% endblock %}
+{% block impresion %}
+<h1>Titulo</h1>
+<div class='alert alert-info'>
+asd
+</div>
+<span style='font-family: Arial; font-size:8px;'>Este es otro texto</span>
+{% endblock %}

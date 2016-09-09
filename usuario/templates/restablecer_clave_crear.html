@@ -1,0 +1,26 @@
+{% extends 'core/crear.html' %}
+{% block contenido %}
+{% if form.errors %}
+  <div class='error'>
+  {{ form.errors }}
+  </div>
+{% endif %}
+<div class='alert alert-info'>
+  En este apartado, usted puede restablecer la clave de la persona: <span class='label label-default'>{{ obj.first_name }} {{ obj.last_name }} ({{ obj.username }}) </span>
+</div>
+<div class='box' style='padding:25px;'>
+  <div class='row'>
+    <div class='col-lg-2 {% if form.new_password1.errors %}error{% endif %}'>{{ form.new_password1.label }}</div>
+    <div class='col-lg-2'>{{ form.new_password1 }}</div>
+  </div>
+  <div class='row'>
+    <div class='col-lg-2 {% if form.new_password2.errors %}error{% endif %}'>{{ form.new_password2.label }}</div>
+    <div class='col-lg-2'>{{ form.new_password2 }}</div>
+  </div>
+</div>
+{% endblock %}
+{% block btn_action %}
+<div class='pull-right'>
+  <button type='submit' class='btn btn-sm btn-default'>Restablecer Contraseña</button>
+</div>
+{% endblock %}

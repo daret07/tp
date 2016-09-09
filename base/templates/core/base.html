@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang='es'>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %} {{ PROYECTO }}{% endblock %} </title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap336/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/ionicons/ionicons.min.css'%}">
+    <link rel="stylesheet" href="{% static 'dist/css/AdminLTE.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dist/css/skins/skin-blue.min.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/datetimepicker/jquery.datetimepicker.css' %}">
+    <link rel="stylesheet" href="{% static 'vendor/jquery-ui/jquery-ui.min.css' %}">
+    <!--[if lt IE 9]>
+        <script src="{% static 'vendor/html5shiv/html5shiv.min.js' %}"></script>
+        <script src="{% static 'vendor/respond/respond.min.js' %}"></script>
+    <![endif]-->
+    <script type='text/javascript'>
+      var _homeurl = '{% url 'index' %}';
+      var _csrf_token = '{{ csrf_token }}';
+    </script>
+    <script src="{% static 'vendor/jquery/jquery-2.1.4.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap336/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'vendor/datetimepicker/jquery.datetimepicker.full.min.js' %}"></script>
+    <script src="{% static 'vendor/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'js/combobox.js' %}"></script>
+    <script src="{% static 'dist/js/app.min.js' %}"></script>
+
+    <script src="{% static 'js/framework.js' %}"></script>
+    <script src="{% static 'js/django_formset.js' %}" ></script>
+    <style>
+      .content-header > .breadcrumb > li > a {
+        color : white;
+      }
+
+      .has-error {
+        color : #dd4b39;
+      }
+    </style>
+    {% block extra_head %}{% endblock %}
+  </head>
+  {% block blank%}
+    <body class="hold-transition skin-blue sidebar-mini">
+      {% block core_modal %}
+      <iframe id='iframe_modal' name='iframe_modal' src='about:blank' onload='recarga(event);' style='width:0px; height:0px; position:absolute;visibility:hidden;'></iframe>
+      <div id='data_modal'></div>
+      {% endblock %}
+      {% block body %}
+      {% endblock %}
+    </body>
+  {% endblock %}
+</html>

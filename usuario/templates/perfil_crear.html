@@ -1,0 +1,50 @@
+{% extends 'core/crear.html' %}
+{% load usuario_tags %}
+{% block extra_head %}
+{{ block.super }}
+<style>
+#tabla_permisos td, #tabla_permisos th {
+  text-align : center;
+}
+</style>
+{% endblock %}
+{% block contenido %}
+<div class='box' style='padding:25px;'>
+  <div class='row'>
+    <div class='col-lg-2 {% if form.name.errors %}error{% endif %}'>{{ form.name.label }}</div>
+    <div class='col-lg-2'>{{ form.name }}</div>
+  </div>
+</div>
+<div class='box' style='padding:25px;'>
+  <span class='label label-info'>Permisos</span>
+  <table id='tabla_permisos' class='table table-bordered table-stripped table-condensed' style='max-width:500px;'>
+    <thead>
+      <tr>
+        <th>Modelo</th>
+        <th colspan='3'>Permisos</th>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        {% for g in grupo_permisos %}
+          <td>{{ g }}</td>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for modelo in modelos %}
+      <tr>
+        <td style='text-align:right;'>{{ modelo.model }}</td>
+        {% for g in grupo_permisos %}
+          {% get_pk modelo.model g as existe %}
+          <td>
+            {% if existe %}
+            <input name='permissions' value='{% get_pk modelo.model g %}' type='checkbox' {% permiso_grupo obj.pk modelo.model g %}/>
+            {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div> 
+{% endblock %}

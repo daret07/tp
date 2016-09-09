@@ -1,0 +1,14 @@
+{% extends 'core/modal.html' %}
+{% block modal_title %}
+modal de prueba
+{% endblock %}
+{% block modal_body %}
+  <div class='alert alert-info'>
+    mensaje de pruebas
+    POST: {{ hora }}
+  </div>
+  {{ mensaje }}
+{% endblock %}
+{% block modal_footer %}
+<button class='btn btn-primary'>Guardar</button>
+{% endblock %}

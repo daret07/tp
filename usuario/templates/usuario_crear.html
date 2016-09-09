@@ -1,0 +1,115 @@
+{% extends 'core/crear.html' %}
+{% load static %}
+{% block extra_head %}
+{{ block.super }}
+<script type='text/javascript'>
+$(document).ready(function() {
+  $("#id_groups").addClass("form-control");
+
+  $("#id_clave,#id_clave_confirmacion").keyup(function() {
+
+    var match        = $("#passwd_match");
+    var nomatch      = $("#passwd_no_match");
+    var clave        = $("#id_clave").val();
+    var confirmacion = $("#id_clave_confirmacion").val();
+    
+    if (clave === "" && confirmacion === "") {
+      $(nomatch).hide();
+      $(match).hide();
+    }
+    else if (clave !== confirmacion) {
+      $(nomatch).show();
+      $(match).hide();
+    }
+    else {
+      $(nomatch).hide();
+      $(match).show();
+    }
+  });
+
+
+});
+</script>
+{% endblock %}
+{% block contenido %}
+  <div class='row'>
+    <div class='col-lg-6'>
+      <span class='label label-info'><i class='fa fa-cubes'></i> Información General</span>
+      <div class='box' style='padding:25px;'>
+        <div class='row'>
+          <div class='col-lg-3'>
+              {% if obj.avatar %}
+              <img src='{{ obj.avatar.url }}' width='120px' height='140px' />
+              {% else %}
+              <img src='{% static 'images/default-avatar.png' %}' width='120px' height='140px' />
+              {% endif %}
+          <p style='height:20px;'></p>
+          <div class='row'>
+            <div class='col-lg-12'>
+              {{ form.avatar }}
+            </div>
+          </div>
+          </div>
+          <div class='col-lg-9'>
+            <div class='row'>
+              <div class='col-lg-3 {% if form.username.errors %}error{% endif %}'>{{ form.username.label }}</div>
+              <div class='col-lg-8'>{{ form.username }}</div>
+            </div>
+            <div class='row'>
+              <div class='col-lg-3 {% if form.first_name.errors %}error{% endif %}'>{{ form.first_name.label }}</div>
+              <div class='col-lg-8'>{{ form.first_name }}</div>
+            </div>
+            <div class='row'>
+              <div class='col-lg-3 {% if form.last_name.errors %}error{% endif %}'>{{ form.last_name.label }}</div>
+              <div class='col-lg-8'>{{ form.last_name }}</div>
+            </div>
+            <div class='row'>
+              <div class='col-lg-3 {% if form.email.errors %}error{% endif %}'>{{ form.email.label }}</div>
+              <div class='col-lg-8'>{{ form.email }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class='col-lg-6'>
+      <span class='label label-info'><i class='fa fa-unlock'></i> Permisos</span>
+      <div class='box' style='padding:25px;'>
+      {% if obj.pk %}
+      <div class='row'>
+        <div class='col-lg-12'>
+          <div class='alert alert-danger'>
+            Por seguridad, para realizar el cambio de contraseña de esta persona deberá realizarlo click desde <a href='{% url 'editar' 'usuario' 'restablecer_clave' obj.pk %}'><strong>aquí</strong></a>. </div>
+          </div>
+      </div>
+      {% else %}
+        <div class='row'>
+          <div class='col-lg-3 {% if form.clave.errors %}error{% endif %}'>{{ form.clave.label }}</div>
+          <div class='col-lg-4'>{{ form.clave }}</div>
+        </div>
+        <div class='row'>
+          <div class='col-lg-3 {% if form.clave_confirmacion.errors %}error{% endif %}'>{{ form.clave_confirmacion.label }}</div>
+          <div class='col-lg-4'>{{ form.clave_confirmacion }}</div>
+          <div class='col-lg-1'>
+            <span id='passwd_no_match' class='label label-danger' style='display:none;'><i class='fa fa-exclamation-circle'></i> Password no coincide.</span>
+            <span id='passwd_match' class='label label-success' style='display:none;'><i class='fa fa-angellist'></i> Password coincide.</span>
+          </div>
+        </div>
+      {% endif %}
+        <div class='row'>
+          <div class='col-lg-3 {% if form.groups.errros %}error{% endif %}'>Perfiles</div>
+          <div class='col-lg-9'>
+            {{ form.groups }}
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-lg-3 {% if form.is_superuser.errors %}error{% endif %}'>{{ form.is_superuser.label }}</div>
+          <div class='col-lg-7'>
+            {{ form.is_superuser }}
+            <span class='help_text'>{{ form.is_superuser.help_text }}</span>
+          </div>
+        </div>
+        <p style='height:50px;'></p>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,205 @@
+{% extends 'core/core.html' %}
+{% load static i18n admin_static admin_list %}
+{% block extra_head %}
+{{ block.super }}
+<style>
+#columnas {
+  list-style : none;
+  padding    : 3px;
+  margin     : 0px;
+}
+
+.filtros ul {
+  list-style : none;
+  padding    : 3px;
+  margin     : 5px;
+}
+
+.filtros ul li {
+  font-size    : 11px;
+  padding-left : 8px;
+}
+
+.filtros ul li.selected {
+  border-left  : solid 2px #c3c3c3;
+  padding-left : 6px;
+}
+
+.filtros h3 {
+  font-size   : 13px;
+  font-weight : bold;
+}
+
+tr.selected {
+  background-color : #FFFFD5;
+}
+
+th.action-checkbox-column {
+  width : 35px;
+}
+.toplinks {
+  padding: 2px;
+  list-style:none;
+}
+.toplinks li{
+  float:left;
+  margin:10px;
+  border:solid 1px #c4c4c4;
+  border-radius:5px;
+  background-color:#f2f2f2;
+  padding: 0px 4px 0px 4px;
+}
+.toplinks .date-back{
+  font-weight:bold;
+}
+</style>
+<script type="text/javascript">var _actions_icnt="{{ cl.result_list|length|default:"0" }}";</script>
+<script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+<script type='text/javascript'>
+function get_total_seleccionados() {
+  var seleccionados = $(".action-select:checked").length;
+  $(".action-counter").text(seleccionados+" de "+_actions_icnt+" seleccionados/as.");
+  if (seleccionados === 0) {
+    $("#action-toggle").prop("checked",false);
+  }
+}
+
+$(document).ready(function() {
+
+  get_total_seleccionados();
+
+  var result_list = $("#result_list");
+  $(result_list).addClass("table table-condensed table-bordered");
+  var columnas = [];
+
+  $("#result_list thead").find("th").each(function(){
+    if ($(this).find(".text").text() !== "") {
+      columnas.push({
+        'text'   : $(this).find(".text").text(),
+        'indice' : $(this).index()
+      });
+    }
+  });
+
+  $.each(columnas,function(i,ev) {
+    var elemento = "\
+      <li>\
+        <input type='checkbox' class='show_column' data-id='"+i+"' checked='checked'>\
+        "+ev.text+" \
+      </li>";
+    
+    $("#columnas").append(elemento);
+  });
+
+  $("#columnas").on("change",".show_column",function() {
+    var indice = $(this).data("id");
+    indice = indice+1;
+
+    var valor = $(this).is(":checked");
+    
+    var columna_operacion = $("#result_list tr th:nth-child("+indice+"), #result_list tr td:nth-child("+indice+")");
+
+    if (!valor) {
+      $(columna_operacion).hide();
+    }
+    else {
+      $(columna_operacion).show();
+    }
+  });
+  
+  $("#action-toggle").change(function() {
+    $(".action-select").prop("checked",$(this).is(":checked")).trigger("change");
+    get_total_seleccionados();
+  });
+
+  $("#result_list").on("change",".action-select",function() {
+
+    if ($(this).is(":checked")) {
+      $(this).parents("tr").addClass("selected");
+    }
+    else {
+      $(this).parents("tr").removeClass("selected");
+    }
+
+    get_total_seleccionados();
+  });
+
+});
+
+</script>
+{% endblock %}
+{% block boton_titulo %}
+<a href='{% url 'crear' app modelo %}' class='btn btn-sm btn-primary' style='margin-top:-10px;'><i class='fa fa-file'></i> Nuevo </a>
+{% endblock %}
+{% block cuerpo %}
+{% block content_top %}
+  {% if messages %}
+      {% for message in messages %}
+        {% ifequal message.tags "error" %}
+          <div class='alert alert-danger'>
+          {{ message }}
+          </div>
+        {% endifequal %}
+        {% ifequal message.tags "success" %}
+          <div class='alert alert-success'>
+          {{ message }}
+          </div>
+        {% endifequal %}
+      {% endfor %}
+  {% endif %}
+{% endblock %}
+{% block action_menu %}
+<div class='row' style='border-radius:5px;padding:5px;'>
+  <div class='col-lg-7'>
+    {% block action_menu_left %}{% endblock %}
+    <div class="btn-group">
+      <button type="button" class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class='fa fa-columns'></i> &nbsp; Columnas &nbsp; <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <ul id='columnas'>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    {% if cl.filter_specs %}
+    <div class="btn-group">
+      <button type="button" class="btn btn-xs btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class='fa fa-filter'></i> Filtros <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" style='max-height:300px;overflow:auto;'>
+        <li class='filtros'>
+        {% for spec in cl.filter_specs %}
+        {% admin_list_filter cl spec %}
+        {% endfor %}
+        </li>
+      </ul>
+    </div>
+    {% endif %}
+    {% block action_menu_right %}{% endblock %}
+  </div>
+  <div class='col-lg-5'>
+    <div class='pull-right'>
+      {% search_form cl %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+<div class='row' style="margin: 0px 2px 0px 2px;">
+  <div class='col-lg-12' style="border:solid 1px #c4c4c4;border-radius:5px;background-color:white;">
+    {% date_hierarchy cl %}
+  </div>
+</div>
+<div style='border:solid 1px #c4c4c4;border-radius:5px;background-color:white;'>
+  <form id='form_listado' method='POST'>
+  {% csrf_token %}
+  {% admin_actions %}
+  {% block resultado %}
+    {% result_list cl %}
+  {% endblock %}
+  </form>
+</div>
+{% pagination cl %}
+{% block content_bottom %}{% endblock %}
+{% endblock %}

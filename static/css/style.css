@@ -1,0 +1,28 @@
+.search{
+ border-radius: 20px;
+ -webkit-border-radius: 20px;
+}
+input,{
+ border-radius: 10pk !important;
+ -webkit-border-radius: 10px !important;
+}
+.form-control{
+ border-radius: 10px !important;
+ -webkit-border-radius: 10px !important;
+}
+.addForeignKey{
+ border-radius: 20px !important;
+ -webkit-border-radius: 20px !important;
+}
+.input_number{
+ border-radius: 10px !important;
+ -webkit-border-radius: 10px !important;
+}
+.btn-circle, .btn-circle-3d{
+  border-radius: 50% !important;
+}
+.btn-success.btn-circle{
+  -webkit-box-shadow: 0px 0px 3px 1px #3e8f3e;
+  -moz-box-shadow:    0px 0px 3px 1px #3e8f3e;
+  box-shadow:         0px 0px 1px 1px #3e8f3e;
+}

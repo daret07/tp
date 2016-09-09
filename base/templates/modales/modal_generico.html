@@ -1,0 +1,38 @@
+{% extends 'core/modal.html' %}
+{% block modal_title %}
+Agregar
+{% endblock %}
+{% block modal_body %}
+  <style type="text/css">
+    @media screen and (min-width: 768px) {
+      #myModal .modal-dialog  {width:900px;}
+    }
+  </style>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      var se_guardo = $("#guardar_modal_generico").data("se_guardo")
+
+      if(se_guardo){
+        var app         = $("#modal_app").val();
+        var id          = "id_"+$("#modal_modelo").val();
+        var metodo_ajax = "get_"+$("#modal_modelo").val();
+        var pk          = $("#pk").val();
+        loadCombo(id,app,metodo_ajax,pk,{});
+        $("#myModal").modal('toggle');
+      }
+
+    });
+  </script>
+  {% include nombre_base %}
+  <input type="hidden" value="{{app}}" id="app" name="app">
+  <input type="hidden" value="{{popup}}" id="popup" name="popup">
+  <input type="hidden" value="{{modal_modelo}}" name="modal_modelo" id="modal_modelo">
+  <input type="hidden" value="{{modal_app}}" name="modal_app" id="modal_app">
+  <input type="hidden" value="true" name="guardado" id="guardado">
+
+  <input type="hidden" value="{{pk}}" id="pk"  name="pk">
+
+{% endblock %}
+{% block modal_footer %}
+  <button id="guardar_modal_generico" class='btn btn-primary' data-se_guardo="{{se_guardo}}"><i class="fa fa-save"></i> Guardar</button>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'core/core.html' %}
+{% block cuerpo %}
+<form method='POST' action='' enctype='multipart/form-data'>
+{% csrf_token %}
+<div class='box' style='padding:20px;min-height:200px;'>
+  <span class='label label-warning'>¿Esta usted seguro?</span>
+  <p></p>
+  <div class='alert alert-info'>
+  ¿Realmente desea eliminar de <span class='label label-info'>{{ modelo }}</span> a <span class='label label-info'>{{ obj }}</span>? Es necesario que recuerde que el realizar esta acción también eliminará todos los objetos relacionados.
+    </div>
+    <button type='submit' class='btn btn-sm btn-danger'>Si, estoy seguro</button>
+    <p></p>
+    <p></p>
+  </div>
+</form>
+{% endblock %}

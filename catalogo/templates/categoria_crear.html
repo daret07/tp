@@ -1,0 +1,25 @@
+{% extends 'core/crear.html'%}
+{% block extra_head %}
+{{block.super}}
+<style type="text/css">
+	.row{
+		padding: 25px;
+	}
+	.row div{
+		margin-bottom: 10px;
+	}
+</style>
+{% endblock %}
+{% block contenido %}
+<form method="post" enctype="multipart/form-data" action="">
+	{% csrf_token %}
+	<div class="box box-main">
+		<div class="row">
+			{%for i in form%}
+					<div class="col-md-3{%if i.errors%} error {%endif%}">{{i.label_tag}}</div>
+					<div class="col-md-7">{{i}}</div>
+			{%endfor%}
+		</div>
+	</div>
+</form>
+{% endblock %}

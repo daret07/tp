@@ -1,0 +1,52 @@
+{% load usuario_tags navegacion_tags %}
+<section class="sidebar">
+      <ul class="sidebar-menu">
+        {% for pag in paginas %}
+          {% if pag.hijo_permisos %}
+            {% dentro_menu pag modelo as menu_activo %}
+            <li class='{% if pag.hijos %}treeview{% else %}treeview-menu{% endif %} {% if menu_activo %}active{% endif %}'>
+              <a
+                {% if pag.app and pag.modelo %}
+                  {% if pag.listar %}
+                    href='{% url 'listar' pag.app pag.modelo %}'
+                  {% else %}
+                    href='{% url 'crear' pag.app pag.modelo %}'
+                  {% endif %}
+                {% else %}
+                    href='#'
+                {% endif %}
+              >
+                {% if pag.icono %}<i class="{{ pag.icono }}"></i>{% endif %}
+                <span>{{ pag.nombre }}</span>
+                {% if pag.hijos %}<i class="fa fa-angle-left pull-right"></i>{% endif %}
+              </a>
+              {% if pag.hijos %}
+              <ul class="treeview-menu">
+                {% for hijo in pag.hijos%}
+                  {% if hijo.permiso %}
+                  <li class='{% ifequal hijo.modelo modelo %}active{% endifequal %}'>
+                    <a
+                    {% if hijo.app and hijo.modelo %}
+                      {% if hijo.listar %}
+                         href='{% url 'listar' hijo.app hijo.modelo %}'
+                      {% else %}
+                          href='{% url 'crear' hijo.app hijo.modelo %}'
+                      {% endif %}
+                    {% else %}
+                      href='#'
+                    {% endif %}
+                    >
+                      {% if hijo.icono %}<i class="{{ hijo.icono }}"></i>{% endif %}
+                      <span>{{ hijo.nombre }}</span>
+                    </a>
+                  </li>
+                  {% endif %}
+                {%endfor%}
+              </ul>
+              {% endif %}
+            </li>
+          {% endif %}
+        {% endfor %}
+  </ul><!-- /.sidebar-menu -->
+</section>
+<!-- /.sidebar -->
