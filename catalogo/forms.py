@@ -14,6 +14,11 @@ class conceptoForm(CustomModelForm):
     model = concepto
     fields='__all__'
 
+class ciclo_escolarForm(CustomModelForm):
+  class Meta:
+    model=ciclo_escolar
+    fields='__all__'
+
 class categoriaForm(CustomModelForm):
   class Meta:
     model=categoria

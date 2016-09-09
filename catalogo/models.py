@@ -7,7 +7,9 @@ from django.db import models
 class ciclo_escolar(models.Model):
   clave             = models.CharField(max_length=50)
   descripcion       = models.CharField(max_length=255)
-  activo            = models.BooleanField(default=True)  
+  activo            = models.BooleanField(default=True) 
+  def __unicode__(self):
+    return  self.clave  
 
 tipo_conceptos=(
   (u'ingreso',u'Ingreso'),
@@ -32,6 +34,8 @@ class categoria(models.Model):
   descripcion         = models.TextField(max_length=255)
   cupo_maximo         = models.IntegerField(validators=[MaxValueValidator(100)])
   estatus             = models.BooleanField(default=True)
+  def __unicode__(self):
+    return self.nombre
 
 tipo_persona=(
   (u'padre',u'Padre'),
@@ -57,6 +61,8 @@ class persona(models.Model):
   telefono_celular    = models.CharField(max_length=255)
   email               = models.CharField(max_length=50)
   tipo                = models.CharField(max_length=20,choices=tipo_persona)
+  def __unicode__(self):
+    return self.nombre+'--'+self.tipo
       
 
 alumno_plaza=(
@@ -89,6 +95,8 @@ class alumno(models.Model):
   municipio           = models.CharField(max_length=50)
   entidad_federativa  = models.CharField(max_length=50)
   estatus             = models.BooleanField(default=True)
+  def __unicode__(self):
+    return self.nombre +' '+ self.paterno +' '+ self.materno +' ---- '+self.matricula
 
 class referencias(models.Model):
   alumno              = models.ForeignKey('catalogo.alumno')
