@@ -2,7 +2,7 @@
 {% block extra_head %}
 {{block.super}}
 <style type="text/css">
-	.row{
+	.box{
 		padding: 25px;
 	}
 	.row div{
@@ -13,7 +13,7 @@
 {% block contenido %}
 <form method="post" enctype="multipart/form-data" action="">
 	{% csrf_token %}
-	<div class="box box-main">
+	<div class="box box-danger">
 		<div class="row">
 			{%for i in form%}
 					<div class="col-md-3{%if i.errors%} error {%endif%}">{{i.label_tag}}</div>

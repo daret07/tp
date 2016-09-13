@@ -2,68 +2,184 @@
 {% block extra_head %}
 {{block.super}}
 <style type="text/css">
-	.row{
-		padding: 25px;
-	}
-	.row div{
-		margin-bottom: 10px;
-	}
+  .box-body{
+    padding: 25px
+  }
+  .botton{
+    padding: 0px;
+    border-color: white;
+    border-width: 0px
+  }
 </style>
+<script type="text/javascript">
+ $(document).ready(function(){
+        $('#agregar').click(function(){
+          addForm('','#referencias','referencias_set');
+       });
+       
+       $('.tab-pane').on('click','.delete-row',function(){
+          deleteForm($(this),'#referencias','referencias_set');
+       });
+
+      $('.botton').on('click','.bto',function(){
+        referente = $(this).data('val');
+        var parametros = {
+          'met' : referente
+        }
+        showModal('catalogo','persona_modal',parametros);
+      });
+ });
+</script>
 {% endblock %}
 {% block contenido %}
 <form method="post" enctype="multipart/form-data" action="">
-	{% csrf_token %}
-	<div class="box box-main">
-		<div class="row">
-			<div class="col-md-2{%if form.nombre.errors%} error {%endif%}">{{form.nombre.label_tag}}</div>
-			<div class="col-md-4">{{form.nombre}}</div>
-			<div class="col-md-2{%if form.paterno.errors%} error {%endif%}">{{form.paterno.label_tag}}</div>
-			<div class="col-md-4">{{form.paterno}}</div>
-			<div class="col-md-2{%if form.materno.errors%} error {%endif%}">{{form.materno.label_tag}}</div>
-			<div class="col-md-4">{{form.materno}}</div>
-			<div class="col-md-2{%if form.fecha_de_nacimiento.errors%} error {%endif%}">{{form.fecha_de_nacimiento.label_tag}}</div>
-			<div class="col-md-4">{{form.fecha_de_nacimiento}}</div>
-		</div>
-	</div>
-	<div class="box box-main">
-		<div class="row">
-			<div class="col-md-2{%if form.lugar_de_nacimiento.errors%} error {%endif%}">{{form.lugar_de_nacimiento.label_tag}}</div>
-			<div class="col-md-10">{{form.lugar_de_nacimiento}}</div>
-			<div class="col-md-2{%if form.matricula.errors%} error {%endif%}">{{form.matricula.label_tag}}</div>
-			<div class="col-md-4">{{form.matricula}}</div>
-			<div class="col-md-2{%if form.plaza.errors%} error {%endif%}">{{form.plaza.label_tag}}</div>
-			<div class="col-md-4">{{form.plaza}}</div>
-			<div class="col-md-2{%if form.equipo.errors%} error {%endif%}">{{form.equipo.label_tag}}</div>
-			<div class="col-md-4">{{form.equipo}}</div>
-			<div class="col-md-2{%if form.rama.errors%} error {%endif%}">{{form.rama.label_tag}}</div>
-			<div class="col-md-4">{{form.rama}}</div>
-			<div class="col-md-2{%if form.hermano_institucion.errors%} error {%endif%}">{{form.hermano_institucion.label_tag}}</div>
-			<div class="col-md-4">{{form.hermano_institucion}}</div>
-		</div>
-	</div>
-	<div class="box box-main">
-		<div class="row">
-			<div class="col-md-2{%if form.padre.errors%} error {%endif%}">{{form.padre.label_tag}}</div>
-			<div class="col-md-4">{{form.padre}}</div>
-			<div class="col-md-2{%if form.emergencia.errors%} error {%endif%}">{{form.emergencia.label_tag}}</div>
-			<div class="col-md-4">{{form.emergencia}}</div>
-			<div class="col-md-2{%if form.calle.errors%} error {%endif%}">{{form.calle.label_tag}}</div>
-			<div class="col-md-4">{{form.calle}}</div>
-			<div class="col-md-2{%if form.no.errors%} error {%endif%}">{{form.no.label_tag}}</div>
-			<div class="col-md-4">{{form.no}}</div>
-			<div class="col-md-2{%if form.colonia.errors%} error {%endif%}">{{form.colonia.label_tag}}</div>
-			<div class="col-md-4">{{form.colonia}}</div>
-			<div class="col-md-2{%if form.cp.errors%} error {%endif%}">{{form.cp.label_tag}}</div>
-			<div class="col-md-4">{{form.cp}}</div>
-			<div class="col-md-2{%if form.poblacion.errors%} error {%endif%}">{{form.poblacion.label_tag}}</div>
-			<div class="col-md-4">{{form.poblacion}}</div>
-			<div class="col-md-2{%if form.municipio.errors%} error {%endif%}">{{form.municipio.label_tag}}</div>
-			<div class="col-md-4">{{form.municipio}}</div>
-			<div class="col-md-2{%if form.entidad_federativa.errors%} error {%endif%}">{{form.entidad_federativa.label_tag}}</div>
-			<div class="col-md-4">{{form.entidad_federativa}}</div>
-			<div class="col-md-2{%if form.estatus.errors%} error {%endif%}">{{form.estatus.label_tag}}</div>
-			<div class="col-md-4">{{form.estatus}}</div>
-		</div>
-	</div>
+  {% csrf_token %}
+  
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-danger">
+        <h3 class='box-title'>Datos del Alumno</h3>
+        <div class='box-body'>
+          <div class="row">
+            <div class="col-md-2{%if form.nombre.errors%} error {%endif%}">{{form.nombre.label_tag}}</div>
+            <div class="col-md-6">{{form.nombre}}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-2{%if form.paterno.errors%} error {%endif%}">{{form.paterno.label_tag}}</div>
+            <div class="col-md-6">{{form.paterno}}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-2{%if form.materno.errors%} error {%endif%}">{{form.materno.label_tag}}</div>
+            <div class="col-md-6">{{form.materno}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="box box-danger">
+        <h3 class='box-title'></h3>
+        <div class='box-body'>
+          <div class="row">
+            <div class="col-md-4{%if form.matricula.errors%} error {%endif%}">{{form.matricula.label_tag}}</div>
+            <div class="col-md-8">{{form.matricula}}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-4{%if form.calle.errors%} error {%endif%}">{{form.calle.label_tag}}</div>
+            <div class="col-md-8">{{form.calle}}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-4{%if form.no.errors%} error {%endif%}">{{form.no.label_tag}}</div>
+            <div class="col-md-8">{{form.no}}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-4{%if form.colonia.errors%} error {%endif%}">{{form.colonia.label_tag}}</div>
+            <div class="col-md-8">{{form.colonia}}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-4{%if form.cp.errors%} error {%endif%}">{{form.cp.label_tag}}</div>
+            <div class="col-md-8">{{form.cp}}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-4{%if form.poblacion.errors%} error {%endif%}">{{form.poblacion.label_tag}}</div>
+            <div class="col-md-8">{{form.poblacion}}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-4{%if form.municipio.errors%} error {%endif%}">{{form.municipio.label_tag}}</div>
+            <div class="col-md-8">{{form.municipio}}</div>
+          </div>
+          <div class="row">  
+            <div class="col-md-4{%if form.entidad_federativa.errors%} error {%endif%}">{{form.entidad_federativa.label_tag}}</div>
+            <div class="col-md-8">{{form.entidad_federativa}}</div>
+          </div>
+          <div class="row">  
+            <div class="col-md-4">&nbsp;</div>
+            <div class="col-md-8">&nbsp;</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="box box-danger">
+        <h3 class='box-title'></h3>
+        <div class='box-body'>
+          <div class="row secundario">
+            <div class="col-md-5 col-sm-4 col-xs-4{%if form.fecha_de_nacimiento.errors%} error {%endif%}">{{form.fecha_de_nacimiento.label_tag}}</div>
+            <div class="col-md-7 col-sm-8 col-xs-8">{{form.fecha_de_nacimiento}}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-5 col-sm-4 col-xs-4{%if form.lugar_de_nacimiento.errors%} error {%endif%}">{{form.lugar_de_nacimiento.label_tag}}</div>
+            <div class="col-md-7 col-sm-8 col-xs-8">{{form.lugar_de_nacimiento}}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-5 col-sm-4 col-xs-4{%if form.padre.errors%} error {%endif%}">{{form.padre.label_tag}}</div>
+            <div class="col-md-7 col-sm-8 col-xs-8">
+              <div class="input-group"> 
+                {{form.padre}}
+                <div class="input-group-addon botton"><i class=" btn btn-primary fa fa-plus bto" data-val="padre"></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-5 col-sm-4 col-xs-4{%if form.emergencia.errors%} error {%endif%}">{{form.emergencia.label_tag}}</div>
+            <div class="col-md-7 col-sm-8 col-xs-8">
+              <div class="input-group"> 
+                {{form.emergencia}}
+                <div class="input-group-addon botton"><i class=" btn btn-primary fa fa-plus bto" data-val="emergencia"></i></div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-5 col-sm-4 col-xs-4{%if form.plaza.errors%} error {%endif%}">{{form.plaza.label_tag}}</div>
+            <div class="col-md-7 col-sm-8 col-xs-8">{{form.plaza}}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-5 col-sm-4 col-xs-4{%if form.equipo.errors%} error {%endif%}">{{form.equipo.label_tag}}</div>
+            <div class="col-md-7 col-sm-8 col-xs-8">{{form.equipo}}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-5 col-sm-4 col-xs-4{%if form.rama.errors%} error {%endif%}">{{form.rama.label_tag}}</div>
+            <div class="col-md-7 col-sm-8 col-xs-8">{{form.rama}}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-5 col-sm-4 col-xs-4{%if form.estatus.errors%} error {%endif%}"><b>Activo</b></div>
+            <div class="col-md-7 col-sm-2 col-xs-1">{{form.estatus}}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-5 col-sm-5 col-xs-5{%if form.hermano_institucion.errors%} error {%endif%}">{{form.hermano_institucion.label_tag}}</div>
+            <div class="col-md-7 col-sm-1 col-xs-1 ">{{form.hermano_institucion}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+    <div class="tab-pane">
+      <div class="box box-danger">
+        <h3 class='box-title'>Referencias</h3>
+        <div class='box-body agre'>
+        <i class="btn btn-primary fa fa-plus" id='agregar'></i>
+        <div id="referencias">
+        {{form_req.management_form}}
+          <table class='table table-condensed'>
+            <thead>
+              <tr>
+                <th>Referencia</th>
+                <th style="width:70%">Descripción</th>
+                <th style="width:10%">Eliminar</th>
+              </tr>
+            </thead>
+            <tbody>
+            {%for i in form_req%}
+              <tr class="dynamic-form">
+                <td>{{i.referencia}}</td>
+                <td>{{i.descripcion}}</td>
+                <td>{{i.DELETE}}</td>
+              </tr>
+            {%endfor%}
+            </tbody>
+          </table>
+        </div>
+        </div>
+    </div>
+  </div>
 </form>
 {% endblock %}

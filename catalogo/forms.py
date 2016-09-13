@@ -28,3 +28,19 @@ class alumnoForm(CustomModelForm):
   class Meta:
     model=alumno
     fields='__all__'
+
+class personaForm(CustomModelForm):
+  class Meta:
+    model=persona
+    exclude=('tipo',)
+
+referenciaFormset = forms.inlineformset_factory(
+    alumno,
+    referencias,
+    fields='__all__',
+    extra=0,
+    min_num=1,
+    widgets={
+        'descripcion':forms.Textarea(attrs={'class':'form-control','rows':'2'})
+    }
+    )

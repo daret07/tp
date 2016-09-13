@@ -26,3 +26,9 @@ class alumnoAdmin(CustomModelAdmin):
 	list_display_links=('nombre',)
 	list_filter=('nombre',)
 	search_fields=('nombre','cupo_maximo',)
+
+class personaAdmin(CustomModelAdmin):
+	list_display=('nombre',)
+	list_display_links=('nombre',)
+	list_filter=('nombre',)
+	search_fields=('nombre',)

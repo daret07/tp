@@ -1,0 +1,36 @@
+{% extends 'core/crear.html'%}
+{% block extra_head %}
+{{block.super}}
+<style type="text/css">
+  .row{
+    padding: 25px;
+  }
+  .row div{
+    margin-bottom: 10px;
+  }
+</style>
+{% endblock %}
+{% block contenido %}
+<form method="post" enctype="multipart/form-data" action="">
+  {% csrf_token %}
+  <div class="box box-danger">
+    <div class="row">
+      {%for i in form%}
+        {%if i.name != 'importe'%}
+          <div class="col-md-2{%if i.errors%} error {%endif%}">{{i.label_tag}}</div>
+          <div class="col-md-4">{{i}}</div>
+        {%else%}
+          <div class="col-md-2{%if i.errors%} error {%endif%}">{{i.label_tag}}</div>
+          <div class="col-md-4">
+            <div class="input-group"> 
+              <div class="input-group-addon">$</div>
+              {{i}}
+            </div>
+          </div>
+           
+        {%endif%}
+      {%endfor%}
+    </div>
+  </div>
+</form>
+{% endblock %}

@@ -59,7 +59,7 @@ class persona(models.Model):
   entidad_federativa  = models.CharField(max_length=255)
   telefono_casa       = models.CharField(max_length=255)
   telefono_celular    = models.CharField(max_length=255)
-  email               = models.CharField(max_length=50)
+  email               = models.EmailField(max_length=50)
   tipo                = models.CharField(max_length=20,choices=tipo_persona)
   def __unicode__(self):
     return self.nombre+'--'+self.tipo

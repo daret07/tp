@@ -2,35 +2,50 @@
 {% block extra_head %}
 {{block.super}}
 <style type="text/css">
-	.row{
+	.box-body{
 		padding: 25px;
-	}
-	.row div{
-		margin-bottom: 10px;
 	}
 </style>
 {% endblock %}
 {% block contenido %}
 <form method="post" enctype="multipart/form-data" action="">
 	{% csrf_token %}
-	<div class="box box-main">
-		<div class="row">
-			{%for i in form%}
-				{%if i.name != 'importe'%}
-					<div class="col-md-3{%if i.errors%} error {%endif%}">{{i.label_tag}}</div>
-					<div class="col-md-7">{{i}}</div>
-				{%else%}
-					<div class="col-md-3{%if i.errors%} error {%endif%}">{{i.label_tag}}</div>
-					<div class="col-md-7">
-						<div class="input-group"> 
-							<div class="input-group-addon">$</div>
-							{{i}}
-						</div>
-					</div>
-					 
-				{%endif%}
-			{%endfor%}
-		</div>
-	</div>
+	  <div class="row">
+    <div class="col-md-6">
+      <div class="box box-danger">
+        <h3 class='box-title'>Datos del Alumno</h3>
+        <div class='box-body'>
+          <div class="row">
+            <div class="col-md-4">{{form.clave.label_tag}}</div>
+            <div class="col-md-8">{{form.clave}}</div>
+            <div class="col-md-4">{{form.nombre.label_tag}}</div>
+            <div class="col-md-8">{{form.nombre}}</div>
+            <div class="col-md-4">{{form.importe.label_tag}}</div>
+            <div class="col-md-8">
+            	<div class="input-group"> 
+								<div class="input-group-addon">$</div>
+									{{form.importe}}
+								</div>
+							</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="box box-danger">
+        <h3 class='box-title'>&nbsp;</h3>
+        <div class='box-body'>
+          <div class="row">
+            <div class="col-md-4">{{form.tipo.label_tag}}</div>
+            <div class="col-md-8">{{form.tipo}}</div>
+            <div class="col-md-4">{{form.tipo_de_cargo.label_tag}}</div>
+            <div class="col-md-8">{{form.tipo_de_cargo}}</div>
+            <div class="col-md-4">{{form.formula.label_tag}}</div>
+            <div class="col-md-8">{{form.formula}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </form>
 {% endblock %}

@@ -13,23 +13,25 @@
 {% block contenido %}
 <form method="post" enctype="multipart/form-data" action="">
 	{% csrf_token %}
-	<div class="box box-main">
-		<div class="row">
-			{%for i in form%}
-				{%if i.name != 'importe'%}
-					<div class="col-md-3{%if i.errors%} error {%endif%}">{{i.label_tag}}</div>
-					<div class="col-md-7">{{i}}</div>
-				{%else%}
-					<div class="col-md-3{%if i.errors%} error {%endif%}">{{i.label_tag}}</div>
-					<div class="col-md-7">
-						<div class="input-group"> 
+		<div class="box box-danger">
+	  	<h3 class='box-title'>Nuevo Ciclo Escolar</h3>
+  	<div class='box-body'>
+			<div class="row">
+				{%for i in form%}
+					{%if i.name != 'importe'%}
+						<div class="col-md-3{%if i.errors%} error {%endif%}">{{i.label_tag}}</div>
+						<div class="col-md-7">{{i}}</div>
+					{%else%}
+						<div class="col-md-3{%if i.errors%} error {%endif%}">{{i.label_tag}}</div>
+							<div class="col-md-7">
+							<div class="input-group"> 
 							<div class="input-group-addon">$</div>
-							{{i}}
+								{{i}}
+							</div>
 						</div>
-					</div>
-					 
-				{%endif%}
-			{%endfor%}
+		  		{%endif%}
+				{%endfor%}
+			</div>
 		</div>
 	</div>
 </form>
