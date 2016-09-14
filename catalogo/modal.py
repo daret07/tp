@@ -20,6 +20,8 @@ def persona_modal(request,pk=None):
     obj.tipo = request.POST.get('tipo')
     obj.save()
     saves=True
+  else:
+    print form.errors
 
   parametros={
     'form'    : form,

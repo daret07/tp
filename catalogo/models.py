@@ -28,6 +28,8 @@ class concepto(models.Model):
   tipo_de_cargo       = models.CharField(max_length=20,choices=tipo_cargo)
   importe             = models.DecimalField(max_digits=6,decimal_places=2)
   formula             = models.CharField(max_length=60)
+  def __unicode__(self):
+    return self.clave
 
 class categoria(models.Model):
   nombre              = models.CharField(max_length=50)
@@ -62,7 +64,7 @@ class persona(models.Model):
   email               = models.EmailField(max_length=50)
   tipo                = models.CharField(max_length=20,choices=tipo_persona)
   def __unicode__(self):
-    return self.nombre+'--'+self.tipo
+    return self.nombre+'--'+self.telefono_celular
       
 
 alumno_plaza=(

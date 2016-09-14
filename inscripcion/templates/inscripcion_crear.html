@@ -2,13 +2,79 @@
 {% block extra_head %}
 {{block.super}}
 <style type="text/css">
-  .row{
+  .box-body{
     padding: 25px;
   }
-  .row div{
-    margin-bottom: 10px;
-  }
 </style>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#id_alumno').on('change', function(){
+      var alumno = $(this).val();
+      var params ={
+            'app'    : 'inscripcion',
+            'method' : 'get_alumno',
+            'id'     : alumno,
+      }
+      $.ajax({data:params}).done(function(data){
+          $('#id_alumno_nombre').val(data.response.nombre);
+          $('#id_alumno_paterno').val(data.response.paterno);
+          $('#id_alumno_materno').val(data.response.materno);
+          $('#id_alumno_fecha_de_nacimiento').val(data.response.fecha_de_nacimiento);
+          $('#id_alumno_lugar_de_nacimiento').val(data.response.lugar_de_nacimiento);
+          $('#id_alumno_matricula').val(data.response.matricula);
+          $('#id_alumno_plaza').val(data.response.plaza);
+          $('#id_alumno_equipo').val(data.response.equipo);
+          $('#id_alumno_rama').val(data.response.rama);
+          $('#id_alumno_hermano_institucion').val(data.response.hermano_institucion);
+          $('#id_alumno_calle').val(data.response.calle);
+          $('#id_alumno_no').val(data.response.no);
+          $('#id_alumno_colonia').val(data.response.colonia);
+          $('#id_alumno_cp').val(data.response.cp);
+          $('#id_alumno_poblacion').val(data.response.poblacion);
+          $('#id_alumno_municipio').val(data.response.municipio);
+          $('#id_alumno_entidad_federativa').val(data.response.entidad_federativa);
+          $('#id_alumno_estatus').val(data.response.estatus);
+
+          $('#id_padre_nombre').val(data.response.padre.p_nombre);
+          $('#id_padre_paterno').val(data.response.padre.p_paterno);
+          $('#id_padre_materno').val(data.response.padre.p_materno);
+          $('#id_padre_lugar_de_nacimiento').val(data.response.padre.p_lugar_de_nacimiento);
+          $('#id_padre_curp').val(data.response.padre.p_curp);
+          $('#id_padre_fecha_de_nacimiento').val(data.response.padre.p_fecha_de_nacimiento);
+          $('#id_padre_calle').val(data.response.padre.p_calle);
+          $('#id_padre_numero').val(data.response.padre.p_numero);
+          $('#id_padre_colonia').val(data.response.padre.p_colonia);
+          $('#id_padre_cp').val(data.response.padre.p_cp);
+          $('#id_padre_poblacion').val(data.response.padre.p_poblacion);
+          $('#id_padre_municipio').val(data.response.padre.p_municipio);
+          $('#id_padre_entidad_federativa').val(data.response.padre.p_entidad_federativa);
+          $('#id_padre_telefono_casa').val(data.response.padre.p_telefono_casa);
+          $('#id_padre_telefono_celular').val(data.response.padre.p_telefono_celular);
+          $('#id_padre_email').val(data.response.padre.p_email);
+          $('#id_padre_tipo').val(data.response.padre.p_tipo);
+          $('#id_padre_nombre').val(data.response.padre.p_nombre);
+
+          $('#id_emergencia_nombre').val(data.response.emergencia.em_nombre);
+          $('#id_emergencia_paterno').val(data.response.emergencia.em_paterno);
+          $('#id_emergencia_materno').val(data.response.emergencia.em_materno);
+          $('#id_emergencia_lugar_de_nacimiento').val(data.response.emergencia.em_lugar_de_nacimiento);
+          $('#id_emergencia_curp').val(data.response.emergencia.em_curp);
+          $('#id_emergencia_fecha_de_nacimiento').val(data.response.emergencia.em_fecha_de_nacimiento);
+          $('#id_emergencia_calle').val(data.response.emergencia.em_calle);
+          $('#id_emergencia_numero').val(data.response.emergencia.em_numero);
+          $('#id_emergencia_colonia').val(data.response.emergencia.em_colonia);
+          $('#id_emergencia_cp').val(data.response.emergencia.em_cp);
+          $('#id_emergencia_poblacion').val(data.response.emergencia.em_poblacion);
+          $('#id_emergencia_municipio').val(data.response.emergencia.em_municipio);
+          $('#id_emergencia_entidad_federativa').val(data.response.emergencia.em_entidad_federativa);
+          $('#id_emergencia_telefono_casa').val(data.response.emergencia.em_telefono_casa);
+          $('#id_emergencia_telefono_celular').val(data.response.emergencia.em_telefono_celular);
+          $('#id_emergencia_email').val(data.response.emergencia.em_email);
+          $('#id_emergencia_tipo').val(data.response.emergencia.em_tipo);
+        });
+    });
+  });
+</script>
 {% endblock %}
 {% block contenido %}
 <form method="post" enctype="multipart/form-data" action="">
@@ -40,22 +106,40 @@
             <div class="row">
               <div class="col-md-4{%if form.alumno_nombre.errors%} error {%endif%}">{{form.alumno_nombre.label_tag}}</div>
               <div class="col-md-8">{{form.alumno_nombre}}</div>
+            </div>
+            <div class="row">
               <div class="col-md-4{%if form.alumno_paterno.errors%} error {%endif%}">{{form.alumno_paterno.label_tag}}</div>
               <div class="col-md-8">{{form.alumno_paterno}}</div>
+            </div>
+            <div class="row">
               <div class="col-md-4{%if form.alumno_materno.errors%} error {%endif%}">{{form.alumno_materno.label_tag}}</div>
               <div class="col-md-8">{{form.alumno_materno}}</div>
+            </div>
+            <div class="row">
               <div class="col-md-4{%if form.alumno_fecha_de_nacimiento.errors%} error {%endif%}">{{form.alumno_fecha_de_nacimiento.label_tag}}</div>
               <div class="col-md-8">{{form.alumno_fecha_de_nacimiento}}</div>
+            </div>
+            <div class="row">
               <div class="col-md-4{%if form.alumno_lugar_de_nacimiento.errors%} error {%endif%}">{{form.alumno_lugar_de_nacimiento.label_tag}}</div>
               <div class="col-md-8">{{form.alumno_lugar_de_nacimiento}}</div>
+            </div>
+            <div class="row">
               <div class="col-md-4{%if form.alumno_curp.errors%} error {%endif%}">{{form.alumno_curp.label_tag}}</div>
               <div class="col-md-8">{{form.alumno_curp}}</div>
+            </div>
+            <div class="row">
               <div class="col-md-4{%if form.alumno_matricula.errors%} error {%endif%}">{{form.alumno_matricula.label_tag}}</div>
               <div class="col-md-8">{{form.alumno_matricula}}</div>
+            </div>
+            <div class="row">
               <div class="col-md-4{%if form.alumno_plaza.errors%} error {%endif%}">{{form.alumno_plaza.label_tag}}</div>
               <div class="col-md-8">{{form.alumno_plaza}}</div>
+            </div>
+            <div class="row">
               <div class="col-md-4{%if form.alumno_equipo.errors%} error {%endif%}">{{form.alumno_equipo.label_tag}}</div>
               <div class="col-md-8">{{form.alumno_equipo}}</div>
+            </div>
+            <div class="row">
               <div class="col-md-4{%if form.alumno_rama.errors%} error {%endif%}">{{form.alumno_rama.label_tag}}</div>
               <div class="col-md-8">{{form.alumno_rama}}</div>
             </div>
@@ -71,24 +155,42 @@
             <div class="row">
               <div class="col-md-4{%if form.alumno_calle.errors%} error {%endif%}">{{form.alumno_calle.label_tag}}</div>
               <div class="col-md-8">{{form.alumno_calle}}</div>
+            </div>
+            <div class="row">
               <div class="col-md-4{%if form.alumno_no.errors%} error {%endif%}">{{form.alumno_no.label_tag}}</div>
               <div class="col-md-8">{{form.alumno_no}}</div>
+            </div>
+            <div class="row">
               <div class="col-md-4{%if form.alumno_colonia.errors%} error {%endif%}">{{form.alumno_colonia.label_tag}}</div>
               <div class="col-md-8">{{form.alumno_colonia}}</div>
+            </div>
+            <div class="row">
               <div class="col-md-4{%if form.alumno_cp.errors%} error {%endif%}">{{form.alumno_cp.label_tag}}</div>
               <div class="col-md-8">{{form.alumno_cp}}</div>
+            </div>
+            <div class="row">
               <div class="col-md-4{%if form.alumno_poblacion.errors%} error {%endif%}">{{form.alumno_poblacion.label_tag}}</div>
               <div class="col-md-8">{{form.alumno_poblacion}}</div>
+            </div>
+            <div class="row">
               <div class="col-md-4{%if form.alumno_municipio.errors%} error {%endif%}">{{form.alumno_municipio.label_tag}}</div>
               <div class="col-md-8">{{form.alumno_municipio}}</div>
+            </div>
+            <div class="row">
               <div class="col-md-4{%if form.alumno_entidad_federativa.errors%} error {%endif%}">{{form.alumno_entidad_federativa.label_tag}}</div>
               <div class="col-md-8">{{form.alumno_entidad_federativa}}</div>
+            </div>
+            <div class="row">
               <div class="col-md-4{%if form.alumno_tel_casa.errors%} error {%endif%}">{{form.alumno_tel_casa.label_tag}}</div>
+              <div class="col-md-8">{{form.alumno_tel_casa}}</div>
+            </div>
+            <div class="row">
+              <div class="col-md-4{%if form.alumno_tel_celular.errors%} error {%endif%}">{{form.alumno_tel_celular.label_tag}}</div>
               <div class="col-md-8">{{form.alumno_tel_celular}}</div>
+            </div>
+            <div class="row">
               <div class="col-md-4{%if form.alumno_email.errors%} error {%endif%}">{{form.alumno_email.label_tag}}</div>
               <div class="col-md-8">{{form.alumno_email}}</div>
-              <div class="col-md-4"><p>&nbsp;</p></div>
-              <div class="col-md-8"><p>&nbsp;</p></div>
             </div>
           </div>
         </div>
@@ -102,14 +204,23 @@
           <h3 class='box-title'>Información Academica</h3>
         </div>
         <div class='box-body'>
+        <div class="row">
           <div class="col-md-2{%if form.alumno_nombre_colegio.errors%} error {%endif%}">{{form.alumno_nombre_colegio.label_tag}}</div>
           <div class="col-md-4">{{form.alumno_nombre_colegio}}</div>
+        </div>
+        <div class="row">
           <div class="col-md-2{%if form.alumno_nivel_educativo.errors%} error {%endif%}">{{form.alumno_nivel_educativo.label_tag}}</div>
           <div class="col-md-4">{{form.alumno_nivel_educativo}}</div>
+        </div>
+        <div class="row">
           <div class="col-md-2{%if form.alumno_turno.errors%} error {%endif%}">{{form.alumno_turno.label_tag}}</div>
           <div class="col-md-4">{{form.alumno_turno}}</div>
+        </div>
+        <div class="row">
           <div class="col-md-2{%if form.alumno_grado.errors%} error {%endif%}">{{form.alumno_grado.label_tag}}</div>
           <div class="col-md-4">{{form.alumno_grado}}</div>
+        </div>
+        <div class="row">
           <div class="col-md-2{%if form.alumno_grupo.errors%} error {%endif%}">{{form.alumno_grupo.label_tag}}</div>
           <div class="col-md-4">{{form.alumno_grupo}}</div>
         </div>
@@ -127,18 +238,32 @@
           <div class="row">
             <div class="col-md-4{%if form.padre_nombre.errors%} error {%endif%}">{{form.padre_nombre.label_tag}}</div>
             <div class="col-md-8">{{form.padre_nombre}}</div>
+          </div>
+        <div class="row">
             <div class="col-md-4{%if form.padre_paterno.errors%} error {%endif%}">{{form.padre_paterno.label_tag}}</div>
             <div class="col-md-8">{{form.padre_paterno}}</div>
+        </div>
+        <div class="row">
             <div class="col-md-4{%if form.padre_materno.errors%} error {%endif%}">{{form.padre_materno.label_tag}}</div>
             <div class="col-md-8">{{form.padre_materno}}</div>
+        </div>
+        <div class="row">
             <div class="col-md-4{%if form.padre_lugar_de_nacimiento.errors%} error {%endif%}">{{form.padre_lugar_de_nacimiento.label_tag}}</div>
             <div class="col-md-8">{{form.padre_lugar_de_nacimiento}}</div>
+        </div>
+        <div class="row">
             <div class="col-md-4{%if form.padre_curp.errors%} error {%endif%}">{{form.padre_curp.label_tag}}</div>
             <div class="col-md-8">{{form.padre_curp}}</div>
+        </div>
+        <div class="row">
             <div class="col-md-4{%if form.padre_fecha_de_nacimiento.errors%} error {%endif%}">{{form.padre_fecha_de_nacimiento.label_tag}}</div>
             <div class="col-md-8">{{form.padre_fecha_de_nacimiento}}</div>
+        </div>
+        <div class="row">
             <div class="col-md-4{%if form.padre_calle.errors%} error {%endif%}">{{form.padre_calle.label_tag}}</div>
             <div class="col-md-8">{{form.padre_calle}}</div>
+        </div>
+        <div class="row">
             <div class="col-md-4{%if form.padre_numero.errors%} error {%endif%}">{{form.padre_numero.label_tag}}</div>
             <div class="col-md-8">{{form.padre_numero}}</div>
           </div>
@@ -154,18 +279,32 @@
           <div class="row">
             <div class="col-md-4{%if form.padre_colonia.errors%} error {%endif%}">{{form.padre_colonia.label_tag}}</div>
             <div class="col-md-8">{{form.padre_colonia}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4 {%if form.padre_cp.errors%} error {%endif%}">{{form.padre_cp.label_tag}}</div>
             <div class="col-md-8">{{form.padre_cp}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4{%if form.padre_poblacion.errors%} error {%endif%}">{{form.padre_poblacion.label_tag}}</div>
             <div class="col-md-8">{{form.padre_poblacion}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4{%if form.padre_municipio.errors%} error {%endif%}">{{form.padre_municipio.label_tag}}</div>
             <div class="col-md-8">{{form.padre_municipio}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4{%if form.padre_entidad_federativa.errors%} error {%endif%}">{{form.padre_entidad_federativa.label_tag}}</div>
             <div class="col-md-8">{{form.padre_entidad_federativa}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4{%if form.padre_telefono_casa.errors%} error {%endif%}">{{form.padre_telefono_casa.label_tag}}</div>
             <div class="col-md-8">{{form.padre_telefono_casa}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4{%if form.padre_telefono_celular.errors%} error {%endif%}">{{form.padre_telefono_celular.label_tag}}</div>
             <div class="col-md-8">{{form.padre_telefono_celular}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4{%if form.padre_email.errors%} error {%endif%}">{{form.padre_email.label_tag}}</div>
             <div class="col-md-8">{{form.padre_email}}</div>
           </div>
@@ -184,18 +323,32 @@
           <div class="row">
             <div class="col-md-4{%if form.emergencia_nombre.errors%} error {%endif%}">{{form.emergencia_nombre.label_tag}}</div>
             <div class="col-md-8">{{form.emergencia_nombre}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4{%if form.emergencia_paterno.errors%} error {%endif%}">{{form.emergencia_paterno.label_tag}}</div>
             <div class="col-md-8">{{form.emergencia_paterno}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4{%if form.emergencia_materno.errors%} error {%endif%}">{{form.emergencia_materno.label_tag}}</div>
             <div class="col-md-8">{{form.emergencia_materno}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4{%if form.emergencia_lugar_de_nacimiento.errors%} error {%endif%}">{{form.emergencia_lugar_de_nacimiento.label_tag}}</div>
             <div class="col-md-8">{{form.emergencia_lugar_de_nacimiento}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4{%if form.emergencia_curp.errors%} error {%endif%}">{{form.emergencia_curp.label_tag}}</div>
             <div class="col-md-8">{{form.emergencia_curp}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4{%if form.emergencia_fecha_de_nacimiento.errors%} error {%endif%}">{{form.emergencia_fecha_de_nacimiento.label_tag}}</div>
             <div class="col-md-8">{{form.emergencia_fecha_de_nacimiento}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4{%if form.emergencia_calle.errors%} error {%endif%}">{{form.emergencia_calle.label_tag}}</div>
             <div class="col-md-8">{{form.emergencia_calle}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4{%if form.emergencia_numero.errors%} error {%endif%}">{{form.emergencia_numero.label_tag}}</div>
             <div class="col-md-8">{{form.emergencia_numero}}</div>
           </div>
@@ -211,18 +364,32 @@
           <div class="row">
             <div class="col-md-4{%if form.emergencia_colonia.errors%} error {%endif%}">{{form.emergencia_colonia.label_tag}}</div>
             <div class="col-md-8">{{form.emergencia_colonia}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4{%if form.emergencia_cp.errors%} error {%endif%}">{{form.emergencia_cp.label_tag}}</div>
             <div class="col-md-8">{{form.emergencia_cp}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4{%if form.emergencia_poblacion.errors%} error {%endif%}">{{form.emergencia_poblacion.label_tag}}</div>
             <div class="col-md-8">{{form.emergencia_poblacion}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4{%if form.emergencia_municipio.errors%} error {%endif%}">{{form.emergencia_municipio.label_tag}}</div>
             <div class="col-md-8">{{form.emergencia_municipio}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4{%if form.emergencia_entidad_federativa.errors%} error {%endif%}">{{form.emergencia_entidad_federativa.label_tag}}</div>
             <div class="col-md-8">{{form.emergencia_entidad_federativa}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4{%if form.emergencia_telefono_casa.errors%} error {%endif%}">{{form.emergencia_telefono_casa.label_tag}}</div>
             <div class="col-md-8">{{form.emergencia_telefono_casa}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4{%if form.emergencia_telefono_celular.errors%} error {%endif%}">{{form.emergencia_telefono_celular.label_tag}}</div>
             <div class="col-md-8">{{form.emergencia_telefono_celular}}</div>
+          </div>
+          <div class="row">
             <div class="col-md-4{%if form.emergencia_email.errors%} error {%endif%}">{{form.emergencia_email.label_tag}}</div>
             <div class="col-md-8">{{form.emergencia_email}}</div>
           </div>

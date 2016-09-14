@@ -7,10 +7,10 @@
   $(document).ready(function(){
     var reload =String('{{saves}}');
     if(reload == 'True'){
-      $('#myModal').modal('toggle');
       var ids= $('#pk').val();
       var tipo = String('{{obj.tipo}}');
       loadCombo('id_'+tipo,'catalogo','get_persona',ids,{});
+      $('#myModal').modal('toggle');
     }
   });
 </script>
