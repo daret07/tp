@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.core.validators import MaxValueValidator
 from django.db import models
+from datetime import datetime 
 
 # Create your views here.
 
@@ -27,7 +28,7 @@ class concepto(models.Model):
   tipo                = models.CharField(max_length=20,choices=tipo_conceptos)
   tipo_de_cargo       = models.CharField(max_length=20,choices=tipo_cargo)
   importe             = models.DecimalField(max_digits=6,decimal_places=2)
-  formula             = models.CharField(max_length=60)
+  formula             = models.CharField(max_length=60,blank=True,null=True)
   def __unicode__(self):
     return self.clave
 
@@ -68,15 +69,16 @@ class persona(models.Model):
       
 
 alumno_plaza=(
-  (u'morelia_cefomm',u'Morelia CEFOMM'),
-  (u'otra_escuela',u'Otra Escuela'),
+  (u'1',u'Morelia CEFOMM'),
+  (u'2',u'Otra Escuela'),
 )
 alumno_rama=(
-  (u'varonil',u'Varonil'),
-  (u'femenil',u'Femenil'),
+  (u'1',u'Varonil'),
+  (u'2',u'Femenil'),
 )
 class alumno(models.Model):
-  fecha_de_ingreso    = models.DateField(auto_now=True)
+  id                  = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
+  fecha_de_ingreso    = models.DateField(auto_now=False,default=datetime.now())
   nombre              = models.CharField(max_length=50)
   paterno             = models.CharField(max_length=50)
   materno             = models.CharField(max_length=50)

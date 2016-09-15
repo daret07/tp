@@ -6,11 +6,12 @@ from catalogo.models import alumno,categoria,ciclo_escolar,concepto
 # Create your models here.
 
 class movimiento(models.Model):
-	fecha_registro 					= models.DateField(auto_now=False)
-	fecha_captura 					= models.DateField(auto_now=False)
-	ciclo 									= models.ForeignKey('catalogo.ciclo_escolar')  
-	alumno 									= models.ForeignKey('catalogo.alumno')
-	concepto 								= models.ForeignKey('catalogo.concepto')
-	folio 									= models.CharField(max_length=50)
-	referencia 							= models.CharField(max_length=50)
-	monto 									= models.DecimalField(max_digits=6,decimal_places=2)
+  fecha_registro          = models.DateField(auto_now=False,blank=True,null=True)
+  fecha_captura           = models.DateField(auto_now=True,blank=True,null=True)
+  ciclo                   = models.ForeignKey('catalogo.ciclo_escolar',blank=True,null=True)  
+  alumno                  = models.ForeignKey('catalogo.alumno',blank=True,null=True)
+  concepto                = models.ForeignKey('catalogo.concepto',blank=True,null=True)
+  folio                   = models.CharField(max_length=50,blank=True,null=True)
+  referencia              = models.CharField(max_length=50,blank=True,null=True)
+  monto                   = models.DecimalField(max_digits=6,decimal_places=2,blank=True,null=True)
+  archivo                 = models.FileField(blank=True,null=True)

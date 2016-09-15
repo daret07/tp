@@ -6,23 +6,22 @@
     padding: 25px;
   }
 </style>
-<script type="text/javascript">
-  /*$(document).ready(function(){
-    $('#id_subir_movimiento').on('change',function(){
-      var data = new FormData();
-      data.append('file-', $(this)[0].files[0]);
-      var params ={
-            'app'    : 'reporte',
-            'method' : 'validar',
-            'arch'     : data,
-      }
-      console.log(params);
-      $.ajax({'data':params}).done(function(data){
-        console.log('')
-      });
-    });
-  });*/
-</script>
+{% endblock %}
+{% block mensajes %}
+  {% if messages %}
+      {% for message in messages %}
+        {% ifequal message.tags "error" %}
+          <div class='alert alert-danger'>
+          {{ message }}
+          </div>
+        {% endifequal %}
+        {% ifequal message.tags "success" %}
+          <div class='alert alert-success'>
+          {{ message }}
+          </div>
+        {% endifequal %}
+      {% endfor %}
+  {% endif %}
 {% endblock %}
 {% block contenido %}
 <form method="post" enctype="multipart/form-data" action="">
@@ -81,7 +80,7 @@
         </div>
         <div class='box-body'>
           <div class="row">
-              {{form_file}}
+              {{form.archivo}}
           </div>
         </div>
       </div>

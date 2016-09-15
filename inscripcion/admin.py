@@ -5,5 +5,5 @@ from base.utilidades import CustomModelAdmin
 class inscripcionAdmin(CustomModelAdmin):
   list_display=('alumno_nombre','ciclo','categoria','alumno_curp')
   list_display_links=('alumno_nombre',)
-  list_filter=('alumno_nombre',)
-  search_fields=('alumno_nombre','ciclo',)
+  list_filter=('alumno_nombre','categoria',)
+  search_fields=('alumno_nombre','ciclo','categoria',)

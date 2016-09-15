@@ -25,6 +25,12 @@ class categoriaForm(CustomModelForm):
     fields='__all__'
 
 class alumnoForm(CustomModelForm):
+  def __init__(self, *args,**kwargs):
+    super(alumnoForm,self).__init__(*args,**kwargs)
+    if self.fields['matricula'].widget.attrs.has_key('class'):
+      self.fields['matricula'].widget.attrs.update({'class' : 'form-control decimal','readonly':'readonly'})
+    if self.fields['fecha_de_ingreso'].widget.attrs.has_key('class'):
+      self.fields['fecha_de_ingreso'].widget.attrs.update({'class' : 'form-control ','readonly':'readonly'})
   class Meta:
     model=alumno
     fields='__all__'

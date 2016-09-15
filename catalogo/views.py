@@ -101,11 +101,14 @@ def vista_categoria(request,pk=None):
   return parametros
 
 def vista_alumno(request,pk=None):
+  import time
   form_class = alumnoForm
   obj = None
-  
+  mat = True
+  matricula = ''
   if pk is not None:
     obj = alumno.objects.get(pk=pk)
+    mat = False
 
   form = form_class(request.POST or None,instance=obj)
 
@@ -119,11 +122,15 @@ def vista_alumno(request,pk=None):
     messages.success(request,"Se ha Guardado la información con éxito")
 
   referencia_formset = referenciaFormset(request.POST or None,instance=obj)
+  if mat:
+    last = alumno.objects.all().last()
+    matricula = str(time.strftime("%y"))+str(int(last.pk)+1).zfill(2)
   parametros={
-    'form'    : form,
-    'form_req': referencia_formset,
-    'custom'  : True,
-    'obj'     : obj,  
-    'modulo'  : 'categoria'
+    'form'      : form,
+    'form_req'  : referencia_formset,
+    'custom'    : True,
+    'obj'       : obj,  
+    'modulo'    : 'categoria',
+    'matricula' : matricula
   }
   return parametros
