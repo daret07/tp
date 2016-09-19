@@ -17,6 +17,7 @@
       }
       $.ajax({data:params}).done(function(data){
           $('#id_alumno_nombre').val(data.response.nombre);
+          $('#id_ciclo').val(data.response.ciclo);
           $('#id_alumno_paterno').val(data.response.paterno);
           $('#id_alumno_materno').val(data.response.materno);
           $('#id_alumno_fecha_de_nacimiento').val(data.response.fecha_de_nacimiento);

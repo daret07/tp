@@ -9,6 +9,7 @@ def get_alumno(request):
   'fecha_de_ingreso'    :al.fecha_de_ingreso,
   'nombre'              :al.nombre,   
   'paterno'             :al.paterno,
+  'ciclo'               :al.ciclo_escolar.pk,
   'materno'             :al.materno,
   'fecha_de_nacimiento' :al.fecha_de_nacimiento,
   'lugar_de_nacimiento' :al.lugar_de_nacimiento,

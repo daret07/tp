@@ -1,0 +1,83 @@
+{% extends 'core/crear.html'%}
+{% block extra_head %}
+<style type="text/css">
+  .box{
+    padding: 25px;
+  }
+</style>
+{{block.super}}
+{% endblock %}
+{% block boton_titulo %}
+{% endblock %}
+{% block contenido %}
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-danger">
+        <h3 class='box-title'>Fichas de inscripcion</h3>
+        <div class='box-body'>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-3">Ciclo Escolar</div>
+                <div class="col-md-9">
+                  <select class="form-control" name="ciclo">
+                    <option value="">----------</option>
+                      {%for i in ciclo%}
+                        <option value="{{i.pk}}">{{i.clave}} -- {{i.descripcion}}</option>
+                      {%endfor%}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-3">Categoria</div>
+                <div class="col-md-9">
+                  <select class="form-control" name="categoria">
+                    <option value="">----------</option>
+                      {%for i in categoria%}
+                        <option value="{{i.pk}}">{{i.nombre}} -- {{i.descripcion}}</option>
+                      {%endfor%}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <button class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-danger">
+        <div class="box-body">
+          <table class="table">
+            <thead>
+              <th>Fecha</th>
+              <th>Categoria</th>
+              <th>Alumno</th>
+              <th>Matricula</th>
+              <th>Fecha de Nacimiento</th>
+            </thead>
+            <tbody>
+              {%for i in inscripcion%}
+                <tr>
+                  <td>{{i.fecha_inscripcion}}</td>
+                  <td>{{i.categoria}}</td>
+                  <td>{{i.alumno.nombre}}</td>
+                  <td>{{i.alumno_matricula}}</td>
+                  <td>{{i.alumno_fecha_de_nacimiento}}</td>
+                </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% block btn_action %}
+  {% endblock %}
+{% endblock %}

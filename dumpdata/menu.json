@@ -166,5 +166,61 @@
        "listar": true,
        "nivel": 0,
        "activo": true}
+  },
+    {
+    "model": "navegacion.menu",
+    "pk": 13,
+    "fields": {
+      "nombre": "Ficha Inscripcion",
+       "app": "reporte",
+       "modelo": "ficha_inscripcion",
+       "padre": 11,
+       "icono": "fa fa-th",
+       "permiso": null,
+       "listar": false,
+       "nivel": 0,
+       "activo": true}
+  },
+    {
+    "model": "navegacion.menu",
+    "pk": 14,
+    "fields": {
+      "nombre": "Referencias",
+       "app": "reporte",
+       "modelo": "reporte_referencia",
+       "padre": 11,
+       "icono": "fa fa-th-large",
+       "permiso": null,
+       "listar": false,
+       "nivel": 0,
+       "activo": true}
+  },
+    {
+    "model": "navegacion.menu",
+    "pk": 15,
+    "fields": {
+      "nombre": "Saldos",
+       "app": "reporte",
+       "modelo": "reporte_saldos",
+       "padre": 11,
+       "icono": "fa fa-dollar",
+       "permiso": null,
+       "listar": false,
+       "nivel": 0,
+       "activo": true}
+  },
+    {
+    "model": "navegacion.menu",
+    "pk": 16,
+    "fields": {
+      "nombre": "Deudores",
+       "app": "reporte",
+       "modelo": "deudores",
+       "padre": 11,
+       "icono": "fa fa-gg",
+       "permiso": null,
+       "listar": false,
+       "nivel": 0,
+       "activo": true}
   }
 ]

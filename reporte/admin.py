@@ -7,3 +7,4 @@ class movimientoAdmin(CustomModelAdmin):
 	list_display_links=('alumno',)
 	list_filter=('alumno',)
 	search_fields=('alumno','pk',)
+

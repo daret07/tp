@@ -116,15 +116,16 @@ def vista_alumno(request,pk=None):
     obj = form.save(commit=False)
     obj.save()
     referencia_formset = referenciaFormset(request.POST or None,instance=obj)
-    
     if referencia_formset.is_valid():
       referencia_formset.save()
-    messages.success(request,"Se ha Guardado la información con éxito")
+      messages.success(request,"Se ha Guardado la información con éxito")
 
-  referencia_formset = referenciaFormset(request.POST or None,instance=obj)
   if mat:
     last = alumno.objects.all().last()
     matricula = str(time.strftime("%y"))+str(int(last.pk)+1).zfill(2)
+    
+  referencia_formset = referenciaFormset(request.POST or None,instance=obj)
+  
   parametros={
     'form'      : form,
     'form_req'  : referencia_formset,

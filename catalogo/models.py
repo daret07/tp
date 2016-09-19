@@ -99,6 +99,7 @@ class alumno(models.Model):
   municipio           = models.CharField(max_length=50)
   entidad_federativa  = models.CharField(max_length=50)
   estatus             = models.BooleanField(default=True)
+  ciclo_escolar       = models.ForeignKey('catalogo.ciclo_escolar')
   def __unicode__(self):
     return self.nombre +' '+ self.paterno +' '+ self.materno +' ---- '+self.matricula
 

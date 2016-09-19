@@ -18,12 +18,12 @@ turnos=(
   (u'sabatino',u'Sabatino'),
 )
 alumno_plaza=(
-  (u'morelia_cefomm',u'Morelia CEFOMM'),
-  (u'otra_escuela',u'Otra Escuela'),
+  (u'1',u'Morelia CEFOMM'),
+  (u'2',u'Otra Escuela'),
 )
 alumno_rama=(
-  (u'varonil',u'Varonil'),
-  (u'femenil',u'Femenil'),
+  (u'1',u'Varonil'),
+  (u'2',u'Femenil'),
 )
 class inscripcion(models.Model):
   fecha_inscripcion              = models.DateField(auto_now=True)

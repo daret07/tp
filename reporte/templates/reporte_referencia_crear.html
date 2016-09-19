@@ -1,0 +1,50 @@
+{% extends 'core/crear.html'%}
+{% block extra_head %}
+<style type="text/css">
+  .box{
+    padding: 25px;
+  }
+</style>
+{{block.super}}
+{% endblock %}
+{% block boton_titulo %}
+{% endblock %}
+{% block contenido %}
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-danger">
+        <h3 class='box-title'>Referencias</h3>
+        <div class='box-body'>
+          <table class="table">
+            <thead>
+              <th>Referencia</th>
+              <th>Descripción</th>
+              <th>Matricula</th>
+              <th>Nombre</th>
+              <th>Paterno</th>
+              <th>Materno</th>
+              <th>Fecha de Nacimiento</th>
+              <th>Status</th>
+            </thead>
+            <tbody>
+              {%for i in referencias%}
+                <tr>
+                  <td>{{i.referencia}}</td>
+                  <td>{{i.descripcion}}</td>
+                  <td>{{i.alumno.matricula}}</td>
+                  <td>{{i.alumno.nombre}}</td>
+                  <td>{{i.alumno.paterno}}</td>
+                  <td>{{i.alumno.materno}}</td>
+                  <td>{{i.alumno.fecha_de_nacimiento}}</td>
+                  <td>{%if i.alumno.estatus %}ALTA{%else%}BAJA{%endif%}</td>
+                </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% block btn_action %}
+  {% endblock %}
+{% endblock %}

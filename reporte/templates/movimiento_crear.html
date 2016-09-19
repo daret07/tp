@@ -41,10 +41,12 @@
               <div class="col-md-3 {%if form.fecha_captura.errors %} error {% endif %}">{{form.fecha_captura.label_tag}}</div>
               <div class="col-md-8">{{form.fecha_captura}}</div>
             </div>
+            {%if obj%}
             <div class="row">
               <div class="col-md-3 {%if form.ciclo.errors %} error {% endif %}">{{form.ciclo.label_tag}}</div>
               <div class="col-md-8">{{form.ciclo}}</div>
             </div>
+            {%endif%}
             <div class="row">
               <div class="col-md-3 {%if form.alumno.errors %} error {% endif %}">{{form.alumno.label_tag}}</div>
               <div class="col-md-8">{{form.alumno}}</div>
@@ -53,6 +55,7 @@
               <div class="col-md-3 {%if form.concepto.errors %} error {% endif %}">{{form.concepto.label_tag}}</div>
               <div class="col-md-8">{{form.concepto}}</div>
             </div>
+            {%if obj%}
             <div class="row">
               <div class="col-md-3 {%if form.folio.errors %} error {% endif %}">{{form.folio.label_tag}}</div>
               <div class="col-md-8">{{form.folio}}</div>
@@ -61,6 +64,7 @@
               <div class="col-md-3 {%if form.referencia.errors %} error {% endif %}">{{form.referencia.label_tag}}</div>
               <div class="col-md-8">{{form.referencia}}</div>
             </div>
+            {%endif%}
             <div class="row">
               <div class="col-md-3 {%if form.monto.errors %} error {% endif %}">{{form.monto.label_tag}}</div>
               <div class="col-md-8">
