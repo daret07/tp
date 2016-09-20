@@ -13,9 +13,28 @@
   <div class="row">
     <div class="col-md-12">
       <div class="box box-danger">
-        <h3 class='box-title '>Saldos</h3>
+        <h3 class='box-title '>Relación de alumnos con más de un mes de atraso en mensualidad </h3>
         <div class='box-body'>
-          {{saldo}}
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Matricula</th>
+              <th>Alumno</th>
+              <th>Fecha de Nacimiento</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%for i in saldo%}
+            <tr>
+              <td>{{i.0}}</td>
+              <td>{{i.1}}</td>
+              <td>{{i.2}}</td>
+              <td>${{i.3}}</td>
+            </tr>
+            {%endfor%}
+          </tbody>
+        </table>
         </div>
       </div>
     </div>

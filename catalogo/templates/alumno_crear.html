@@ -16,69 +16,69 @@
   {%if matricula %}
   $('#id_matricula').val('{{matricula}}');
   {%endif%}
+  {%if not obj%}
+    $('#id_emergencia option').remove() 
+  {%endif%}
       /*=====================================================================================*/
-        $('#agregar_principal').click(function(){
-          if (
-            $('#id_fecha_de_ingreso').val() != "" &&
-            $("#id_fecha_de_nacimiento").val() != "" &&
-            $("#id_matricula").val() != "" &&
-            $("#id_plaza option:selected").val() > 0 &&
-            $("#id_equipo").val() != "" &&
-            $("#id_rama option:selected").val() > 0
-          ){
-              var ano_ingreso = $("#id_fecha_de_ingreso").val();
-              var ingreso_uno = ano_ingreso.substr(8, 1);
-              var ingreso_dos = ano_ingreso.substr(9, 1);
+$('#agregar_principal').click(function(){
+  if ($('#id_fecha_de_ingreso').val() != "" &&
+    $("#id_fecha_de_nacimiento").val() != "" &&
+    $("#id_matricula").val() != "" &&
+    $("#id_plaza option:selected").val() > 0 &&
+    $("#id_equipo").val() != "" &&
+    $("#id_rama option:selected").val() > 0){
+    var ano_ingreso = $("#id_fecha_de_ingreso").val();
+    var ingreso_uno = ano_ingreso.substr(8, 1);
+    var ingreso_dos = ano_ingreso.substr(9, 1);
 
-              var matricula = $("#id_matricula").val();
-              var matricula_uno = matricula.substr(0, 1);
-              var matricula_dos = matricula.substr(1, 1);
-              var matricula_tres = matricula.substr(2, 1);
-              var matricula_cuatro = matricula.substr(3, 1);
+    var matricula = $("#id_matricula").val();
+    var matricula_uno = matricula.substr(0, 1);
+    var matricula_dos = matricula.substr(1, 1);
+    var matricula_tres = matricula.substr(2, 1);
+    var matricula_cuatro = matricula.substr(3, 1);
 
-              var tipo_pago = 2;
-              var monto_1 = 0;
-              var monto_2 = 0;
-              var plaza = $("#id_plaza option:selected").val();
+    var tipo_pago = 2;
+    var monto_1 = 0;
+    var monto_2 = 0;
+    var plaza = $("#id_plaza option:selected").val();
 
-              var ano_nacimiento = $("#id_fecha_de_nacimiento").val();
+    var ano_nacimiento = $("#id_fecha_de_nacimiento").val();
 
-              var ano_nacimiento_uno = ano_nacimiento.substr(8, 1);
-              var ano_nacimiento_dos = ano_nacimiento.substr(9, 1);
+    var ano_nacimiento_uno = ano_nacimiento.substr(8, 1);
+    var ano_nacimiento_dos = ano_nacimiento.substr(9, 1);
 
-              var equipo = $("#id_equipo").val();
-              var rama = $("#id_rama option:selected").val();
+    var equipo = $("#id_equipo").val();
+    var rama = $("#id_rama option:selected").val();
 
-              var arreglo_ponderacion = [3,1];
+    var arreglo_ponderacion = [3,1];
 
-              /* Sumar todo */
+    /* Sumar todo */
 
-              var sumatoria = parseInt(ingreso_uno*arreglo_ponderacion[0]) + parseInt(ingreso_dos*arreglo_ponderacion[1]) + parseInt(matricula_uno*arreglo_ponderacion[0]) + parseInt(matricula_dos*arreglo_ponderacion[1]) + parseInt(matricula_tres*arreglo_ponderacion[0]) + parseInt(matricula_cuatro*arreglo_ponderacion[1]) + parseInt(tipo_pago*arreglo_ponderacion[0]) + parseInt(monto_1*arreglo_ponderacion[1]) + parseInt(monto_2*arreglo_ponderacion[0]) + parseInt(plaza*arreglo_ponderacion[1]) + parseInt(ano_nacimiento_uno*arreglo_ponderacion[0]) + parseInt(ano_nacimiento_dos*arreglo_ponderacion[1]) + parseInt(equipo*arreglo_ponderacion[0]) + parseInt(rama*arreglo_ponderacion[1]);
+    var sumatoria = parseInt(ingreso_uno*arreglo_ponderacion[0]) + parseInt(ingreso_dos*arreglo_ponderacion[1]) + parseInt(matricula_uno*arreglo_ponderacion[0]) + parseInt(matricula_dos*arreglo_ponderacion[1]) + parseInt(matricula_tres*arreglo_ponderacion[0]) + parseInt(matricula_cuatro*arreglo_ponderacion[1]) + parseInt(tipo_pago*arreglo_ponderacion[0]) + parseInt(monto_1*arreglo_ponderacion[1]) + parseInt(monto_2*arreglo_ponderacion[0]) + parseInt(plaza*arreglo_ponderacion[1]) + parseInt(ano_nacimiento_uno*arreglo_ponderacion[0]) + parseInt(ano_nacimiento_dos*arreglo_ponderacion[1]) + parseInt(equipo*arreglo_ponderacion[0]) + parseInt(rama*arreglo_ponderacion[1]);
 
-              var sumatoria_dos = (sumatoria < 10) ? sumatoria : sumatoria.toString().substring(2, 1);
-              var digito_verificador = 10 - sumatoria_dos;
+    var sumatoria_dos = (sumatoria < 10) ? sumatoria : sumatoria.toString().substring(2, 1);
+    var digito_verificador = 10 - sumatoria_dos;
 
-              if (digito_verificador == 10) {
-                digito_verificador = 0;
-              }
-              var referencia = ingreso_uno + "" + ingreso_dos + "" + matricula_uno + "" + matricula_dos + "" + matricula_tres + "" + matricula_cuatro + "" + tipo_pago + "" + monto_1 + "" + monto_2 + "" + plaza + "" + ano_nacimiento_uno + "" + ano_nacimiento_dos + "" + equipo + "" + rama + "" + digito_verificador;
-            
-            addForm('','#referencias','referencias_set');
-            $(".dynamic-form").last('tr').removeClass('hidden');
-            $(".dynamic-form").last('tr').find('input:first').val(referencia);
-            $(".dynamic-form").last('tr').find('input:first').prop("readonly", true);
-            $(".dynamic-form").last('tr').find('textarea:first').val('Referencia Principal');
-            $(".dynamic-form").last('tr').attr('data-tipo','principal');
-            $(this).hide();
-          }else{
-            alert("Es necesario llenar toda la información para poder generar la referencia");
-          };
-        });
+    if (digito_verificador == 10) {
+      digito_verificador = 0;
+    }
+    var referencia = ingreso_uno + "" + ingreso_dos + "" + matricula_uno + "" + matricula_dos + "" + matricula_tres + "" + matricula_cuatro + "" + tipo_pago + "" + monto_1 + "" + monto_2 + "" + plaza + "" + ano_nacimiento_uno + "" + ano_nacimiento_dos + "" + equipo + "" + rama + "" + digito_verificador;
+
+    addForm('','#referencias','referencias_set');
+      $(".dynamic-form").last('tr').removeClass('hidden');
+      $(".dynamic-form").last('tr').find('input:first').val(referencia);
+      $(".dynamic-form").last('tr').find('input:first').prop("readonly", true);
+      $(".dynamic-form").last('tr').find('textarea:first').val('Referencia Principal');
+      $(".dynamic-form").last('tr').attr('data-tipo','principal');
+      $(this).hide();
+    }else{
+      alert("Es necesario llenar toda la información para poder generar la referencia");
+  };
+});
        /*==========================================================================================================*/
 
 
-       $('#agregar_uniforme').on('click',function(){
-
+$('#agregar_uniforme').on('click',function(){
               if (
       $("#id_fecha_de_ingreso").val() !== "" &&
       $("#id_fecha_de_nacimiento").val() !== "" &&
@@ -124,43 +124,43 @@
         }
         var referencia = ingreso_uno + "" + ingreso_dos + "" + matricula_uno + "" + matricula_dos + "" + matricula_tres + "" + matricula_cuatro + "" + tipo_pago + "" + monto_1 + "" + monto_2 + "" + plaza + "" + ano_nacimiento_uno + "" + ano_nacimiento_dos + "" + equipo + "" + rama + "" + digito_verificador;
 
-        addForm('','#referencias','referencias_set');
+    addForm('','#referencias','referencias_set');
             $(".dynamic-form").last('tr').removeClass('hidden');
             $(".dynamic-form").last('tr').find('input:first').val(referencia);
             $(".dynamic-form").last('tr').find('input:first').prop("readonly", true);
             $(".dynamic-form").last('tr').find('textarea:first').val('Referencia Uniformes');
             $(".dynamic-form").last('tr').attr('data-tipo','uniforme');
             $(this).hide();
-      } else {
-        alert("Es necesario llenar toda la informaciÃ³n para poder generar la referencia");
-      }
-       });
+  } else {
+    alert("Es necesario llenar toda la informaciÃ³n para poder generar la referencia");
+  }
+});
 
     /*================================================================================*/
 
-    $('#agregar').on('click',function(){
+$('#agregar').on('click',function(){
       addForm('','#referencias','referencias_set');
       $(".dynamic-form").last('tr').removeClass('hidden');
     });
 
-       $('.tab-pane').on('click','.delete-row',function(){
-          var tipo = $(this).closest('tr').data('tipo');
-          if(tipo=='principal'){
-            $('#agregar_principal').show();
-          }
-          if(tipo=='uniforme'){
-          $('#agregar_uniforme').show();
-          }
-          deleteForm($(this),'#referencias','referencias_set');
-       });
+$('.tab-pane').on('click','.delete-row',function(){
+    var tipo = $(this).closest('tr').data('tipo');
+    if(tipo=='principal'){
+        $('#agregar_principal').show();
+      }
+    if(tipo=='uniforme'){
+      $('#agregar_uniforme').show();
+    }
+     deleteForm($(this),'#referencias','referencias_set');
+});
 
-      $('.botton').on('click','.bto',function(){
-        referente = $(this).data('val');
-        var parametros = {
-          'met' : referente
-        }
-        showModal('catalogo','persona_modal',parametros);
-      });
+$('.botton').on('click','.bto',function(){
+  referente = $(this).data('val');
+  var parametros = {
+    'met' : referente
+  }
+  showModal('catalogo','persona_modal',parametros);
+});
  });
 </script>
 {% endblock %}

@@ -15,7 +15,34 @@
       <div class="box box-danger">
         <h3 class='box-title '>Saldos</h3>
         <div class='box-body'>
-          {{saldo}}
+        <div class="row">
+          <div class="col-md-3">Desde : <input type="date" class="date" name="desde" value='{{fecha_inicio}}' required></div>
+          <div class="col-md-3">Hasta : <input type="date" class="date" name="hasta" value='{{fecha_fin}}' required></div>
+          <div class="col-md-3"><button class="btn btn-primary"><i class="fa fa-search"></i></button></div>
+          <div class="col-md-3"></div>
+        </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Matricula</th>
+              <th>Nombre</th>
+              <th>Fecha de Nacimiento</th>
+              <th>Saldo</th>
+              <th>Estatus</th>
+            </tr>
+          </thead>
+          <tbody>
+          {%for i in reporte%}
+            <tr>
+              <td>{{i.0}}</td>
+              <td>{{i.1}}</td>
+              <td>{{i.2}}</td>
+              <td>$ {{i.3}}</td>
+              <td>{%if i.4%} Alta {%else%} Baja {%endif%}</td>
+            </tr>
+            {%endfor%}
+          </tbody>
+        </table>
         </div>
       </div>
     </div>

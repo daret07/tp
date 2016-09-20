@@ -125,7 +125,12 @@ def vista_alumno(request,pk=None):
     matricula = str(time.strftime("%y"))+str(int(last.pk)+1).zfill(2)
     
   referencia_formset = referenciaFormset(request.POST or None,instance=obj)
-  
+  if pk is None:
+    form.fields['padre'].queryset = persona.objects.none()
+    form.fields['emergencia'].queryset = persona.objects.none()
+  else:
+    form.fields['padre'].queryset = persona.objects.filter(pk=int(obj.padre.pk))
+    form.fields['emergencia'].queryset = persona.objects.filter(pk=int(obj.emergencia.pk))
   parametros={
     'form'      : form,
     'form_req'  : referencia_formset,

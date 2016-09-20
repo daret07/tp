@@ -31,6 +31,7 @@ class alumnoForm(CustomModelForm):
       self.fields['matricula'].widget.attrs.update({'class' : 'form-control decimal','readonly':'readonly'})
     if self.fields['fecha_de_ingreso'].widget.attrs.has_key('class'):
       self.fields['fecha_de_ingreso'].widget.attrs.update({'class' : 'form-control ','readonly':'readonly'})
+    self.fields['padre'].empty_label = None
   class Meta:
     model=alumno
     fields='__all__'

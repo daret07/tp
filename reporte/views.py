@@ -82,7 +82,7 @@ def vista_movimiento(request,pk=None):
   parametros={
     'form'      : form,
     'custom'    : True,
-    'obj'       : obj,  
+    'obj'       : obj,
     'modulo'    : 'movimiento',
   }
   return parametros
@@ -125,12 +125,62 @@ def vista_reporte_referencia(request,pk=None):
   return parametros
 
 def vista_reporte_saldos(request,pk=None):
+  from datetime import datetime 
+  from reporte.models import movimiento
+  alumnos =''
+  reporte =[]
+
+  fecha_inicio = datetime.strptime(str(datetime.now())[:10],"%Y-%m-%d").strftime("%d/%m/%Y")
+  fecha_fin    = datetime.strptime(str(datetime.now())[:10],"%Y-%m-%d").strftime("%d/%m/%Y")
   
-  parametros={'saldo':'a'}
+
+  if request.POST:
+    f_i = request.POST.get('desde', datetime.now())
+    f_f = request.POST.get('hasta', datetime.now())
+
+    fecha_inicio = datetime.strptime(str(f_i),"%d/%m/%Y").strftime("%Y-%m-%d")
+    fecha_fin    = datetime.strptime(str(f_f),"%d/%m/%Y").strftime("%Y-%m-%d")
+
+    alumnos = alm.objects.filter(fecha_de_ingreso__range=(fecha_inicio,fecha_fin))
+  
+    for i in alumnos:
+      movimientos=movimiento.objects.filter(alumno=i)  
+      suma = 0
+  
+      for a in movimientos:
+  
+        if str(a.concepto.tipo) == 'ingreso':
+          suma += a.monto
+        elif str(a.concepto.tipo) == 'egreso':
+          suma -= a.monto
+  
+      reporte.append((i.matricula,i.nombre+' '+i.paterno+' '+i.materno, i.fecha_de_nacimiento,suma,i.estatus))
+  
+    fecha_inicio = f_i
+    fecha_fin    = f_f
+    
+  parametros={'reporte':reporte,'fecha_inicio':fecha_inicio,'fecha_fin':fecha_fin}
   return parametros
 
 def vista_deudores(request,pk=None):
   from reporte.models import movimiento
-  movimientos = list(movimiento.objects.all())
-  parametros={'saldo':'a'}
+  from django.db.models import Count, Sum
+  alumno = movimiento.objects.values('alumno').distinct()
+  deudores_tmp=[]
+  deudores =[]
+  for i in alumno:
+    tmp= i['alumno']
+    movimientos=movimiento.objects.filter(alumno=tmp)
+    suma = 0
+    for a in movimientos:
+      if str(a.concepto.tipo) == 'ingreso':
+        suma += a.monto
+      elif str(a.concepto.tipo) == 'egreso':
+        suma -= a.monto
+    if suma < 0:
+      deudores_tmp.append((i['alumno'],suma))
+  for i in deudores_tmp:
+    alumno_tmp=alm.objects.get(pk=i[0])
+    deudores.append((alumno_tmp.matricula,alumno_tmp.nombre,alumno_tmp.fecha_de_nacimiento,float(i[1])))
+  parametros={'saldo':deudores}
   return parametros
