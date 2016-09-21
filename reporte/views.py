@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
-from reporte.forms import (movimientoForm)
+from reporte.forms import (movimientoForm,reporte_saldosForm,ficha_inscricionForm,estado_cuentaForm)
 from reporte.models import (movimiento)
 from django.contrib import messages
 import xlrd
@@ -96,7 +96,7 @@ def vista_ficha_inscripcion(request,pk=None):
   inscripcion_filtro = None
   tmp_ciclo =''
   tmp_categoria=''
-  
+  form = ficha_inscricionForm()
   if request.POST:
     
     if request.POST.get('ciclo'):
@@ -111,11 +111,12 @@ def vista_ficha_inscripcion(request,pk=None):
       inscripcion_filtro   = inscripcion.objects.filter(ciclo=tmp_ciclo)
     elif tmp_categoria != '' and tmp_ciclo == '':
       inscripcion_filtro   = inscripcion.objects.filter(categoria=tmp_categoria)
-
+    form = ficha_inscricionForm(request.POST)
   parametros={
     'ciclo'      : ciclo,
     'categoria'  : categ,
-    'inscripcion': inscripcion_filtro
+    'inscripcion': inscripcion_filtro,
+    'form'       : form
   }
   return parametros
 
@@ -129,7 +130,8 @@ def vista_reporte_saldos(request,pk=None):
   from reporte.models import movimiento
   alumnos =''
   reporte =[]
-
+  form = reporte_saldosForm
+  total = 0
   fecha_inicio = datetime.strptime(str(datetime.now())[:10],"%Y-%m-%d").strftime("%d/%m/%Y")
   fecha_fin    = datetime.strptime(str(datetime.now())[:10],"%Y-%m-%d").strftime("%d/%m/%Y")
   
@@ -137,29 +139,29 @@ def vista_reporte_saldos(request,pk=None):
   if request.POST:
     f_i = request.POST.get('desde', datetime.now())
     f_f = request.POST.get('hasta', datetime.now())
-
     fecha_inicio = datetime.strptime(str(f_i),"%d/%m/%Y").strftime("%Y-%m-%d")
     fecha_fin    = datetime.strptime(str(f_f),"%d/%m/%Y").strftime("%Y-%m-%d")
-
-    alumnos = alm.objects.filter(fecha_de_ingreso__range=(fecha_inicio,fecha_fin))
-  
+    
+    ciclo   = ciclo_escolar.objects.get(pk=request.POST.get('ciclo') or None)
+    if ciclo == None:
+      alumnos = alm.objects.filter(fecha_de_ingreso__range=(fecha_inicio,fecha_fin))
+    else:  
+      alumnos = alm.objects.filter(fecha_de_ingreso__range=(fecha_inicio,fecha_fin),ciclo_escolar=ciclo)
     for i in alumnos:
       movimientos=movimiento.objects.filter(alumno=i)  
       suma = 0
-  
       for a in movimientos:
-  
         if str(a.concepto.tipo) == 'ingreso':
           suma += a.monto
+          total += a.monto
         elif str(a.concepto.tipo) == 'egreso':
           suma -= a.monto
-  
+          total -= a.monto
       reporte.append((i.matricula,i.nombre+' '+i.paterno+' '+i.materno, i.fecha_de_nacimiento,suma,i.estatus))
-  
-    fecha_inicio = f_i
-    fecha_fin    = f_f
-    
-  parametros={'reporte':reporte,'fecha_inicio':fecha_inicio,'fecha_fin':fecha_fin}
+    form = reporte_saldosForm(request.POST or None)
+  else:
+    form = reporte_saldosForm(initial={'desde':fecha_inicio,'hasta':fecha_fin})
+  parametros={'reporte':reporte,'form':form,'total':total}
   return parametros
 
 def vista_deudores(request,pk=None):
@@ -168,6 +170,7 @@ def vista_deudores(request,pk=None):
   alumno = movimiento.objects.values('alumno').distinct()
   deudores_tmp=[]
   deudores =[]
+  total = 0
   for i in alumno:
     tmp= i['alumno']
     movimientos=movimiento.objects.filter(alumno=tmp)
@@ -175,12 +178,23 @@ def vista_deudores(request,pk=None):
     for a in movimientos:
       if str(a.concepto.tipo) == 'ingreso':
         suma += a.monto
+        total += a.monto
       elif str(a.concepto.tipo) == 'egreso':
         suma -= a.monto
+        total -= a.monto
     if suma < 0:
       deudores_tmp.append((i['alumno'],suma))
   for i in deudores_tmp:
     alumno_tmp=alm.objects.get(pk=i[0])
     deudores.append((alumno_tmp.matricula,alumno_tmp.nombre,alumno_tmp.fecha_de_nacimiento,float(i[1])))
-  parametros={'saldo':deudores}
+  parametros={'saldo':deudores,'total':total}
+  return parametros
+
+def vista_estado_cuenta(request,pk=None):
+  form = estado_cuentaForm
+  if request.POST:
+    print request.POST
+  parametros={
+  'form':form
+  }
   return parametros

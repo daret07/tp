@@ -20,12 +20,7 @@
               <div class="row">
                 <div class="col-md-3">Ciclo Escolar</div>
                 <div class="col-md-9">
-                  <select class="form-control" name="ciclo">
-                    <option value="">----------</option>
-                      {%for i in ciclo%}
-                        <option value="{{i.pk}}">{{i.clave}} -- {{i.descripcion}}</option>
-                      {%endfor%}
-                  </select>
+                  {{form.ciclo}}
                 </div>
               </div>
             </div>
@@ -33,12 +28,7 @@
               <div class="row">
                 <div class="col-md-3">Categoria</div>
                 <div class="col-md-9">
-                  <select class="form-control" name="categoria">
-                    <option value="">----------</option>
-                      {%for i in categoria%}
-                        <option value="{{i.pk}}">{{i.nombre}} -- {{i.descripcion}}</option>
-                      {%endfor%}
-                  </select>
+                  {{form.categoria}}
                 </div>
               </div>
             </div>
@@ -65,7 +55,7 @@
             <tbody>
               {%for i in inscripcion%}
                 <tr>
-                  <td>{{i.fecha_inscripcion}}</td>
+                  <td>{{i.fecha_inscripcion|date:"d/m/Y"}}</td>
                   <td>{{i.categoria}}</td>
                   <td>{{i.alumno.nombre}}</td>
                   <td>{{i.alumno_matricula}}</td>

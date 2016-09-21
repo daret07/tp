@@ -16,10 +16,14 @@
         <h3 class='box-title '>Saldos</h3>
         <div class='box-body'>
         <div class="row">
-          <div class="col-md-3">Desde : <input type="date" class="date" name="desde" value='{{fecha_inicio}}' required></div>
-          <div class="col-md-3">Hasta : <input type="date" class="date" name="hasta" value='{{fecha_fin}}' required></div>
+
+          <div class="col-md-1">Desde:</div>
+          <div class="col-md-2">{{form.desde}}</div>
+          <div class="col-md-1">Hasta:</div>
+          <div class="col-md-2">{{form.hasta}}</div>
+          <div class="col-md-1">Ciclo:</div>
+          <div class="col-md-2">{{form.ciclo}}</div>
           <div class="col-md-3"><button class="btn btn-primary"><i class="fa fa-search"></i></button></div>
-          <div class="col-md-3"></div>
         </div>
         <table class="table">
           <thead>
@@ -36,7 +40,7 @@
             <tr>
               <td>{{i.0}}</td>
               <td>{{i.1}}</td>
-              <td>{{i.2}}</td>
+              <td>{{i.2|date:"d/m/Y"}}</td>
               <td>$ {{i.3}}</td>
               <td>{%if i.4%} Alta {%else%} Baja {%endif%}</td>
             </tr>
@@ -44,6 +48,7 @@
           </tbody>
         </table>
         </div>
+        <div><b>Total:</b> $ {{total}}</div>
       </div>
     </div>
   </div>

@@ -1,0 +1,43 @@
+{% extends 'core/crear.html'%}
+{% block extra_head %}
+<style type="text/css">
+  .box-danger{
+    padding: 25px;
+  }
+</style>
+<script type="text/javascript">
+  $(document).ready(function(){
+      var anio = (new Date).getFullYear();
+      $('#id_anio').val(anio);
+      var mes = new Date().getMonth();
+      $('#id_mes').val(mes)
+  });
+</script>
+{{block.super}}
+{% endblock %}
+{% block boton_titulo %}
+{% endblock %}
+{% block contenido %}
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-danger">
+        <h3 class='box-title '>Estado de Cuenta</h3>
+        <div class='box-body'>
+          <div class="row">
+            <div class="col-md-1">Mes</div>
+            <div class="col-md-1">{{form.mes}}</div>
+            <div class="col-md-1">Año</div>
+            <div class="col-md-1">{{form.anio}}</div>
+            <div class="col-md-1">Alumno</div>
+            <div class="col-md-3">{{form.alumno}}</div>
+            <div class="col-md-1">Ciclo Escolar</div>
+            <div class="col-md-2">{{form.ciclo_escolar}}</div>
+            <div class="col-md-1"><button class="btn btn-primary"><i class="fa fa-search"></i></button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% block btn_action %}
+  {% endblock %}
+{% endblock %}

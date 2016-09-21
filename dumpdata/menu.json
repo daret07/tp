@@ -222,5 +222,19 @@
        "listar": false,
        "nivel": 0,
        "activo": true}
+  },
+    {
+    "model": "navegacion.menu",
+    "pk": 17,
+    "fields": {
+      "nombre": "Estado De Cuenta",
+       "app": "reporte",
+       "modelo": "estado_cuenta",
+       "padre": 11,
+       "icono": "fa fa-gg",
+       "permiso": null,
+       "listar": false,
+       "nivel": 0,
+       "activo": true}
   }
 ]

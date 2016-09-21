@@ -1,7 +1,7 @@
 {% extends 'core/crear.html'%}
 {% block extra_head %}
 <style type="text/css">
-  .box{
+  .box-danger{
     padding: 25px;
   }
 </style>
@@ -13,7 +13,7 @@
   <div class="row">
     <div class="col-md-12">
       <div class="box box-danger">
-        <h3 class='box-title '>Relación de alumnos con más de un mes de atraso en mensualidad </h3>
+        <h3 class='box-title '>Relación de alumnos con Adeudos </h3>
         <div class='box-body'>
         <table class="table">
           <thead>
@@ -29,12 +29,13 @@
             <tr>
               <td>{{i.0}}</td>
               <td>{{i.1}}</td>
-              <td>{{i.2}}</td>
+              <td>{{i.2|date:"d/m/Y"}}</td>
               <td>${{i.3}}</td>
             </tr>
             {%endfor%}
           </tbody>
         </table>
+        <div><b>Total:</b> $ {{total}}</div>
         </div>
       </div>
     </div>
