@@ -16,13 +16,13 @@ class conceptoAdmin(CustomModelAdmin):
 	search_fields=('clave','pk',)
 
 class categoriaAdmin(CustomModelAdmin):
-	list_display=('nombre','descripcion','cupo_maximo')
+	list_display=('nombre','descripcion','cupo_maximo','ciclo_escolar')
 	list_display_links=('nombre',)
 	list_filter=('nombre',)
 	search_fields=('nombre','cupo_maximo',)
 
 class alumnoAdmin(CustomModelAdmin):
-	list_display=('nombre','paterno','materno','matricula','padre','emergencia')
+	list_display=('nombre','paterno','materno','matricula','ciclo_escolar','padre','emergencia')
 	list_display_links=('nombre',)
 	list_filter=('nombre',)
 	search_fields=('nombre','cupo_maximo',)

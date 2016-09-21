@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
 from catalogo.forms import (conceptoForm,categoriaForm,alumnoForm,ciclo_escolarForm,personaForm,referenciaFormset)
-from catalogo.models import (concepto,categoria,alumno,ciclo_escolar,persona)
+from catalogo.models import (concepto,categoria,alumno,ciclo_escolar,persona,referencias)
 from django.contrib import messages
 # Create your views here.
 
@@ -16,6 +16,15 @@ def vista_concepto(request,pk=None):
 
   if request.POST and form.is_valid():
     obj = form.save(commit=False)
+    if len(obj.formula)>0:
+      clave_tmp = obj.formula.split('*',2)
+      clave_tmp[0] = clave_tmp[0].replace(' ','')
+      concepto_tmp = concepto.objects.filter(clave__contains=clave_tmp[0])
+      if concepto_tmp:
+        obj.importe=float(concepto_tmp[0].importe) * float(clave_tmp[1])
+        messages.success(request,"Se ha encontrado el concepto y se actualizo el importe")
+      else:
+        messages.error(request,"El concepto ingresado en la formula es incorrecto y/o no existe")    
     obj.save()
     messages.success(request,"Se ha Guardado la información con éxito")
 
@@ -106,9 +115,19 @@ def vista_alumno(request,pk=None):
   obj = None
   mat = True
   matricula = ''
+  ref_p = False
+  ref_u = False
   if pk is not None:
     obj = alumno.objects.get(pk=pk)
     mat = False
+    tmp_ref = referencias.objects.filter(alumno=obj)
+    if tmp_ref:
+      for i in tmp_ref:
+        if 'Principal' in i.descripcion:
+          ref_p = True
+        if 'Uniforme' in i.descripcion:
+          ref_u = True
+
 
   form = form_class(request.POST or None,instance=obj)
 
@@ -122,8 +141,8 @@ def vista_alumno(request,pk=None):
 
   if mat:
     last = alumno.objects.all().last()
-    matricula = str(time.strftime("%y"))+str(int(last.pk)+1).zfill(2)
-    
+    matricula = str(time.strftime("%y"))+str(int(last.pk)+1).zfill(4)
+
   referencia_formset = referenciaFormset(request.POST or None,instance=obj)
   if pk is None:
     form.fields['padre'].queryset = persona.objects.none()
@@ -135,8 +154,10 @@ def vista_alumno(request,pk=None):
     'form'      : form,
     'form_req'  : referencia_formset,
     'custom'    : True,
-    'obj'       : obj,  
+    'obj'       : obj,
     'modulo'    : 'categoria',
-    'matricula' : matricula
+    'matricula' : matricula,
+    'principal' : ref_p,
+    'uniforme'  : ref_u
   }
   return parametros

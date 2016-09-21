@@ -2,11 +2,8 @@
 {% block extra_head %}
 {{block.super}}
 <style type="text/css">
-	.box{
+	.box-danger{
 		padding: 25px;
-	}
-	.row div{
-		margin-bottom: 10px;
 	}
 </style>
 {% endblock %}
@@ -14,11 +11,28 @@
 <form method="post" enctype="multipart/form-data" action="">
 	{% csrf_token %}
 	<div class="box box-danger">
-		<div class="row">
-			{%for i in form%}
-					<div class="col-md-3{%if i.errors%} error {%endif%}">{{i.label_tag}}</div>
-					<div class="col-md-7">{{i}}</div>
-			{%endfor%}
+	  <h3 class='box-title'>Categoria</h3>
+  		<div class='box-body'>
+			<div class="row">
+				<div class="col-md-2{%if form.nombre.errors%} error {%endif%}">{{form.nombre.label_tag}}</div>
+				<div class="col-md-7">{{form.nombre}}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2{%if form.descripcion.errors%} error {%endif%}">{{form.descripcion.label_tag}}</div>
+				<div class="col-md-7">{{form.descripcion}}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2{%if form.cupo_maximo.errors%} error {%endif%}">{{form.cupo_maximo.label_tag}}</div>
+				<div class="col-md-7">{{form.cupo_maximo}}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2{%if form.ciclo_escolar.errors%} error {%endif%}">{{form.ciclo_escolar.label_tag}}</div>
+				<div class="col-md-7">{{form.ciclo_escolar}}</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2{%if form.estatus.errors%} error {%endif%}">{{form.estatus.label_tag}}</div>
+				<div class="col-md-7">{{form.estatus}}</div>
+			</div>
 		</div>
 	</div>
 </form>

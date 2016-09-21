@@ -2,7 +2,7 @@
 {% block extra_head %}
 {{block.super}}
 <style type="text/css">
-  .box{
+  .box-danger{
     padding: 25px
   }
   .botton{
@@ -19,6 +19,13 @@
   {%if not obj%}
     $('#id_emergencia option').remove() 
   {%endif%}
+  {%if principal%}
+    $('#agregar_principal').hide()
+  {%endif%}
+  {%if uniforme%}
+    $('#agregar_uniforme').hide()
+  {%endif%}
+
       /*=====================================================================================*/
 $('#agregar_principal').click(function(){
   if ($('#id_fecha_de_ingreso').val() != "" &&
@@ -64,13 +71,23 @@ $('#agregar_principal').click(function(){
     }
     var referencia = ingreso_uno + "" + ingreso_dos + "" + matricula_uno + "" + matricula_dos + "" + matricula_tres + "" + matricula_cuatro + "" + tipo_pago + "" + monto_1 + "" + monto_2 + "" + plaza + "" + ano_nacimiento_uno + "" + ano_nacimiento_dos + "" + equipo + "" + rama + "" + digito_verificador;
 
-    addForm('','#referencias','referencias_set');
+    var vacio = $(".dynamic-form").last('tr').find('input').val()
+    if (vacio){
+      addForm('','#referencias','referencias_set');
+        $(".dynamic-form").last('tr').removeClass('hidden');
+        $(".dynamic-form").last('tr').find('input:first').val(referencia);
+        $(".dynamic-form").last('tr').find('input:first').prop("readonly", true);
+        $(".dynamic-form").last('tr').find('textarea:first').val('Referencia Principal');
+        $(".dynamic-form").last('tr').attr('data-tipo','uniforme');
+        $(this).hide();
+    }else{
       $(".dynamic-form").last('tr').removeClass('hidden');
       $(".dynamic-form").last('tr').find('input:first').val(referencia);
       $(".dynamic-form").last('tr').find('input:first').prop("readonly", true);
       $(".dynamic-form").last('tr').find('textarea:first').val('Referencia Principal');
-      $(".dynamic-form").last('tr').attr('data-tipo','principal');
+      $(".dynamic-form").last('tr').attr('data-tipo','uniforme');
       $(this).hide();
+    }
     }else{
       alert("Es necesario llenar toda la información para poder generar la referencia");
   };
@@ -123,16 +140,25 @@ $('#agregar_uniforme').on('click',function(){
           digito_verificador = 0;
         }
         var referencia = ingreso_uno + "" + ingreso_dos + "" + matricula_uno + "" + matricula_dos + "" + matricula_tres + "" + matricula_cuatro + "" + tipo_pago + "" + monto_1 + "" + monto_2 + "" + plaza + "" + ano_nacimiento_uno + "" + ano_nacimiento_dos + "" + equipo + "" + rama + "" + digito_verificador;
-
-    addForm('','#referencias','referencias_set');
-            $(".dynamic-form").last('tr').removeClass('hidden');
-            $(".dynamic-form").last('tr').find('input:first').val(referencia);
-            $(".dynamic-form").last('tr').find('input:first').prop("readonly", true);
-            $(".dynamic-form").last('tr').find('textarea:first').val('Referencia Uniformes');
-            $(".dynamic-form").last('tr').attr('data-tipo','uniforme');
-            $(this).hide();
+    var vacio = $(".dynamic-form").last('tr').find('input').val()
+    if (vacio){
+      addForm('','#referencias','referencias_set');
+        $(".dynamic-form").last('tr').removeClass('hidden');
+        $(".dynamic-form").last('tr').find('input:first').val(referencia);
+        $(".dynamic-form").last('tr').find('input:first').prop("readonly", true);
+        $(".dynamic-form").last('tr').find('textarea:first').val('Referencia Uniformes');
+        $(".dynamic-form").last('tr').attr('data-tipo','uniforme');
+        $(this).hide();
+    }else{
+      $(".dynamic-form").last('tr').removeClass('hidden');
+      $(".dynamic-form").last('tr').find('input:first').val(referencia);
+      $(".dynamic-form").last('tr').find('input:first').prop("readonly", true);
+      $(".dynamic-form").last('tr').find('textarea:first').val('Referencia Uniformes');
+      $(".dynamic-form").last('tr').attr('data-tipo','uniforme');
+      $(this).hide();
+    }
   } else {
-    alert("Es necesario llenar toda la informaciÃ³n para poder generar la referencia");
+    alert("Es necesario llenar toda la información para poder generar la referencia");
   }
 });
 
@@ -140,7 +166,8 @@ $('#agregar_uniforme').on('click',function(){
 
 $('#agregar').on('click',function(){
       addForm('','#referencias','referencias_set');
-      $(".dynamic-form").last('tr').removeClass('hidden');
+      $(".dynamic-form").last('tr').find('input').removeAttr('readonly')
+      $(".dynamic-form").last('tr').find('textarea').removeAttr('readonly')
     });
 
 $('.tab-pane').on('click','.delete-row',function(){
@@ -309,7 +336,7 @@ $('.botton').on('click','.bto',function(){
             </thead>
             <tbody>
             {%for i in form_req%}
-              <tr class="dynamic-form">
+              <tr class="dynamic-form" >
                 <td>{{i.referencia}}</td>
                 <td>{{i.descripcion}}</td>
                 <td>{{i.DELETE}}</td>

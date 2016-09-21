@@ -2,10 +2,26 @@
 {% block extra_head %}
 {{block.super}}
 <style type="text/css">
-	.box-body{
-		padding: 25px;
-	}
+  .box-danger{
+    padding: 25px;
+  }
 </style>
+{% endblock %}
+{% block mensajes %}
+  {% if messages %}
+      {% for message in messages %}
+        {% ifequal message.tags "error" %}
+          <div class='alert alert-danger'>
+          {{ message }}
+          </div>
+        {% endifequal %}
+        {% ifequal message.tags "success" %}
+          <div class='alert alert-success'>
+          {{ message }}
+          </div>
+        {% endifequal %}
+      {% endfor %}
+  {% endif %}
 {% endblock %}
 {% block contenido %}
 <form method="post" enctype="multipart/form-data" action="">
@@ -13,7 +29,7 @@
 	  <div class="row">
     <div class="col-md-6">
       <div class="box box-danger">
-        <h3 class='box-title'>Datos del Alumno</h3>
+        <h3 class='box-title'>Conceptos</h3>
         <div class='box-body'>
           <div class="row">
             <div class="col-md-4 {%if form.clave.errors%} error {%endif%}">{{form.clave.label_tag}}</div>
@@ -48,14 +64,14 @@
     </div>
     <div class="col-md-12 ">
       <div class="box box-danger">
-        <h5 class='box-title'>Descripción</h5>
         <div class='box-body'>
           <div class="row">
           <div class="col-md-12 {%if form.descripcion.errors%} error {%endif%}">{{form.descripcion.label_tag}}</div>
           <div class="col-md-12">{{form.descripcion}}</div>
           </div> 
+        </div>
+      </div>
     </div>
-  </div>
   </div>
 </form>
 {% endblock %}

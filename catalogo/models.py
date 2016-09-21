@@ -27,16 +27,19 @@ class concepto(models.Model):
   descripcion         = models.TextField(max_length=255)
   tipo                = models.CharField(max_length=20,choices=tipo_conceptos)
   tipo_de_cargo       = models.CharField(max_length=20,choices=tipo_cargo)
-  importe             = models.DecimalField(max_digits=6,decimal_places=2)
+  importe             = models.DecimalField(max_digits=6,decimal_places=2,blank=True,null=True)
   formula             = models.CharField(max_length=60,blank=True,null=True)
   def __unicode__(self):
     return self.clave
+  class Meta:
+    unique_together = ('clave',)
 
 class categoria(models.Model):
   nombre              = models.CharField(max_length=50)
   descripcion         = models.TextField(max_length=255)
   cupo_maximo         = models.IntegerField(validators=[MaxValueValidator(100)])
   estatus             = models.BooleanField(default=True)
+  ciclo_escolar       = models.ForeignKey('catalogo.ciclo_escolar')
   def __unicode__(self):
     return self.nombre
 

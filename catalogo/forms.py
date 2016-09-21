@@ -48,6 +48,7 @@ referenciaFormset = forms.inlineformset_factory(
     extra=0,
     min_num=1,
     widgets={
-        'descripcion':forms.Textarea(attrs={'class':'form-control','rows':'2'})
+        'descripcion':forms.Textarea(attrs={'class':'form-control','rows':'2','readonly':'readonly'}),
+        'referencia':forms.TextInput(attrs={'class':'form-control','readonly':'readonly'})
     }
     )

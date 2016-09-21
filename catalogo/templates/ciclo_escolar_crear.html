@@ -2,7 +2,7 @@
 {% block extra_head %}
 {{block.super}}
 <style type="text/css">
-	.box-body{
+	.box-danger{
 		padding: 25px;
 	}
 </style>
@@ -11,7 +11,7 @@
 <form method="post" enctype="multipart/form-data" action="">
 	{% csrf_token %}
 		<div class="box box-danger">
-	  	<h3 class='box-title'>Nuevo Ciclo Escolar</h3>
+	  	<h3 class='box-title'>Ciclo Escolar</h3>
   	<div class='box-body'>
 			<div class="row">
 				{%for i in form%}
