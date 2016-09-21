@@ -17,6 +17,7 @@ def vista_inscripcion(request,pk=None):
 	if request.POST and form.is_valid():
 		obj = form.save(commit=False)
 		obj.save()
+		alumno.objects.filter(pk=obj.alumno.pk).update(ciclo_escolar=obj.ciclo)
 		messages.success(request,"Se ha Guardado la información con éxito")
 
 	if pk is None:

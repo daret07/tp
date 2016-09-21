@@ -261,12 +261,12 @@
             <div class="col-md-8">{{form.padre_fecha_de_nacimiento}}</div>
         </div>
         <div class="row">
-            <div class="col-md-4{%if form.padre_calle.errors%} error {%endif%}">{{form.padre_calle.label_tag}}</div>
-            <div class="col-md-8">{{form.padre_calle}}</div>
-        </div>
-        <div class="row">
-            <div class="col-md-4{%if form.padre_numero.errors%} error {%endif%}">{{form.padre_numero.label_tag}}</div>
-            <div class="col-md-8">{{form.padre_numero}}</div>
+            <div class="col-md-4{%if form.padre_telefono_casa.errors%} error {%endif%}">{{form.padre_telefono_casa.label_tag}}</div>
+            <div class="col-md-8">{{form.padre_telefono_casa}}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-4{%if form.padre_telefono_celular.errors%} error {%endif%}">{{form.padre_telefono_celular.label_tag}}</div>
+            <div class="col-md-8">{{form.padre_telefono_celular}}</div>
           </div>
         </div>
       </div>
@@ -277,6 +277,14 @@
           <h3 class='box-title'></h3>
         </div>
         <div class='box-body'>
+        <div class="row">
+            <div class="col-md-4{%if form.padre_calle.errors%} error {%endif%}">{{form.padre_calle.label_tag}}</div>
+            <div class="col-md-8">{{form.padre_calle}}</div>
+        </div>
+        <div class="row">
+            <div class="col-md-4{%if form.padre_numero.errors%} error {%endif%}">{{form.padre_numero.label_tag}}</div>
+            <div class="col-md-8">{{form.padre_numero}}</div>
+          </div>
           <div class="row">
             <div class="col-md-4{%if form.padre_colonia.errors%} error {%endif%}">{{form.padre_colonia.label_tag}}</div>
             <div class="col-md-8">{{form.padre_colonia}}</div>
@@ -296,14 +304,6 @@
           <div class="row">
             <div class="col-md-4{%if form.padre_entidad_federativa.errors%} error {%endif%}">{{form.padre_entidad_federativa.label_tag}}</div>
             <div class="col-md-8">{{form.padre_entidad_federativa}}</div>
-          </div>
-          <div class="row">
-            <div class="col-md-4{%if form.padre_telefono_casa.errors%} error {%endif%}">{{form.padre_telefono_casa.label_tag}}</div>
-            <div class="col-md-8">{{form.padre_telefono_casa}}</div>
-          </div>
-          <div class="row">
-            <div class="col-md-4{%if form.padre_telefono_celular.errors%} error {%endif%}">{{form.padre_telefono_celular.label_tag}}</div>
-            <div class="col-md-8">{{form.padre_telefono_celular}}</div>
           </div>
           <div class="row">
             <div class="col-md-4{%if form.padre_email.errors%} error {%endif%}">{{form.padre_email.label_tag}}</div>
@@ -346,12 +346,12 @@
             <div class="col-md-8">{{form.emergencia_fecha_de_nacimiento}}</div>
           </div>
           <div class="row">
-            <div class="col-md-4{%if form.emergencia_calle.errors%} error {%endif%}">{{form.emergencia_calle.label_tag}}</div>
-            <div class="col-md-8">{{form.emergencia_calle}}</div>
+            <div class="col-md-4{%if form.emergencia_telefono_casa.errors%} error {%endif%}">{{form.emergencia_telefono_casa.label_tag}}</div>
+            <div class="col-md-8">{{form.emergencia_telefono_casa}}</div>
           </div>
           <div class="row">
-            <div class="col-md-4{%if form.emergencia_numero.errors%} error {%endif%}">{{form.emergencia_numero.label_tag}}</div>
-            <div class="col-md-8">{{form.emergencia_numero}}</div>
+            <div class="col-md-4{%if form.emergencia_telefono_celular.errors%} error {%endif%}">{{form.emergencia_telefono_celular.label_tag}}</div>
+            <div class="col-md-8">{{form.emergencia_telefono_celular}}</div>
           </div>
         </div>
       </div>
@@ -362,6 +362,14 @@
           <h3 class='box-title'></h3>
         </div>
         <div class='box-body'>
+          <div class="row">
+            <div class="col-md-4{%if form.emergencia_calle.errors%} error {%endif%}">{{form.emergencia_calle.label_tag}}</div>
+            <div class="col-md-8">{{form.emergencia_calle}}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-4{%if form.emergencia_numero.errors%} error {%endif%}">{{form.emergencia_numero.label_tag}}</div>
+            <div class="col-md-8">{{form.emergencia_numero}}</div>
+          </div>
           <div class="row">
             <div class="col-md-4{%if form.emergencia_colonia.errors%} error {%endif%}">{{form.emergencia_colonia.label_tag}}</div>
             <div class="col-md-8">{{form.emergencia_colonia}}</div>
@@ -381,14 +389,6 @@
           <div class="row">
             <div class="col-md-4{%if form.emergencia_entidad_federativa.errors%} error {%endif%}">{{form.emergencia_entidad_federativa.label_tag}}</div>
             <div class="col-md-8">{{form.emergencia_entidad_federativa}}</div>
-          </div>
-          <div class="row">
-            <div class="col-md-4{%if form.emergencia_telefono_casa.errors%} error {%endif%}">{{form.emergencia_telefono_casa.label_tag}}</div>
-            <div class="col-md-8">{{form.emergencia_telefono_casa}}</div>
-          </div>
-          <div class="row">
-            <div class="col-md-4{%if form.emergencia_telefono_celular.errors%} error {%endif%}">{{form.emergencia_telefono_celular.label_tag}}</div>
-            <div class="col-md-8">{{form.emergencia_telefono_celular}}</div>
           </div>
           <div class="row">
             <div class="col-md-4{%if form.emergencia_email.errors%} error {%endif%}">{{form.emergencia_email.label_tag}}</div>
