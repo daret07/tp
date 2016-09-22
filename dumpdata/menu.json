@@ -231,7 +231,7 @@
        "app": "reporte",
        "modelo": "estado_cuenta",
        "padre": 11,
-       "icono": "fa fa-gg",
+       "icono": "fa fa-table",
        "permiso": null,
        "listar": false,
        "nivel": 0,

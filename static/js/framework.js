@@ -44,7 +44,7 @@ function loadCombo(elemento,app,method,pk,parametros){
           .attr("value",value[1])
           .text(value[0])
 
-        if(value[2] == true){
+        if(value[1] == pk){
             $(option).prop("selected",true);
         }
         $(ele).append(option);
@@ -83,6 +83,7 @@ function showModal(app,modal,extra_params) {
       'X-CSRFToken' : _csrf_token,
     }
     }).done(function(ev) {
+      console.log(ev)
       var datos = $("#data_modal").html(ev);
       $("#myModal").modal('show');
   });
@@ -211,6 +212,18 @@ $(document).ready(function() {
     return false;
   });
 
+  $("body").on("keypress",".decimal-y",function (e) {
+    var cadena       = String.fromCharCode(e.which)
+    var value        = $(this).val()
+    var exp          = /^(\d{0,4})(\.\d{0,2})?$/;
+    var pos          = $(this)[0].selectionStart;
+    var cadena_final = value.substring(0,pos)+cadena+value.substring(pos);
+    
+    if( e.charCode == 0 || exp.test(cadena_final)){
+      return true;
+    }
+    return false;
+  });
 /*
 * se utiliza  el delete-row colocando un span en la ultima columna <td> de la fila,
 * el orden de los elmentos necesarios es:

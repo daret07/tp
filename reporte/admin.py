@@ -6,14 +6,19 @@ from reporte.models import movimiento
 # Register your models here.
 class movimientoAdmin(CustomModelAdmin):
   list_display=('fecha_registro','folio','matricula','alumno','referencia','descripcion','ciclo','concepto','monto')
-  list_display_links=('alumno',)
-  list_filter=('alumno',)
+  list_display_links=('alumno','referencia',)
+  list_filter=('alumno','referencia',)
   search_fields=('alumno','pk',)
 
   def matricula(self,obj):
     alumno_tmp = obj.alumno
-    alumno = alm.objects.get(pk=alumno_tmp.pk)
-    return alumno.matricula
+    alumno_return = ''
+    try:
+      alumno = alm.objects.get(pk=alumno_tmp.pk)
+      alumno_return = alumno.matricula
+    except:
+      alumno_return='No asociado'
+    return alumno_return
   def descripcion(self,obj):
     desc_tmp = obj.referencia
     descrip  = None

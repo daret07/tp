@@ -56,8 +56,6 @@ class estado_cuentaForm(CustomForm):
     self.fields['mes'].widget.attrs['class']='form-control'
     self.fields['anio'].widget.attrs['class']='form-control decimal-y'
     self.fields['alumno'].widget.attrs['class']='form-control'
-    self.fields['ciclo_escolar'].widget.attrs['class']='form-control'
   mes           = forms.ChoiceField(choices=meses,required=False)
   anio          = forms.IntegerField(required=False)
-  alumno        = forms.ModelChoiceField(queryset=alm.objects.all(),required=False)
-  ciclo_escolar = forms.ModelChoiceField(queryset= ciclo_escolar.objects.all(),required=False)
+  alumno        = forms.ModelChoiceField(queryset=alm.objects.all(),required=True)
