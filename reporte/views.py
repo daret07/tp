@@ -44,34 +44,37 @@ def vista_movimiento(request,pk=None):
       hoja  = libro.sheet_by_name(hojas[0])
       columnas = hoja.ncols
 
-    if columnas == 10:
-      for row_idx in range(0, hoja.ncols):
-        label_numero = hoja.cell(0,row_idx).value
+      if columnas == 10:
+        for row_idx in range(0, hoja.ncols):
+          label_numero = hoja.cell(0,row_idx).value
 
-        if label_numero.lower() == 'referencia':
-          obj.referencia = hoja.cell(1,row_idx).value
-          tmp            = int(hoja.cell(1,row_idx).value)
-          try:
-            ref_tmp        = ref.objects.get(referencia=tmp)
-            alumno_tmp     = alm.objects.get(pk=ref_tmp.alumno.pk)
-            obj.alumno     = alumno_tmp
-            obj.ciclo      = alumno_tmp.ciclo_escolar
-          except:
-            referencia_null = True
-        
-        if label_numero.lower() == 'importe':
-          obj.monto = hoja.cell(1,row_idx).value
+          if label_numero.lower() == 'referencia':
+            obj.referencia = hoja.cell(1,row_idx).value
+            tmp            = int(hoja.cell(1,row_idx).value)
+            try:
+              ref_tmp        = ref.objects.get(referencia=tmp)
+              alumno_tmp     = alm.objects.get(pk=ref_tmp.alumno.pk)
+              obj.alumno     = alumno_tmp
+              obj.ciclo      = alumno_tmp.ciclo_escolar
+            except:
+              referencia_null = True
+          
+          if label_numero.lower() == 'importe':
+            obj.monto = hoja.cell(1,row_idx).value
 
-        if label_numero.lower().encode('utf8') == 'numero operación':
-          obj.folio = hoja.cell(1,row_idx).value
+          if label_numero.lower().encode('utf8') == 'numero operación':
+            obj.folio = hoja.cell(1,row_idx).value
 
-        if label_numero.lower().encode('utf8') == 'fecha de operación':
-          obj.fecha_registro = xlrd.xldate.xldate_as_datetime(hoja.cell(1,row_idx).value, libro.datemode)
+          if label_numero.lower().encode('utf8') == 'fecha de operación':
+            obj.fecha_registro = xlrd.xldate.xldate_as_datetime(hoja.cell(1,row_idx).value, libro.datemode)
 
-    obj.concepto = concepto.objects.get(clave='abono')
-    obj.save()
-    messages.success(request,"Se ha Guardado la información con éxito")
-    form = form_class(instance=obj)
+      obj.concepto = concepto.objects.get(clave='abono')
+      obj.save()
+      messages.success(request,"Se ha Guardado la información con éxito")
+      form = form_class(instance=obj)
+    else:
+      messages.success(request,"La extencion del archivo debe de ser xls o xlsx")
+      form = form_class(instance=obj)
   elif request.POST and form.is_valid():
     alumno = request.POST.get('alumno')
     referencia = request.POST.get('referencia')
@@ -145,18 +148,20 @@ def vista_reporte_saldos(request,pk=None):
   fecha_inicio = datetime.strptime(str(datetime.now())[:10],"%Y-%m-%d").strftime("%d/%m/%Y")
   fecha_fin    = datetime.strptime(str(datetime.now())[:10],"%Y-%m-%d").strftime("%d/%m/%Y")
   
-
   if request.POST:
     f_i = request.POST.get('desde', datetime.now())
     f_f = request.POST.get('hasta', datetime.now())
+    ciclo_existe = False
     fecha_inicio = datetime.strptime(str(f_i),"%d/%m/%Y").strftime("%Y-%m-%d")
     fecha_fin    = datetime.strptime(str(f_f),"%d/%m/%Y").strftime("%Y-%m-%d")
-    
-    ciclo   = ciclo_escolar.objects.get(pk=request.POST.get('ciclo') or None)
-    if ciclo == None:
-      alumnos = alm.objects.filter(fecha_de_ingreso__range=(fecha_inicio,fecha_fin))
-    else:  
+    ciclo_tmp    = request.POST.get('ciclo')
+    if len(ciclo_tmp)>0:
+      ciclo   = ciclo_escolar.objects.get(pk=request.POST.get('ciclo'))
+      ciclo_existe=True
+    if ciclo_existe:
       alumnos = alm.objects.filter(fecha_de_ingreso__range=(fecha_inicio,fecha_fin),ciclo_escolar=ciclo)
+    else:  
+      alumnos = alm.objects.filter(fecha_de_ingreso__range=(fecha_inicio,fecha_fin))
     for i in alumnos:
       movimientos=movimiento.objects.filter(alumno=i)  
       suma = 0
@@ -223,20 +228,27 @@ def vista_estado_cuenta(request,pk=None):
     if alumno_temp:
       alumno_pdf = alm.objects.get(pk=alumno_temp)
       movimiento_pdf = ref.objects.filter(alumno=alumno_pdf)
-      for i in movimiento_pdf:
-        if 'principal' in i.descripcion.lower():
-          refere = 'Referencia: '+i.referencia
-          mov = movimiento.objects.filter(alumno=alumno_pdf)
-          for i in mov:
-            if 'mens' in str(i.concepto).lower():
-              total_men += i.monto
-            if 'abon' in str(i.concepto).lower():
-              total_abon += i.monto
-          total_total = total_men-total_abon
-          if total_total < 0:
-            total_total = 0
-      monto  = 'Total a Pagar: $'+str(total_total)
-      monto_2 = str(total_total)
+      if movimiento_pdf:
+        for i in movimiento_pdf:
+          if 'principal' in i.descripcion.lower():
+            refere = 'Referencia: '+i.referencia
+            mov = movimiento.objects.filter(alumno=alumno_pdf)
+            for i in mov:
+              if 'mens' in str(i.concepto).lower():
+                total_men += i.monto
+              if 'abon' in str(i.concepto).lower():
+                total_abon += i.monto
+            total_total = total_men-total_abon
+            if total_total < 0:
+              total_total = 0
+        monto  = 'Total a Pagar: $'+str(total_total)
+        monto_2 = str(total_total)
+      else:
+        messages.error(request,'El Alumno no tiene ninguna referencia asignada')
+        parametros={
+          'form':form,
+        }
+        return parametros
     if alumno_pdf:
       alumno    = 'Nombre Alumno: '+alumno_pdf.nombre+' '+alumno_pdf.paterno+' '+alumno_pdf.materno
       padre     = 'Nombre Padre:  '+alumno_pdf.padre.nombre+' '+alumno_pdf.padre.paterno+' '+alumno_pdf.padre.materno
@@ -300,7 +312,5 @@ def vista_estado_cuenta(request,pk=None):
     return response
   parametros={
   'form':form,
-  'pdf' :algo,
   }
-  print parametros
   return parametros

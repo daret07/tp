@@ -63,7 +63,6 @@ def get_alumno(request):
   'entidad_federativa'  :al.entidad_federativa,
   'estatus'             :al.estatus,
   }
-  print params
   return params
 
 

@@ -13,18 +13,21 @@
 		<div class="box box-danger">
 	  	<h3 class='box-title'>Ciclo Escolar</h3>
   	<div class='box-body'>
-			<div class="row">
 				{%for i in form%}
 					{%if i.name != 'importe'%}
-						<div class="col-md-3{%if i.errors%} error {%endif%}">{{i.label_tag}}</div>
-						<div class="col-md-7">{{i}}</div>
+					<div class="row">
+						<div class="col-md-2{%if i.errors%} error {%endif%}">{{i.label_tag}}</div>
+						<div class="col-md-5">{{i}}</div>
+						</div>
 					{%else%}
-						<div class="col-md-3{%if i.errors%} error {%endif%}">{{i.label_tag}}</div>
-							<div class="col-md-7">
+					<div class="row">
+						<div class="col-md-2{%if i.errors%} error {%endif%}">{{i.label_tag}}</div>
+							<div class="col-md-5">
 							<div class="input-group"> 
 							<div class="input-group-addon">$</div>
 								{{i}}
 							</div>
+						</div>
 						</div>
 		  		{%endif%}
 				{%endfor%}
