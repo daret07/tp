@@ -15,3 +15,4 @@ class movimiento(models.Model):
   referencia              = models.CharField(max_length=50,blank=True,null=True)
   monto                   = models.DecimalField(max_digits=6,decimal_places=2,blank=True,null=True)
   archivo                 = models.FileField(blank=True,null=True)
+  descripcion             = models.CharField(max_length=50,blank=True,null=True)

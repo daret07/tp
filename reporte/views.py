@@ -70,6 +70,7 @@ def vista_movimiento(request,pk=None):
 
       obj.concepto = concepto.objects.get(clave='abono')
       obj.save()
+      descuentos(alm.objects.get(pk=ref_tmp.alumno.pk),obj.monto,obj.concepto)
       messages.success(request,"Se ha Guardado la información con éxito")
       form = form_class(instance=obj)
     else:
@@ -82,7 +83,9 @@ def vista_movimiento(request,pk=None):
     if monto != '':
       obj = form.save(commit=False)
       obj.ciclo = ciclo_escolar.objects.get(alumno=alumno)
+      obj.descripcion = 'Movimiento Manual'
       obj.save()
+      descuentos(alumno,obj.monto,obj.concepto)
       messages.success(request,"Se ha Guardado la información con éxito")
     else:
       messages.error(request,'Se debe de colocar almenos una de las dos opciones, ya se archivo o llenar todos los campos')
@@ -100,6 +103,32 @@ def vista_movimiento(request,pk=None):
     'nula'      : referencia_null
   }
   return parametros
+
+
+def descuentos(alumno,monto,concepto):
+  from catalogo.models import descuento, alumno as alm
+  from reporte.models import movimiento
+  tip_tmp        = ''
+  ciclo_tmp      = ''
+  monto_tmp      = ''
+  alumno_tmp     = alm.objects.get(pk=alumno)
+  desc           = descuento.objects.filter(alumno=alumno)
+  ciclo_tmp      = alumno_tmp.ciclo_escolar
+  f_i = datetime.now()
+  for i in desc:
+    tip_tmp = i.tipo_descuento
+    if i.concepto == concepto:
+      if tip_tmp:
+        monto_tmp = -(float(monto)*(float(i.monto)/100))
+      else:
+        monto_tmp = -float(i.monto)
+      movimiento.objects.create(fecha_registro=(datetime.strptime(str(f_i)[:10],"%Y-%m-%d").strftime("%Y-%m-%d")),
+      ciclo=ciclo_tmp,alumno=alumno_tmp,concepto=i.concepto,monto=monto_tmp,descripcion='Movimiento de Descuentos')
+  parametros={
+  'mensaje':True
+  }
+  return parametros
+
 
 def vista_ficha_inscripcion(request,pk=None):
   from catalogo.models import ciclo_escolar,categoria
@@ -314,3 +343,16 @@ def vista_estado_cuenta(request,pk=None):
   'form':form,
   }
   return parametros
+
+def listado_movimiento(request):
+  abono      = 0
+  cargo      = 0
+  diferencia = 0
+  abonos = movimiento.objects.all()
+  for i in abonos:
+    if 'ingreso' in str(i.concepto.tipo):
+      abono += i.monto
+    if 'egreso' in str(i.concepto.tipo):
+      cargo += i.monto
+  diferencia = abono - cargo
+  return {'abono':abono,'cargo':cargo,'diferencia':diferencia}

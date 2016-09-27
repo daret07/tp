@@ -6,6 +6,12 @@
     padding: 25px;
   }
 </style>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#id_alumno').combobox();
+    $('#id_concepto').combobox();
+  });
+</script>
 {% endblock %}
 {% block mensajes %}
   {% if messages %}

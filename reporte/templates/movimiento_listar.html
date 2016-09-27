@@ -1,0 +1,36 @@
+{% extends 'core/listar.html' %}
+{% load humanize%}
+{%block extra_head%}
+  {{block.super}}
+<script type="text/javascript">
+  $(document).ready(function(){
+  });
+</script>
+{%endblock%}
+{% block action_menu_left %}
+{{ block.super }}
+{% endblock %}
+{% block content_bottom %} 
+  <div class="row">
+      <div class="col-md-12">
+        <div class="box box-danger">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Abonos</th>
+                <th>Cargos</th>
+                <th>Diferencia</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>$ {{abono|floatformat:2|intcomma}}</td>
+                <td>$ {{cargo|floatformat:2|intcomma}}</td>
+                <td>$ {{diferencia|floatformat:2|intcomma}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+{% endblock %}
