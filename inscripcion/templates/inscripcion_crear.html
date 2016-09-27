@@ -8,6 +8,22 @@
 </style>
 <script type="text/javascript">
   $(document).ready(function(){
+    $('#id_doc_acta').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
+    $('#id_doc_fotografias').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
+    $('#id_doc_curp').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
+    $('#id_doc_certificado').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
+    $('#id_categoria').on('change',function(){
+      var categoria = $(this).val();
+      var params={
+        'app'    : 'inscripcion',
+        'method' : 'get_categoria',
+        'cat'    : categoria
+      } 
+      $.ajax({data:params}).done(function(data){
+        $('#num_max').html(data.response.cupo);
+        $('#num_inicial').html(data.response.inscrito);
+      });
+    });
     $('#id_alumno').on('change', function(){
       var alumno = $(this).val();
       var params ={
@@ -26,6 +42,7 @@
           $('#id_alumno_plaza').val(data.response.plaza);
           $('#id_alumno_equipo').val(data.response.equipo);
           $('#id_alumno_rama').val(data.response.rama);
+          $('#id_alumno_curp').val(data.response.curp);
           $('#id_alumno_hermano_institucion').val(data.response.hermano_institucion);
           $('#id_alumno_calle').val(data.response.calle);
           $('#id_alumno_no').val(data.response.no);
@@ -90,7 +107,11 @@
             <div class="col-md-1{%if form.alumno.errors%} error {%endif%}">{{form.alumno.label_tag}}</div>
             <div class="col-md-3">{{form.alumno}}</div>
             <div class="col-md-1{%if form.categoria.errors%} error {%endif%}">{{form.categoria.label_tag}}</div>
-            <div class="col-md-3">{{form.categoria}}</div>
+            <div class="col-md-3">
+              {{form.categoria}}<br/>
+              Cupo: <span id='num_inicial' style="font-size:20px"><i class="fa fa-square-o"></i></span> de <span id='num_max' style="font-size:20px"><i class="fa fa-square-o"></i></span>
+
+            </div>
             <div class="col-md-1{%if form.ciclo.errors%} error {%endif%}">{{form.ciclo.label_tag}}</div>
             <div class="col-md-3">{{form.ciclo}}</div>
           </div>
@@ -101,7 +122,7 @@
       <div class="col-md-6">
         <div class='box box-danger'>
           <div class='box-header'>
-            <h3 class='box-title'>Alumno</h3>
+            <h3 class='box-title'>Jugador</h3>
           </div>
           <div class='box-body'>
             <div class="row">

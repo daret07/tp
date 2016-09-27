@@ -65,6 +65,19 @@ def get_alumno(request):
   }
   return params
 
+def get_categoria(request):
+  from catalogo.models import categoria as categ
+  from inscripcion.models import inscripcion
+  cat       = request.POST.get('cat')
+  categoria = categ.objects.get(pk=cat)
+  alumnos   = inscripcion.objects.filter(categoria=categoria)
+  inscritos = len(alumnos)
+  maximo    = categoria.cupo_maximo
+  parametros={
+  'inscrito':inscritos,
+  'cupo':maximo,
+  }
+  return parametros
 
 
 
