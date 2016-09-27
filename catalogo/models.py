@@ -68,7 +68,7 @@ class persona(models.Model):
   email               = models.EmailField(max_length=50)
   tipo                = models.CharField(max_length=20,choices=tipo_persona)
   def __unicode__(self):
-    return self.nombre+'--'+self.telefono_celular
+    return self.nombre+' - - '+self.telefono_celular
       
 
 alumno_plaza=(
@@ -110,3 +110,10 @@ class referencias(models.Model):
   alumno              = models.ForeignKey('catalogo.alumno')
   referencia          = models.CharField(max_length=50)
   descripcion         = models.TextField(max_length=255)
+
+class descuento(models.Model):
+  alumno              = models.ForeignKey('catalogo.alumno')
+  tipo_descuento      = models.BooleanField()
+  monto               = models.IntegerField()
+  activo              = models.BooleanField(default=True)
+  concepto            = models.ForeignKey('catalogo.concepto')

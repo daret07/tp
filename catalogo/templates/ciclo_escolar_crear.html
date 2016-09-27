@@ -6,6 +6,11 @@
 		padding: 25px;
 	}
 </style>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#id_activo').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
+	});
+</script>
 {% endblock %}
 {% block contenido %}
 <form method="post" enctype="multipart/form-data" action="">

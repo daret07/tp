@@ -10,23 +10,29 @@
     border-color: white;
     border-width: 0px
   }
+  .tab-content{
+    padding: 25px;
+  }
 </style>
 <script type="text/javascript">
  $(document).ready(function(){
+  $("#id_estatus").bootstrapSwitch({'onText':'Activo','offText':'Inactivo','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
+  $('#id_hermano_institucion').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
+  $('#id_descuento_set-0-tipo_descuento').bootstrapSwitch({'onText':'%','offText':'$','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
+  $('#id_descuento_set-0-activo').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
+  
+  
   {%if matricula %}
   $('#id_matricula').val('{{matricula}}');
   {%endif%}
-  {%if not obj%}
-    $('#id_emergencia option').remove() 
-  {%endif%}
+
   {%if principal%}
     $('#agregar_principal').hide()
   {%endif%}
   {%if uniforme%}
     $('#agregar_uniforme').hide()
   {%endif%}
-
-      /*=====================================================================================*/
+      /*========================================Agregar referencia principal=============================================*/
 $('#agregar_principal').click(function(){
   if ($('#id_fecha_de_ingreso').val() != "" &&
     $("#id_fecha_de_nacimiento").val() != "" &&
@@ -92,7 +98,7 @@ $('#agregar_principal').click(function(){
       alert("Es necesario llenar toda la información para poder generar la referencia");
   };
 });
-       /*==========================================================================================================*/
+       /*==========================================Agregar Referencia de uniforme================================================================*/
 
 
 $('#agregar_uniforme').on('click',function(){
@@ -162,13 +168,17 @@ $('#agregar_uniforme').on('click',function(){
   }
 });
 
-    /*================================================================================*/
+    /*====================================Agregar referencia vacia============================================*/
 
 $('#agregar').on('click',function(){
       addForm('','#referencias','referencias_set');
       $(".dynamic-form").last('tr').find('input').removeAttr('readonly')
       $(".dynamic-form").last('tr').find('textarea').removeAttr('readonly')
     });
+
+$('#agregar_descuento').on('click',function(){
+    addForm('','#descuento','descuento_set');
+});
 
 $('.tab-pane').on('click','.delete-row',function(){
     var tipo = $(this).closest('tr').data('tipo');
@@ -181,14 +191,15 @@ $('.tab-pane').on('click','.delete-row',function(){
      deleteForm($(this),'#referencias','referencias_set');
 });
 
-$('.botton').on('click','.bto',function(){
-  referente = $(this).data('val');
-  var parametros = {
-    'met' : referente
-  }
-  showModal('catalogo','persona_modal',parametros);
+  $('.botton').on('click','.bto',function(){
+    referente = $(this).data('val');
+    var parametros = {
+      'met' : referente
+    }
+    showModal('catalogo','persona_modal',parametros);
+  });
 });
- });
+
 </script>
 {% endblock %}
 {% block contenido %}
@@ -316,38 +327,84 @@ $('.botton').on('click','.bto',function(){
       </div>
     </div>
     <div class="col-md-12">
-    <div class="tab-pane">
-      <div class="box box-danger">
-        <h3 class='box-title'>Referencias</h3>
-        <div class='box-body agre'>
-        <i class="btn btn-primary fa fa-plus" id='agregar'></i>
-        <i class="btn btn-primary" id='agregar_principal'>Crear Referencia Principal</i>
-        <i class="btn btn-danger" id='agregar_uniforme'>Crear Referencia Uniforme</i>
-        <div id="referencias">
-        {{form_req.management_form}}
-          <table class='table table-condensed'>
-            <thead>
-              <tr>
-                <th>Referencia</th>
-                <th style="width:70%">Descripción</th>
-                <th style="width:10%">Eliminar</th>
-                <th hidden></th>
-              </tr>
-            </thead>
-            <tbody>
-            {%for i in form_req%}
-              <tr class="dynamic-form" >
-                <td>{{i.referencia}}</td>
-                <td>{{i.descripcion}}</td>
-                <td>{{i.DELETE}}</td>
-                <td hidden>{{i.id}}</td>
-              </tr>
-            {%endfor%}
-            </tbody>
-          </table>
+    <div class="box box-danger">
+    <div class='box-body'>
+        <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#ref" aria-controls="ref" role="tab" data-toggle="tab">Referencias</a></li>
+        <li role="presentation"><a href="#desc" aria-controls="desc" role="tab" data-toggle="tab">Descuentos</a></li>
+      </ul>
+
+  <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="ref">
+                <i class="btn btn-primary fa fa-plus" id='agregar'></i>
+                <i class="btn btn-primary" id='agregar_principal'>Crear Referencia Principal</i>
+                <i class="btn btn-danger" id='agregar_uniforme'>Crear Referencia Uniforme</i>
+                <div id="referencias">
+                  {{form_req.management_form}}
+                    <table class='table table-condensed'>
+                      <thead>
+                        <tr>
+                          <th>Referencia</th>
+                          <th style="width:70%">Descripción</th>
+                          <th style="width:10%">Eliminar</th>
+                        </tr>
+                      </thead>
+                    <tbody>
+                      {%for i in form_req%}
+                        {{form_req.id}}
+                          <tr class="dynamic-form" >
+                            <td>{{i.referencia}}{{i.id}}</td>
+                            <td>{{i.descripcion}}</td>
+                            <td>{{i.DELETE}}</td>
+                          </tr>
+                      {%endfor%}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div role="tabpanel" class="tab-pane" id="desc">
+                <i class="btn btn-primary fa fa-plus" id='agregar_descuento'></i>
+                <div class="row">
+                  <div class="col-md-1"></div>
+                  <div class="col-md-10">
+                    <div id="descuento">
+                        {{form_desc.management_form}}
+                          <table class='table table-condensed'>
+                            <thead>
+                              <tr>
+                                <th>Tipo de Descuento</th>
+                                <th style="width:30%">Concepto</th>
+                                <th style="width:30%">Cantidad</th>
+                                <th style="width:20%">Activo</th>
+                                <th style="width:10%">Eliminar</th>
+                              </tr>
+                            </thead>
+                          <tbody>
+                            {%for i in form_desc%}
+                              {{form_desc.id}}
+                                <tr class="dynamic-form" >
+                                  <td>{{i.tipo_descuento}}{{i.id}}</td>
+                                  <td>{{i.concepto}}</td>
+                                  <td>{{i.monto}}</td>
+                                  <td>{{i.activo}}</td>
+                                  <td>{{i.DELETE}}</td>
+                                </tr>
+                            {%endfor%}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  <div class="col-md-1"></div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        </div>
+      </div>
     </div>
-  </div>
 </form>
+
+<div>
 {% endblock %}

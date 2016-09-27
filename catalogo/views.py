@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
-from catalogo.forms import (conceptoForm,categoriaForm,alumnoForm,ciclo_escolarForm,personaForm,referenciaFormset)
+from catalogo.forms import (conceptoForm,categoriaForm,alumnoForm,ciclo_escolarForm,personaForm,referenciaFormset,descuentoFormset)
 from catalogo.models import (concepto,categoria,alumno,ciclo_escolar,persona,referencias)
 from django.contrib import messages
 # Create your views here.
@@ -112,6 +112,8 @@ def vista_categoria(request,pk=None):
 def vista_alumno(request,pk=None):
   import time
   form_class = alumnoForm
+  cons_pks = []
+  conceptos = None
   obj = None
   mat = True
   matricula = ''
@@ -135,24 +137,37 @@ def vista_alumno(request,pk=None):
     obj = form.save(commit=False)
     obj.save()
     referencia_formset = referenciaFormset(request.POST or None,instance=obj)
+    
     if referencia_formset.is_valid():
       referencia_formset.save()
-      messages.success(request,"Se ha Guardado la información con éxito")
+    descuento_formset = descuentoFormset(request.POST or None,instance=obj)
+    
+    if descuento_formset.is_valid():
+      descuento_formset.save()
+    messages.success(request,"Se ha Guardado la información con éxito")
 
   if mat:
     last = alumno.objects.all().last()
     matricula = str(time.strftime("%y"))+str(int(last.pk)+1).zfill(4)
 
   referencia_formset = referenciaFormset(request.POST or None,instance=obj)
+  descuento_formset = descuentoFormset(request.POST or None,instance=obj)
+  conceptos = concepto.objects.all()
+  for i in conceptos:
+    if 'egreso' in str(i.tipo):
+      cons_pks.append(i.pk)
+  descuento_formset.form.base_fields['concepto'].queryset = concepto.objects.filter(pk__in=cons_pks)
   if pk is None:
-    form.fields['padre'].queryset = persona.objects.none()
-    form.fields['emergencia'].queryset = persona.objects.none()
+    form.fields['emergencia'].queryset = persona.objects.filter(tipo='emergencia')
+    form.fields['padre'].queryset = persona.objects.filter(tipo='padre')
   else:
     form.fields['padre'].queryset = persona.objects.filter(pk=int(obj.padre.pk))
     form.fields['emergencia'].queryset = persona.objects.filter(pk=int(obj.emergencia.pk))
+  
   parametros={
     'form'      : form,
     'form_req'  : referencia_formset,
+    'form_desc' : descuento_formset,
     'custom'    : True,
     'obj'       : obj,
     'modulo'    : 'categoria',

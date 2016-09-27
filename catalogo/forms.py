@@ -24,6 +24,11 @@ class categoriaForm(CustomModelForm):
     model=categoria
     fields='__all__'
 
+class descuentoForm(CustomModelForm):
+  class Meta:
+    model=descuento
+    fields='__all__'
+
 class alumnoForm(CustomModelForm):
   def __init__(self, *args,**kwargs):
     super(alumnoForm,self).__init__(*args,**kwargs)
@@ -31,7 +36,6 @@ class alumnoForm(CustomModelForm):
       self.fields['matricula'].widget.attrs.update({'class' : 'form-control decimal','readonly':'readonly'})
     if self.fields['fecha_de_ingreso'].widget.attrs.has_key('class'):
       self.fields['fecha_de_ingreso'].widget.attrs.update({'class' : 'form-control ','readonly':'readonly'})
-    self.fields['padre'].empty_label = None
   class Meta:
     model=alumno
     fields='__all__'
@@ -51,4 +55,17 @@ referenciaFormset = forms.inlineformset_factory(
         'descripcion':forms.Textarea(attrs={'class':'form-control','rows':'2','readonly':'readonly'}),
         'referencia':forms.TextInput(attrs={'class':'form-control','readonly':'readonly'})
     }
+    )
+
+
+descuentoFormset = forms.inlineformset_factory(
+    alumno,
+    descuento,
+    fields='__all__',
+    extra=0,
+    min_num=1,
+    widgets={
+        'monto':forms.TextInput(attrs={'class':'form-control decimal'}),
+        'concepto': forms.Select(attrs={'class':'form-control'}),
+        }
     )
