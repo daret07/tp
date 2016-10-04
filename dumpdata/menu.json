@@ -236,5 +236,33 @@
        "listar": false,
        "nivel": 0,
        "activo": true}
+  },
+    {
+    "model": "navegacion.menu",
+    "pk": 18,
+    "fields": {
+      "nombre": "Automaticos",
+       "app": "automatico",
+       "modelo": "",
+       "padre": null,
+       "icono": "fa fa-bolt",
+       "permiso": null,
+       "listar": false,
+       "nivel": 0,
+       "activo": true}
+  },
+    {
+    "model": "navegacion.menu",
+    "pk": 19,
+    "fields": {
+      "nombre": "Nuevo Automatico",
+       "app": "automatico",
+       "modelo": "cron_auto",
+       "padre": 18,
+       "icono": "fa fa-plus",
+       "permiso": null,
+       "listar": true,
+       "nivel": 0,
+       "activo": true}
   }
 ]

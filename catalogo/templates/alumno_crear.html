@@ -77,21 +77,19 @@ $('#agregar_principal').click(function(){
     }
     var referencia = ingreso_uno + "" + ingreso_dos + "" + matricula_uno + "" + matricula_dos + "" + matricula_tres + "" + matricula_cuatro + "" + tipo_pago + "" + monto_1 + "" + monto_2 + "" + plaza + "" + ano_nacimiento_uno + "" + ano_nacimiento_dos + "" + equipo + "" + rama + "" + digito_verificador;
 
-    var vacio = $(".dynamic-form").last('tr').find('input').val()
+    var vacio = $("#ref .dynamic-form").last('tr').find('input').val()
     if (vacio){
       addForm('','#referencias','referencias_set');
-        $(".dynamic-form").last('tr').removeClass('hidden');
-        $(".dynamic-form").last('tr').find('input:first').val(referencia);
-        $(".dynamic-form").last('tr').find('input:first').prop("readonly", true);
-        $(".dynamic-form").last('tr').find('textarea:first').val('Referencia Principal');
-        $(".dynamic-form").last('tr').attr('data-tipo','uniforme');
+        $("#ref .dynamic-form").last('tr').find('input:first').val(referencia);
+        $("#ref .dynamic-form").last('tr').find('input:first').prop("readonly", true);
+        $("#ref .dynamic-form").last('tr').find('textarea:first').val('Referencia Principal');
+        $("#ref .dynamic-form").last('tr').attr('data-tipo','uniforme');
         $(this).hide();
     }else{
-      $(".dynamic-form").last('tr').removeClass('hidden');
-      $(".dynamic-form").last('tr').find('input:first').val(referencia);
-      $(".dynamic-form").last('tr').find('input:first').prop("readonly", true);
-      $(".dynamic-form").last('tr').find('textarea:first').val('Referencia Principal');
-      $(".dynamic-form").last('tr').attr('data-tipo','uniforme');
+      $("#ref .dynamic-form").last('tr').find('input:first').val(referencia);
+      $("#ref .dynamic-form").last('tr').find('input:first').prop("readonly", true);
+      $("#ref .dynamic-form").last('tr').find('textarea:first').val('Referencia Principal');
+      $("#ref .dynamic-form").last('tr').attr('data-tipo','uniforme');
       $(this).hide();
     }
     }else{
@@ -149,18 +147,16 @@ $('#agregar_uniforme').on('click',function(){
     var vacio = $(".dynamic-form").last('tr').find('input').val()
     if (vacio){
       addForm('','#referencias','referencias_set');
-        $(".dynamic-form").last('tr').removeClass('hidden');
-        $(".dynamic-form").last('tr').find('input:first').val(referencia);
-        $(".dynamic-form").last('tr').find('input:first').prop("readonly", true);
-        $(".dynamic-form").last('tr').find('textarea:first').val('Referencia Uniformes');
-        $(".dynamic-form").last('tr').attr('data-tipo','uniforme');
+        $("#ref .dynamic-form").last('tr').find('input:first').val(referencia);
+        $("#ref .dynamic-form").last('tr').find('input:first').prop("readonly", true);
+        $("#ref .dynamic-form").last('tr').find('textarea:first').val('Referencia Uniformes');
+        $("#ref .dynamic-form").last('tr').attr('data-tipo','uniforme');
         $(this).hide();
     }else{
-      $(".dynamic-form").last('tr').removeClass('hidden');
-      $(".dynamic-form").last('tr').find('input:first').val(referencia);
-      $(".dynamic-form").last('tr').find('input:first').prop("readonly", true);
-      $(".dynamic-form").last('tr').find('textarea:first').val('Referencia Uniformes');
-      $(".dynamic-form").last('tr').attr('data-tipo','uniforme');
+      $("#ref .dynamic-form").last('tr').find('input:first').val(referencia);
+      $("#ref .dynamic-form").last('tr').find('input:first').prop("readonly", true);
+      $("#ref .dynamic-form").last('tr').find('textarea:first').val('Referencia Uniformes');
+      $("#ref .dynamic-form").last('tr').attr('data-tipo','uniforme');
       $(this).hide();
     }
   } else {
@@ -332,7 +328,7 @@ $('.tab-pane').on('click','.delete-row',function(){
         <!-- Nav tabs -->
       <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#ref" aria-controls="ref" role="tab" data-toggle="tab">Referencias</a></li>
-        <li role="presentation"><a href="#desc" aria-controls="desc" role="tab" data-toggle="tab">Descuentos</a></li>
+        <li role="presentation"><a href="#desc" aria-controls="desc" role="tab" data-toggle="tab">Becas</a></li>
       </ul>
 
   <!-- Tab panes -->
@@ -351,7 +347,7 @@ $('.tab-pane').on('click','.delete-row',function(){
                           <th style="width:10%">Eliminar</th>
                         </tr>
                       </thead>
-                    <tbody>
+                    <tbody id="ref">
                       {%for i in form_req%}
                         {{form_req.id}}
                           <tr class="dynamic-form" >

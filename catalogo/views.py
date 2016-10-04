@@ -148,7 +148,11 @@ def vista_alumno(request,pk=None):
 
   if mat:
     last = alumno.objects.all().last()
-    matricula = str(time.strftime("%y"))+str(int(last.pk)+1).zfill(4)
+    if last == None:
+      tmp_last = 0
+    else:
+      tmp_last = int(last.pk)
+    matricula = str(time.strftime("%y"))+str(tmp_last+1).zfill(4)
 
   referencia_formset = referenciaFormset(request.POST or None,instance=obj)
   descuento_formset = descuentoFormset(request.POST or None,instance=obj)

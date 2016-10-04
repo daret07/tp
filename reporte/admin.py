@@ -9,6 +9,7 @@ class movimientoAdmin(CustomModelAdmin):
   list_display_links=('alumno','referencia',)
   list_filter=('alumno','referencia',)
   search_fields=('alumno','pk',)
+  
 
   def matricula(self,obj):
     alumno_tmp = obj.alumno

@@ -123,7 +123,7 @@ def descuentos(alumno,monto,concepto):
       else:
         monto_tmp = -float(i.monto)
       movimiento.objects.create(fecha_registro=(datetime.strptime(str(f_i)[:10],"%Y-%m-%d").strftime("%Y-%m-%d")),
-      ciclo=ciclo_tmp,alumno=alumno_tmp,concepto=i.concepto,monto=monto_tmp,descripcion='Movimiento de Descuentos')
+      ciclo=ciclo_tmp,alumno=alumno_tmp,concepto=i.concepto,monto=monto_tmp,descripcion='Movimiento de Beca')
   parametros={
   'mensaje':True
   }
