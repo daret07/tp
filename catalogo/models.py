@@ -95,7 +95,7 @@ class alumno(models.Model):
   padre               = models.ForeignKey('catalogo.persona',related_name='padre')
   emergencia          = models.ForeignKey('catalogo.persona',related_name='emergencia')
   calle               = models.CharField(max_length=100)
-  no                  = models.IntegerField()
+  no                  = models.CharField(max_length=20)
   colonia             = models.CharField(max_length=100)
   cp                  = models.IntegerField()
   poblacion           = models.CharField(max_length=50)
@@ -113,7 +113,7 @@ class referencias(models.Model):
 
 class descuento(models.Model):
   alumno              = models.ForeignKey('catalogo.alumno')
-  tipo_descuento      = models.BooleanField()
+  tipo_descuento      = models.BooleanField(default=True)
   monto               = models.IntegerField()
   activo              = models.BooleanField(default=True)
   concepto            = models.ForeignKey('catalogo.concepto')

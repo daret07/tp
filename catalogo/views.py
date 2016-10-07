@@ -140,8 +140,7 @@ def vista_alumno(request,pk=None):
     
     referencia_formset = referenciaFormset(request.POST or None,instance=obj)
     if referencia_formset.is_valid():
-      ref_obj = referencia_formset.save(commit=False)
-      ref_obj.save()
+      referencia_formset.save()
       referencia_formset = referenciaFormset(instance=obj)
 
     
