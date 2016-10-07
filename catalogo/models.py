@@ -57,7 +57,7 @@ class persona(models.Model):
   curp                = models.CharField(max_length=60)
   fecha_de_nacimiento = models.DateField(auto_now=False)
   calle               = models.CharField(max_length=100)
-  numero              = models.IntegerField(default=0)
+  numero              = models.CharField(max_length=20)
   colonia             = models.CharField(max_length=100)
   cp                  = models.IntegerField(default=0)
   poblacion           = models.CharField(max_length=50)
