@@ -132,18 +132,24 @@ def vista_alumno(request,pk=None):
 
 
   form = form_class(request.POST or None,instance=obj)
-
+  descuento_formset = descuentoFormset(request.POST or None,instance=obj)
+  referencia_formset = referenciaFormset(request.POST or None,instance=obj)
   if request.POST and form.is_valid():
     obj = form.save(commit=False)
     obj.save()
+    
     referencia_formset = referenciaFormset(request.POST or None,instance=obj)
-    
     if referencia_formset.is_valid():
-      referencia_formset.save()
-    descuento_formset = descuentoFormset(request.POST or None,instance=obj)
+      ref_obj = referencia_formset.save(commit=False)
+      ref_obj.save()
+      referencia_formset = referenciaFormset(instance=obj)
+
     
+    descuento_formset = descuentoFormset(request.POST or None,instance=obj)
     if descuento_formset.is_valid():
       descuento_formset.save()
+      descuento_formset = descuentoFormset(instance=obj)
+
     messages.success(request,"Se ha Guardado la información con éxito")
 
   if mat:
@@ -154,8 +160,6 @@ def vista_alumno(request,pk=None):
       tmp_last = int(last.pk)
     matricula = str(time.strftime("%y"))+str(tmp_last+1).zfill(4)
 
-  referencia_formset = referenciaFormset(request.POST or None,instance=obj)
-  descuento_formset = descuentoFormset(request.POST or None,instance=obj)
   conceptos = concepto.objects.all()
   for i in conceptos:
     if 'egreso' in str(i.tipo):

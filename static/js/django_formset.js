@@ -34,9 +34,9 @@ function updateElementIndex(el, prefix, ndx) {
   if (el.name) el.name = el.name.replace(id_regex, replacement);
 }
 
-function addForm(btn,parent,prefix) {
+function addForm(btn,parent,prefix,clon=true) {
   var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
-  var row = $(parent).find('.dynamic-form:first').clone(true).get(0);
+  var row = $(parent).find('.dynamic-form:first').clone(clon).get(0);
 
   $(row).removeAttr('id').insertAfter($(parent).find('.dynamic-form:last')).children('.hidden').removeClass('hidden');
   $(row).children().not(':last').find('input,select,textarea').each(function() {

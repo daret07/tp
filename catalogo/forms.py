@@ -65,7 +65,9 @@ descuentoFormset = forms.inlineformset_factory(
     extra=0,
     min_num=1,
     widgets={
+        'tipo_descuento':forms.CheckboxInput(attrs={'class':'str_demo'}),
         'monto':forms.TextInput(attrs={'class':'form-control decimal'}),
         'concepto': forms.Select(attrs={'class':'form-control'}),
+        'activo':forms.CheckboxInput(attrs={'class':'str_activo'}),
         }
     )
