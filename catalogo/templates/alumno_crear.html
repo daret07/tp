@@ -178,7 +178,7 @@ $('#agregar_descuento').on('click',function(){
     $('.super_switch:last').find('.bootstrap-switch').remove()
     $('.str_demo').bootstrapSwitch({'onText':'%','offText':'$','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
     
-    $('.str_activo:last').insertAfter('.super_activo:last .bootstrap-switch');
+    $(".super_activo:last").append($(".str_activo:last").detach());
     $('.super_activo:last').find('.bootstrap-switch').remove()
     $('.str_activo').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
 });
