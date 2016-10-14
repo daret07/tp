@@ -52,7 +52,7 @@ referenciaFormset = forms.inlineformset_factory(
     extra=0,
     min_num=1,
     widgets={
-        'descripcion':forms.Textarea(attrs={'class':'form-control','rows':'2','readonly':'readonly'}),
+        'descripcion':forms.Textarea(attrs={'class':'form-control','rows':'1','readonly':'readonly'}),
         'referencia':forms.TextInput(attrs={'class':'form-control','readonly':'readonly'})
     }
     )
@@ -65,9 +65,8 @@ descuentoFormset = forms.inlineformset_factory(
     extra=0,
     min_num=1,
     widgets={
-        'tipo_descuento':forms.CheckboxInput(attrs={'class':'str_demo'}),
+        'tipo_descuento':forms.Select(attrs={'class':'form-control'}),
         'monto':forms.TextInput(attrs={'class':'form-control decimal'}),
-        'concepto': forms.Select(attrs={'class':'form-control'}),
-        'activo':forms.CheckboxInput(attrs={'class':'str_activo'}),
+        'concepto': forms.Select(attrs={'class':'form-control concepto_auto'}),
         }
     )

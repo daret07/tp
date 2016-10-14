@@ -10,7 +10,7 @@ class ciclo_escolarAdmin(CustomModelAdmin):
 
 
 class conceptoAdmin(CustomModelAdmin):
-	list_display=('clave','descripcion')
+	list_display=('clave','descripcion','importe')
 	list_display_links=('clave',)
 	list_filter=('clave',)
 	search_fields=('clave','pk',)

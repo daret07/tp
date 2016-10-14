@@ -3,12 +3,15 @@ from django.contrib import admin
 from base.utilidades import CustomModelAdmin
 from catalogo.models import alumno as alm,referencias,concepto as con
 from reporte.models import movimiento
+import humanize
+from datetime import datetime
 # Register your models here.
 class movimientoAdmin(CustomModelAdmin):
-  list_display=('fecha_registro','folio','matricula','alumno','referencia','detalles','ciclo','concepto','monto')
+  list_display=('campo_fecha_registro','folio','matricula','alumno','referencia','descripcion','ciclo','concepto','campo_monto')
   list_display_links=('alumno','referencia',)
   list_filter=('alumno','referencia',)
   search_fields=('alumno','pk',)
+  date_hierarchy='fecha_registro'
   
 
   def matricula(self,obj):
@@ -21,7 +24,7 @@ class movimientoAdmin(CustomModelAdmin):
       alumno_return='No asociado'
     return alumno_return
   
-  def detalles(self,obj):
+  def descripcion(self,obj):
     desc_tmp = obj.referencia
     descrip  = None
     if desc_tmp:
@@ -32,4 +35,10 @@ class movimientoAdmin(CustomModelAdmin):
     else:
       descrip = 'Movimiento Manual'
     return descrip
-  
+
+  def campo_monto(self,obj):
+    
+    return '$ %s'%humanize.intcomma(obj.monto)
+
+  def campo_fecha_registro(self,obj):
+    return '%s'%datetime.strftime(obj.fecha_registro,"%d/%m/%Y")

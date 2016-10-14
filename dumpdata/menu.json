@@ -115,7 +115,7 @@
     "model": "navegacion.menu",
     "pk": 9,
     "fields": {
-      "nombre": "Inscripciónes",
+      "nombre": "Inscripciones",
        "app": "",
        "modelo": "",
        "padre": null,
@@ -241,7 +241,7 @@
     "model": "navegacion.menu",
     "pk": 18,
     "fields": {
-      "nombre": "Automaticos",
+      "nombre": "Automáticos",
        "app": "automatico",
        "modelo": "",
        "padre": null,
@@ -255,7 +255,7 @@
     "model": "navegacion.menu",
     "pk": 19,
     "fields": {
-      "nombre": "Nuevo Automatico",
+      "nombre": "Nuevo Automático",
        "app": "automatico",
        "modelo": "cron_auto",
        "padre": 18,

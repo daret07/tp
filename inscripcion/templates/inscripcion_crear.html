@@ -8,6 +8,8 @@
 </style>
 <script type="text/javascript">
   $(document).ready(function(){
+    $('#id_categoria').prop('disabled',true);
+    $('#id_categoria option').hide();
     $('#id_doc_acta').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
     $('#id_doc_fotografias').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
     $('#id_doc_curp').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
@@ -17,7 +19,7 @@
       var params={
         'app'    : 'inscripcion',
         'method' : 'get_categoria',
-        'cat'    : categoria
+        'cat'    : categoria,
       } 
       $.ajax({data:params}).done(function(data){
         $('#num_max').html(data.response.cupo);
@@ -32,8 +34,11 @@
             'id'     : alumno,
       }
       $.ajax({data:params}).done(function(data){
+          $('#id_ciclo option').show()
           $('#id_alumno_nombre').val(data.response.nombre);
-          $('#id_ciclo').val(data.response.ciclo);
+          tmp =String(data.response.ciclo)
+          $("#id_ciclo option[value="+tmp+"]").hide();
+          /*$('#id_ciclo').val(data.response.ciclo);*/
           $('#id_alumno_paterno').val(data.response.paterno);
           $('#id_alumno_materno').val(data.response.materno);
           $('#id_alumno_fecha_de_nacimiento').val(data.response.fecha_de_nacimiento);
@@ -91,6 +96,24 @@
           $('#id_emergencia_tipo').val(data.response.emergencia.em_tipo);
         });
     });
+    $('#id_ciclo').on('change',function(){
+      $('#id_categoria option').hide();
+      var ciclo = $(this).val();
+      var params={
+        'app'    : 'inscripcion',
+        'method' : 'get_categoria_ciclo',
+        'ciclo'  : ciclo,
+      } 
+      $.ajax({data:params}).done(function(data){
+        $(data.response.categoria).each(function( index,val ) {
+            tmp =String(val)
+            console.log(tmp);
+            $("#id_categoria option[value="+tmp+"]").show();
+          });
+      });
+      $('#id_categoria').prop('disabled',false);
+    });
+    $('#id_alumno').combobox();
   });
 </script>
 {% endblock %}
@@ -101,19 +124,22 @@
       <div class="col-md-12"> 
         <div class='box box-danger'>
           <div class='box-header'>
+          <div class="col-md-10">
             <h3 class='box-title'>Ficha de inscripción de identificación</h3>
+            </div>
+            <div class="col-md-2">Cupo: <span id='num_inicial' style="font-size:20px">{{maximo}}</span> de <span id='num_max' style="font-size:20px">{{cupo}}</span></div>
           </div>
           <div class='box-body'>
             <div class="col-md-1{%if form.alumno.errors%} error {%endif%}">{{form.alumno.label_tag}}</div>
             <div class="col-md-3">{{form.alumno}}</div>
+            <div class="col-md-1{%if form.ciclo.errors%} error {%endif%}">{{form.ciclo.label_tag}}</div>
+            <div class="col-md-3">
+              {{form.ciclo}}
+            </div>
             <div class="col-md-1{%if form.categoria.errors%} error {%endif%}">{{form.categoria.label_tag}}</div>
             <div class="col-md-3">
-              {{form.categoria}}<br/>
-              Cupo: <span id='num_inicial' style="font-size:20px"><i class="fa fa-square-o"></i></span> de <span id='num_max' style="font-size:20px"><i class="fa fa-square-o"></i></span>
-
-            </div>
-            <div class="col-md-1{%if form.ciclo.errors%} error {%endif%}">{{form.ciclo.label_tag}}</div>
-            <div class="col-md-3">{{form.ciclo}}</div>
+            {{form.categoria}}<br/>
+          </div>
           </div>
         </div>
       </div>

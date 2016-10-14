@@ -39,7 +39,7 @@
           {%for i in reporte%}
             <tr>
               <td>{{i.0}}</td>
-              <td>{{i.1}}</td>
+              <td><a href="{%url 'editar' 'catalogo' 'alumno' i.5 %}" data-app='inscripcion' data-modelo='inscripcion' data-pk='{{i.5}}' class='acceso_edita' >{{i.1}}</a></td>
               <td>{{i.2|date:"d/m/Y"}}</td>
               <td>$ {{i.3}}</td>
               <td>{%if i.4%} Alta {%else%} Baja {%endif%}</td>

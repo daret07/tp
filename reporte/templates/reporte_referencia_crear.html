@@ -20,9 +20,7 @@
               <th>Referencia</th>
               <th>Descripción</th>
               <th>Matricula</th>
-              <th>Nombre</th>
-              <th>Paterno</th>
-              <th>Materno</th>
+              <th>Nombre
               <th>Fecha de Nacimiento</th>
               <th>Status</th>
             </thead>
@@ -31,10 +29,10 @@
                 <tr>
                   <td>{{i.referencia}}</td>
                   <td>{{i.descripcion}}</td>
-                  <td>{{i.alumno.matricula}}</td>
-                  <td>{{i.alumno.nombre}}</td>
-                  <td>{{i.alumno.paterno}}</td>
-                  <td>{{i.alumno.materno}}</td>
+                  <td><a href="{%url 'editar' 'inscripcion' 'inscripcion' i.pk %}" data-app='inscripcion' data-modelo='inscripcion' data-pk='{{i.0.pk}}' class='acceso_edita' >{{i.alumno.matricula}}</a></td>
+                  <td>
+                  <a href="{%url 'editar' 'inscripcion' 'inscripcion' i.pk %}" data-app='inscripcion' data-modelo='inscripcion' data-pk='{{i.0.pk}}' class='acceso_edita' >{{i.alumno.nombre}} {{i.alumno.paterno}} {{i.alumno.materno}}</a>
+                  </td>
                   <td>{{i.alumno.fecha_de_nacimiento|date:"d/m/Y"}}</td>
                   <td>{%if i.alumno.estatus %}ALTA{%else%}BAJA{%endif%}</td>
                 </tr>

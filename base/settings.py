@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'catalogo',
     'inscripcion',
     'reporte',
+    'automatico',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -86,14 +87,14 @@ WSGI_APPLICATION = 'base.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        #'ENGINE': 'django.db.backends.mysql', 
-        #'NAME': 'dj_torquemex',
-        #'USER': 'root',
-        #'PASSWORD': '046797993',
-        #'HOST': 'localhost',
-        #'PORT': '3306',
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql', 
+        'NAME': 'fbasica',
+        'USER': 'root',
+        'PASSWORD': '21Divox!=',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 

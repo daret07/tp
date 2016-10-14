@@ -10,8 +10,14 @@ def vista_inscripcion(request,pk=None):
 	cat = categoria.objects.all()
 	form_class = inscripcionForm
 	obj = None
+	maximo = 0
+	cupo     = 0
+
 	if pk is not None:
 		obj = inscripcion.objects.get(pk=pk)
+		cupo = obj.categoria.cupo_maximo
+		alumnos   = inscripcion.objects.filter(categoria=obj.categoria)
+		maximo  = len(alumnos)
 
 	form = form_class(request.POST or None,instance=obj)
 
@@ -20,15 +26,6 @@ def vista_inscripcion(request,pk=None):
 		obj.save()
 		alumno.objects.filter(pk=obj.alumno.pk).update(ciclo_escolar=obj.ciclo)
 		messages.success(request,"Se ha Guardado la información con éxito")
-
-	if pk is None:
-		inscripciones = inscripcion.objects.all()
-		tmp_ids=[]
-		for item in inscripciones:
-			tmp_ids.append(item.alumno.pk)
-		form.fields['alumno'].queryset = alumno.objects.exclude(pk__in=tmp_ids)
-	else:
-		form.fields['alumno'].queryset = alumno.objects.filter(pk=obj.alumno.pk)
 
 	catego   = categoria.objects.all()
 	tmp_id_ins =[]
@@ -41,6 +38,8 @@ def vista_inscripcion(request,pk=None):
 		'form'    : form,
 		'custom'	:	True,
 		'obj'			: obj,	
-		'modulo'	: 'inscripcion'
+		'modulo'	: 'inscripcion',
+		'cupo'    : cupo,
+		'maximo'  : maximo,
 	}
 	return parametros

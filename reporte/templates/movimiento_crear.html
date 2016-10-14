@@ -98,3 +98,12 @@
 </div>
 </form>
 {% endblock %}
+{% block btn_action %}
+  {% if obj == None %}  
+  {{block.super}}
+  {% else %}
+  {% endif %}
+  {%if not nula and obj != None%}
+    {{block.super}}
+  {%endif%}
+{% endblock %}

@@ -1,15 +1,22 @@
 from catalogo.models import alumno
+from inscripcion.models import inscripcion
 def get_alumno(request):
   al = ''
   params=''
   pk = request.POST.get('id',None)
+  cicl_esc = None
+  ciclo_tmp = 0
   if pk:
     al    = alumno.objects.get(pk=pk)
+    cicl_esc = inscripcion.objects.filter(alumno=al)
+  if cicl_esc:
+    ciclo_tmp = al.ciclo_escolar.pk
+
   params={
   'fecha_de_ingreso'    :al.fecha_de_ingreso,
   'nombre'              :al.nombre,   
   'paterno'             :al.paterno,
-  'ciclo'               :al.ciclo_escolar.pk,
+  'ciclo'               :ciclo_tmp,
   'materno'             :al.materno,
   'fecha_de_nacimiento' :al.fecha_de_nacimiento,
   'lugar_de_nacimiento' :al.lugar_de_nacimiento,
@@ -80,9 +87,21 @@ def get_categoria(request):
   return parametros
 
 
-
-
-
+def get_categoria_ciclo(request):
+  from catalogo.models import categoria
+  ciclo = request.POST.get('ciclo')
+  categoria_list =[]
+  categ = categoria.objects.filter(ciclo_escolar=ciclo)
+  for i in categ:
+    alumnos   = inscripcion.objects.filter(categoria=i)
+    inscritos = len(alumnos)
+    maximo    = i.cupo_maximo
+    if inscritos < maximo:
+      categoria_list.append(i.pk)
+  parametros={
+   'categoria':categoria_list
+   }
+  return parametros
 
 
 

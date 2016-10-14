@@ -13,9 +13,9 @@ escolar=(
   (u'posgrador',u'Pos-Grado'),
 )
 turnos=(
-  (u'matutino',u'Matutino'),
-  (u'vespertino',u'Vespertino'),
-  (u'sabatino',u'Sabatino'),
+  (u'1',u'Matutino'),
+  (u'2',u'Vespertino'),
+  (u'3',u'Sabatino'),
 )
 alumno_plaza=(
   (u'1',u'Morelia CEFOMM'),

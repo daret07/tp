@@ -27,10 +27,12 @@
           <tbody>
             {%for i in saldo%}
             <tr>
-              <td>{{i.0}}</td>
-              <td>{{i.1}}</td>
-              <td>{{i.2|date:"d/m/Y"}}</td>
-              <td>${{i.3}}</td>
+              <td>{{i.0.matricula}}</td>
+              <td>
+              <a href="{%url 'editar' 'inscripcion' 'inscripcion' i.0.pk %}" data-app='inscripcion' data-modelo='inscripcion' data-pk='{{i.0.pk}}' class='acceso_edita' >{{i.0.nombre}} {{i.0.paterno}} {{i.0.materno}}</a>
+              </td>
+              <td>{{i.0.fecha_de_nacimiento|date:"d/m/Y"}}</td>
+              <td>$ {{i.1}}</td>
             </tr>
             {%endfor%}
           </tbody>

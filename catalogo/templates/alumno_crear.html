@@ -18,10 +18,8 @@
  $(document).ready(function(){
   $("#id_estatus").bootstrapSwitch({'onText':'Activo','offText':'Inactivo','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
   $('#id_hermano_institucion').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
-  $('.str_demo').bootstrapSwitch({'onText':'%','offText':'$','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
-  $('.str_activo').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
-  
-  
+  comboboxes()
+
   {%if matricula %}
   $('#id_matricula').val('{{matricula}}');
   {%endif%}
@@ -168,19 +166,16 @@ $('#agregar_uniforme').on('click',function(){
 
 $('#agregar').on('click',function(){
       addForm('','#referencias','referencias_set');
-      $(".dynamic-form").last('tr').find('input').removeAttr('readonly')
-      $(".dynamic-form").last('tr').find('textarea').removeAttr('readonly')
+      $("#ref .dynamic-form:last td").find('input').removeAttr('readonly')
+      $("#ref .dynamic-form:last td").find('textarea').removeAttr('readonly')
     });
 
 $('#agregar_descuento').on('click',function(){
     addForm('','#descuento','descuento_set',false);
-    $(".super_switch:last").append($(".str_demo:last").detach());
-    $('.super_switch:last').find('.bootstrap-switch').remove()
-    $('.str_demo').bootstrapSwitch({'onText':'%','offText':'$','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
+    comboboxes()
+    $('.super_switch:last div:last').remove()
+    $('.conceptos:last div:last').remove()
     
-    $(".super_activo:last").append($(".str_activo:last").detach());
-    $('.super_activo:last').find('.bootstrap-switch').remove()
-    $('.str_activo').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
 });
 
 $('.tab-pane').on('click','.delete-row',function(){
@@ -201,7 +196,13 @@ $('.tab-pane').on('click','.delete-row',function(){
     }
     showModal('catalogo','persona_modal',parametros);
   });
+
 });
+function comboboxes(){
+  $('.super_switch select').combobox()
+  $('.conceptos .concepto_auto').combobox();
+}
+
 
 </script>
 {% endblock %}
@@ -356,7 +357,6 @@ $('.tab-pane').on('click','.delete-row',function(){
                       </thead>
                     <tbody id="ref">
                       {%for i in form_req%}
-                        {{form_req.id}}
                           <tr class="dynamic-form" >
                             <td>{{i.referencia}}{{i.id}}</td>
                             <td>{{i.descripcion}}</td>
@@ -377,19 +377,19 @@ $('.tab-pane').on('click','.delete-row',function(){
                           <table class='table table-condensed'>
                             <thead>
                               <tr>
-                                <th>Tipo de Descuento</th>
-                                <th style="width:30%">Concepto</th>
-                                <th style="width:30%">Cantidad</th>
+                                <th style="width:20%">Tipo de Descuento</th>
+                                <th style="width:25%">Concepto</th>
+                                <th style="width:25%">Cantidad</th>
                                 <th style="width:20%">Activo</th>
                                 <th style="width:10%">Eliminar</th>
                               </tr>
                             </thead>
                           <tbody>
                             {%for i in form_desc%}
-                              {{i.id}}
+                            {{i.id}}
                                 <tr class="dynamic-form" >
                                   <td class="super_switch">{{i.tipo_descuento}}</td>
-                                  <td>{{i.concepto}}</td>
+                                  <td class="conceptos">{{i.concepto}}</td>
                                   <td>{{i.monto}}</td>
                                   <td class="super_activo">{{i.activo}}</td>
                                   <td>{{i.DELETE}}</td>

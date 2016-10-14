@@ -43,7 +43,6 @@ def vista_movimiento(request,pk=None):
       hojas = libro.sheet_names()
       hoja  = libro.sheet_by_name(hojas[0])
       columnas = hoja.ncols
-
       if columnas == 10:
         for row_idx in range(0, hoja.ncols):
           label_numero = hoja.cell(0,row_idx).value
@@ -68,10 +67,13 @@ def vista_movimiento(request,pk=None):
           if label_numero.lower().encode('utf8') == 'fecha de operación':
             obj.fecha_registro = xlrd.xldate.xldate_as_datetime(hoja.cell(1,row_idx).value, libro.datemode)
 
-      obj.concepto = concepto.objects.get(clave='abono')
+      obj.concepto = concepto.objects.get(clave='ABONO')
       obj.save()
-      descuentos(alm.objects.get(pk=ref_tmp.alumno.pk),obj.monto,obj.concepto)
-      messages.success(request,"Se ha Guardado la información con éxito")
+      try:
+        descuentos(alm.objects.get(pk=ref_tmp.alumno.pk),obj.monto,obj.concepto)
+        messages.success(request,"Se ha Guardado la información con éxito")
+      except:
+        messages.success(request,"Se ha Guardado la información con éxito")
       form = form_class(instance=obj)
     else:
       messages.success(request,"La extencion del archivo debe de ser xls o xlsx")
@@ -112,7 +114,7 @@ def descuentos(alumno,monto,concepto):
   ciclo_tmp      = ''
   monto_tmp      = ''
   alumno_tmp     = alm.objects.get(pk=alumno)
-  desc           = descuento.objects.filter(alumno=alumno)
+  desc           = descuento.objects.filter(alumno=alumno,activo=True)
   ciclo_tmp      = alumno_tmp.ciclo_escolar
   f_i = datetime.now()
   for i in desc:
@@ -154,6 +156,9 @@ def vista_ficha_inscripcion(request,pk=None):
       inscripcion_filtro   = inscripcion.objects.filter(ciclo=tmp_ciclo)
     elif tmp_categoria != '' and tmp_ciclo == '':
       inscripcion_filtro   = inscripcion.objects.filter(categoria=tmp_categoria)
+    elif tmp_categoria == '' and tmp_ciclo == '':
+      inscripcion_filtro = inscripcion.objects.all()
+
     form = ficha_inscricionForm(request.POST)
   parametros={
     'ciclo'      : ciclo,
@@ -188,20 +193,23 @@ def vista_reporte_saldos(request,pk=None):
       ciclo   = ciclo_escolar.objects.get(pk=request.POST.get('ciclo'))
       ciclo_existe=True
     if ciclo_existe:
-      alumnos = alm.objects.filter(fecha_de_ingreso__range=(fecha_inicio,fecha_fin),ciclo_escolar=ciclo)
-    else:  
-      alumnos = alm.objects.filter(fecha_de_ingreso__range=(fecha_inicio,fecha_fin))
-    for i in alumnos:
-      movimientos=movimiento.objects.filter(alumno=i)  
-      suma = 0
-      for a in movimientos:
-        if str(a.concepto.tipo) == 'ingreso':
-          suma += a.monto
-          total += a.monto
-        elif str(a.concepto.tipo) == 'egreso':
-          suma -= a.monto
-          total -= a.monto
-      reporte.append((i.matricula,i.nombre+' '+i.paterno+' '+i.materno, i.fecha_de_nacimiento,suma,i.estatus))
+      alumnos = alm.objects.filter(ciclo_escolar=ciclo)
+    else:
+      alumnos = alm.objects.all()
+    for al in alumnos:
+      suma=0
+      if ciclo_existe:
+        mov = movimiento.objects.filter(fecha_registro__range=(fecha_inicio,fecha_fin),ciclo=ciclo,alumno=al)
+      else:
+        mov = movimiento.objects.filter(fecha_registro__range=(fecha_inicio,fecha_fin),alumno=al)  
+      for i in mov:
+        if str(i.concepto.tipo) == 'I':
+          suma += i.monto
+          total += i.monto
+        elif str(i.concepto.tipo) == 'E':
+          suma -= i.monto
+          total -= i.monto
+      reporte.append((al.matricula,al.nombre+' '+al.paterno+' '+al.materno, al.fecha_de_nacimiento,suma,al.estatus,al.pk))
     form = reporte_saldosForm(request.POST or None)
   else:
     form = reporte_saldosForm(initial={'desde':fecha_inicio,'hasta':fecha_fin})
@@ -219,17 +227,17 @@ def vista_deudores(request,pk=None):
     movimientos=movimiento.objects.filter(alumno=tmp)
     suma = 0
     for a in movimientos:
-      if str(a.concepto.tipo) == 'ingreso':
+      if str(a.concepto.tipo) == 'I':
         suma += a.monto
         total += a.monto
-      elif str(a.concepto.tipo) == 'egreso':
+      elif str(a.concepto.tipo) == 'E':
         suma -= a.monto
         total -= a.monto
     if suma < 0:
       deudores_tmp.append((i['alumno'],suma))
   for i in deudores_tmp:
     alumno_tmp=alm.objects.get(pk=i[0])
-    deudores.append((alumno_tmp.matricula,alumno_tmp.nombre,alumno_tmp.fecha_de_nacimiento,float(i[1])))
+    deudores.append((alumno_tmp,float(i[1])))
   parametros={'saldo':deudores,'total':total}
   return parametros
 
@@ -240,6 +248,7 @@ def vista_estado_cuenta(request,pk=None):
   if request.POST:
     response = HttpResponse(content_type='application/pdf')
     logo =str(settings.BASE_DIR)+ str('/static/images/fmonarca2.png')
+    logoback =str(settings.BASE_DIR)+ str('/static/images/fmonarcaB.png')
     alumno_temp = request.POST.get('alumno' or None)
     ciclo_temp  = request.POST.get('ciclo_escolar' or None)
     mes         = request.POST.get('mes' or None)
@@ -291,7 +300,7 @@ def vista_estado_cuenta(request,pk=None):
     p = canvas.Canvas(buffer)
     p.setFont("Helvetica", 12)
     p.drawImage(logo,50,715,80,80)
-    p.drawImage(logo,170,415,280,280)
+    p.drawImage(logoback,170,415,280,280)
     # Draw things on the PDF. Here's where the PDF generation happens.
     # See the ReportLab documentation for the full list of functionality.
     p.drawString(225 , 730, "ESTADO DE CUENTA INTEGRAL")
@@ -310,22 +319,22 @@ def vista_estado_cuenta(request,pk=None):
     p.drawString(50 , 610, 'Saldo Anterior')
     p.drawString(50 , 600, 'Mes Actual: $'+monto_2)
     p.drawString(350 , 620, 'Cargos del Mes')
-    p.drawString(250 , 610, 'Fecha')
-    p.drawString(320 , 610, 'Concepto')
-    p.drawString(430 , 610, 'Abono')
+    p.drawString(210 , 610, 'Fecha')
+    p.drawString(290 , 610, 'Concepto')
+    p.drawString(430 , 610, 'ABONO')
     p.drawString(500 , 610, 'Cargo')
     num_tmp = 610
     for i in mov:
       num_tmp -= 10
       fecha = datetime.strptime(str(i.fecha_registro),"%Y-%m-%d").strftime("%d/%m/%Y")
-      if str(i.concepto.tipo)=='egreso':
+      if str(i.concepto.tipo)=='E':
         p.drawString(500 , num_tmp, '$ '+str(i.monto))
         p.drawString(430 , num_tmp, '$ 0.0')
-      if str(i.concepto.tipo)=='ingreso':
+      if str(i.concepto.tipo)=='I':
         p.drawString(500 , num_tmp, '$ 0.0')
         p.drawString(430 , num_tmp, '$ '+str(i.monto))
-      p.drawString(250 , num_tmp, fecha)
-      p.drawString(320 , num_tmp, i.concepto.descripcion)
+      p.drawString(210 , num_tmp, fecha)
+      p.drawString(290 , num_tmp, i.concepto.descripcion)
 
     
 
@@ -350,9 +359,9 @@ def listado_movimiento(request):
   diferencia = 0
   abonos = movimiento.objects.all()
   for i in abonos:
-    if 'ingreso' in str(i.concepto.tipo):
+    if 'I' == str(i.concepto.tipo):
       abono += i.monto
-    if 'egreso' in str(i.concepto.tipo):
+    if 'E' == str(i.concepto.tipo):
       cargo += i.monto
   diferencia = abono - cargo
   return {'abono':abono,'cargo':cargo,'diferencia':diferencia}

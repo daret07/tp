@@ -13,13 +13,13 @@ class ciclo_escolar(models.Model):
     return  self.clave  
 
 tipo_conceptos=(
-  (u'ingreso',u'Ingreso'),
-  (u'egreso',u'Egreso'),
+  (u'I',u'Ingreso'),
+  (u'E',u'Egreso'),
 )
 
 tipo_cargo=(
-  (u'eventual',u'Eventual'),
-  (u'automatico',u'Automatico'),
+  (u'E',u'Eventual'),
+  (u'A',u'Automatico'),
 )
 class concepto(models.Model):
   clave               = models.CharField(max_length=50)
@@ -29,6 +29,7 @@ class concepto(models.Model):
   tipo_de_cargo       = models.CharField(max_length=20,choices=tipo_cargo)
   importe             = models.DecimalField(max_digits=6,decimal_places=2,blank=True,null=True)
   formula             = models.CharField(max_length=60,blank=True,null=True)
+  estatus             = models.BooleanField()
   def __unicode__(self):
     return self.clave
   class Meta:
@@ -68,7 +69,7 @@ class persona(models.Model):
   email               = models.EmailField(max_length=50)
   tipo                = models.CharField(max_length=20,choices=tipo_persona)
   def __unicode__(self):
-    return self.nombre+' - - '+self.telefono_celular
+    return self.paterno+' '+self.materno+' '+self.nombre
       
 
 alumno_plaza=(
@@ -92,8 +93,8 @@ class alumno(models.Model):
   equipo              = models.IntegerField()
   rama                = models.CharField(max_length=50,choices=alumno_rama)
   hermano_institucion = models.BooleanField(default=False,verbose_name='Tiene Hermano En La Institucion')
-  padre               = models.ForeignKey('catalogo.persona',related_name='padre')
-  emergencia          = models.ForeignKey('catalogo.persona',related_name='emergencia')
+  padre               = models.ForeignKey('catalogo.persona',related_name='padre',blank=True,null=True,on_delete=models.SET_NULL)
+  emergencia          = models.ForeignKey('catalogo.persona',related_name='emergencia',blank=True,null=True,on_delete=models.SET_NULL)
   calle               = models.CharField(max_length=100)
   no                  = models.CharField(max_length=20)
   colonia             = models.CharField(max_length=100)
@@ -102,18 +103,23 @@ class alumno(models.Model):
   municipio           = models.CharField(max_length=50)
   entidad_federativa  = models.CharField(max_length=50)
   estatus             = models.BooleanField(default=True)
-  ciclo_escolar       = models.ForeignKey('catalogo.ciclo_escolar')
+  ciclo_escolar       = models.ForeignKey('catalogo.ciclo_escolar',blank=True,null=True,on_delete=models.SET_NULL)
   def __unicode__(self):
-    return self.nombre +' '+ self.paterno +' '+ self.materno +' ---- '+self.matricula
+    return self.nombre +' '+ self.paterno +' '+ self.materno
 
 class referencias(models.Model):
   alumno              = models.ForeignKey('catalogo.alumno')
   referencia          = models.CharField(max_length=50)
   descripcion         = models.TextField(max_length=255)
 
+tipo_desc=(
+  (u'0',u'% - Descuento'),(u'1','$ - Cantidad')
+  )
+
+
 class descuento(models.Model):
   alumno              = models.ForeignKey('catalogo.alumno')
-  tipo_descuento      = models.BooleanField(default=True)
+  tipo_descuento      = models.CharField(max_length=20,choices=tipo_desc)
   monto               = models.IntegerField()
   activo              = models.BooleanField(default=True)
   concepto            = models.ForeignKey('catalogo.concepto')

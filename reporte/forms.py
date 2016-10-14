@@ -14,7 +14,7 @@ class movimientoForm(CustomModelForm):
       self.fields['monto'].widget.attrs.update({'class' : 'form-control decimal'})
   class Meta:
     model=movimiento
-    exclude=('descripcion',)
+    exclude=('descripcion','ciclo')
 
 class movimiento_subirForm(CustomForm):
   subir_movimiento = forms.FileField()

@@ -6,6 +6,48 @@
     padding: 25px;
   }
 </style>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#id_formula').on('keyup',function(){
+      valor = $(this).val()
+      peticion_ajax = null
+      myinput = $(this);
+      if(valor.length > 0){
+         var params = {
+            'app'    : 'catalogo',
+            'method' : 'get_concepto',
+            'busca'  : valor
+          }
+          peticion_ajax =$.ajax({data:params,
+            'beforeSend':function(){
+            if (peticion_ajax != null) {
+              peticion_ajax.abort();
+              }
+            }
+           }).done(function(data){
+            disponibles = data.response
+            $(myinput).autocomplete({
+              source:disponibles
+            });
+            peticion_ajax = null;
+           });
+        $('#id_importe').prop('disabled', true);
+      }else{
+        $('#id_importe').prop('disabled', false);
+      }
+    });
+
+    $('#id_importe').on('keyup',function(){
+      valor = $(this).val()
+      if(valor.length > 0){
+      $('#id_formula').prop('disabled', true);
+    }else{
+      $('#id_formula').prop('disabled', false);
+    }
+    });
+    $('#id_estatus').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
+  });
+</script>
 {% endblock %}
 {% block mensajes %}
   {% if messages %}
@@ -65,7 +107,10 @@
           </div>
           <div class="row">
             <div class="col-md-4 {%if form.formula.errors%} error {%endif%}">{{form.formula.label_tag}}</div>
-            <div class="col-md-8">{{form.formula}}</div>
+            <div class="col-md-4">{{form.formula}}</div>
+            <div class="col-md-2 {%if form.formula.errors%} error {%endif%}">
+            {{form.estatus.label_tag}}</div>
+            <div class="col-md-1">{{form.estatus}}</div>
           </div>
         </div>
       </div>

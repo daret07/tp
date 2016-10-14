@@ -16,12 +16,33 @@ def vista_concepto(request,pk=None):
 
   if request.POST and form.is_valid():
     obj = form.save(commit=False)
+    operario = 0
     if len(obj.formula)>0:
-      clave_tmp = obj.formula.split('*',2)
+      if len(a.split('*',2))>1:
+        clave_tmp = obj.formula.split('*',2)
+        operario  = 1
+      elif len(a.split('+',2))>1:
+        clave_tmp = obj.formula.split('+',2)
+        operario  = 2
+      elif len(a.split('-',2))>1:
+        clave_tmp = obj.formula.split('-',2)
+        operario  = 3
+      elif len(a.split('/',2))>1:
+        clave_tmp = obj.formula.split('/',2)
+        operario  = 4
+
       clave_tmp[0] = clave_tmp[0].replace(' ','')
       concepto_tmp = concepto.objects.filter(clave__contains=clave_tmp[0])
       if concepto_tmp:
-        obj.importe=float(concepto_tmp[0].importe) * float(clave_tmp[1])
+        if operario == 1:
+          obj.importe=float(concepto_tmp[0].importe) * float(clave_tmp[1])
+        elif operario == 2:
+          obj.importe=float(concepto_tmp[0].importe) + float(clave_tmp[1])
+        elif operario == 3:
+          obj.importe=float(concepto_tmp[0].importe) - float(clave_tmp[1])
+        elif operario == 4:
+          obj.importe=float(concepto_tmp[0].importe) / float(clave_tmp[1])
+
         messages.success(request,"Se ha encontrado el concepto y se actualizo el importe")
       else:
         messages.error(request,"El concepto ingresado en la formula es incorrecto y/o no existe")    
@@ -125,9 +146,10 @@ def vista_alumno(request,pk=None):
     tmp_ref = referencias.objects.filter(alumno=obj)
     if tmp_ref:
       for i in tmp_ref:
-        if 'Principal' in i.descripcion:
+        print i.descripcion
+        if 'PRINCIPAL' in i.descripcion:
           ref_p = True
-        if 'Uniforme' in i.descripcion:
+        if 'UNIFORME' in i.descripcion:
           ref_u = True
 
 
@@ -142,7 +164,6 @@ def vista_alumno(request,pk=None):
     if referencia_formset.is_valid():
       referencia_formset.save()
       referencia_formset = referenciaFormset(instance=obj)
-
     
     descuento_formset = descuentoFormset(request.POST or None,instance=obj)
     if descuento_formset.is_valid():
@@ -161,7 +182,7 @@ def vista_alumno(request,pk=None):
 
   conceptos = concepto.objects.all()
   for i in conceptos:
-    if 'egreso' in str(i.tipo):
+    if 'E' in str(i.tipo):
       cons_pks.append(i.pk)
   descuento_formset.form.base_fields['concepto'].queryset = concepto.objects.filter(pk__in=cons_pks)
   if pk is None:
@@ -170,7 +191,6 @@ def vista_alumno(request,pk=None):
   else:
     form.fields['padre'].queryset = persona.objects.filter(pk=int(obj.padre.pk))
     form.fields['emergencia'].queryset = persona.objects.filter(pk=int(obj.emergencia.pk))
-  
   parametros={
     'form'      : form,
     'form_req'  : referencia_formset,

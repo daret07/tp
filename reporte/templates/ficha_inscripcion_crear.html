@@ -49,6 +49,7 @@
               <th>Fecha</th>
               <th>Categoria</th>
               <th>Alumno</th>
+              <th>Ciclo</th>
               <th>Matricula</th>
               <th>Fecha de Nacimiento</th>
             </thead>
@@ -57,8 +58,17 @@
                 <tr>
                   <td>{{i.fecha_inscripcion|date:"d/m/Y"}}</td>
                   <td>{{i.categoria}}</td>
-                  <td>{{i.alumno.nombre}}</td>
-                  <td>{{i.alumno_matricula}}</td>
+                  <td>
+                    <a href="{%url 'editar' 'inscripcion' 'inscripcion' i.pk %}" data-app='inscripcion' data-modelo='inscripcion' data-pk='{{i.alumno.pk}}' class='acceso_edita' >
+                      {{i.alumno.nombre}} {{i.alumno.paterno}} {{i.alumno.materno}}
+                    </a>
+                  </td>
+                  <td>{{i.ciclo}}</td>
+                  <td>
+                    <a href="{%url 'editar' 'inscripcion' 'inscripcion' i.pk %}" data-app='inscripcion' data-modelo='inscripcion' data-pk='{{i.alumno.pk}}' class='acceso_edita' >
+                      {{i.alumno_matricula}}
+                    </a>
+                  </td>
                   <td>{{i.alumno_fecha_de_nacimiento}}</td>
                 </tr>
               {%endfor%}
