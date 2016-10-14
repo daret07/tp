@@ -1,0 +1,366 @@
+[
+    {
+        "fields": {
+            "clave": "ABONO", 
+            "descripcion": "ABONO", 
+            "estatus": "1", 
+            "formula": "", 
+            "importe": 0.0, 
+            "nombre": "ABONO", 
+            "tipo": "I", 
+            "tipo_de_cargo": "E"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 1
+    }, 
+    {
+        "fields": {
+            "clave": "REINSCRIPCION", 
+            "descripcion": "Cuota por Reinscripcion", 
+            "estatus": "1", 
+            "formula": " ", 
+            "importe": 700.0, 
+            "nombre": "REINSCRIPCION", 
+            "tipo": "E", 
+            "tipo_de_cargo": "E"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 2
+    }, 
+    {
+        "fields": {
+            "clave": "INSCRIPCION", 
+            "descripcion": "Cuota por Inscripcion", 
+            "estatus": "1", 
+            "formula": " ", 
+            "importe": 800.0, 
+            "nombre": "INSCRIPCION", 
+            "tipo": "E", 
+            "tipo_de_cargo": "E"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 3
+    }, 
+    {
+        "fields": {
+            "clave": "MENSUALIDAD", 
+            "descripcion": "Cuota por Mensualidad", 
+            "estatus": "1", 
+            "formula": "", 
+            "importe": 550.0, 
+            "nombre": "MENSUALIDAD", 
+            "tipo": "E", 
+            "tipo_de_cargo": "A"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 4
+    }, 
+    {
+        "fields": {
+            "clave": "MENSUALIDADH", 
+            "descripcion": "Cuota por Mensualidad (Hermano)", 
+            "estatus": "1", 
+            "formula": "", 
+            "importe": 510.0, 
+            "nombre": "MENSUALIDAD HERMANO", 
+            "tipo": "E", 
+            "tipo_de_cargo": "A"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 5
+    }, 
+    {
+        "fields": {
+            "clave": "UNIFORME", 
+            "descripcion": "Cuota por Uniforme", 
+            "estatus": "1", 
+            "formula": "", 
+            "importe": 1000.0, 
+            "nombre": "UNIFORME", 
+            "tipo": "E", 
+            "tipo_de_cargo": "E"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 6
+    }, 
+    {
+        "fields": {
+            "clave": "SEGURO", 
+            "descripcion": "Cuota por Seguro", 
+            "estatus": "1", 
+            "formula": "", 
+            "importe": 900.0, 
+            "nombre": "SEGURO", 
+            "tipo": "E", 
+            "tipo_de_cargo": "E"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 7
+    }, 
+    {
+        "fields": {
+            "clave": "RECARGO1", 
+            "descripcion": "Cuota por Recargo Mensualidad 1", 
+            "estatus": "1", 
+            "formula": "MENSUALIDAD*0.0545454545454545", 
+            "importe": 30.0, 
+            "nombre": "RECARGO1", 
+            "tipo": "E", 
+            "tipo_de_cargo": "A"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 8
+    }, 
+    {
+        "fields": {
+            "clave": "RECARGO2", 
+            "descripcion": "Cuota por Recargo Mensualidad 2", 
+            "estatus": "1", 
+            "formula": "MENSUALIDAD*0.0527272727272727", 
+            "importe": 29.0, 
+            "nombre": "RECARGO2", 
+            "tipo": "E", 
+            "tipo_de_cargo": "A"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 9
+    }, 
+    {
+        "fields": {
+            "clave": "RECARGOH1", 
+            "descripcion": "Cuota por Recargo Mensualidad 1 (Hermano)", 
+            "estatus": "0", 
+            "formula": "MENSUALIDADH*0.04545455", 
+            "importe": 23.1818, 
+            "nombre": "RECARGOH1", 
+            "tipo": "E", 
+            "tipo_de_cargo": "A"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 10
+    }, 
+    {
+        "fields": {
+            "clave": "RECARGOH2", 
+            "descripcion": "Cuota por Recargo Mensualidad 2 (Hermano)", 
+            "estatus": "1", 
+            "formula": " MENSUALIDADH*0.05", 
+            "importe": 25.5, 
+            "nombre": "RECARGOH2", 
+            "tipo": "E", 
+            "tipo_de_cargo": "A"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 11
+    }, 
+    {
+        "fields": {
+            "clave": "BONMES", 
+            "descripcion": "BONIFICACION DE MENSUALIDAD", 
+            "estatus": "1", 
+            "formula": "MENSUALIDAD*1", 
+            "importe": 550.0, 
+            "nombre": "BONIFICACION MENSUALIDAD", 
+            "tipo": "I", 
+            "tipo_de_cargo": "E"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 12
+    }, 
+    {
+        "fields": {
+            "clave": "BONMESHNO", 
+            "descripcion": "BONIFICACION MENSUALIDAD HERMANO", 
+            "estatus": "1", 
+            "formula": "MENSUALIDADH*1", 
+            "importe": 510.0, 
+            "nombre": "BONIFICACION MENSUALIDAD HERMANO", 
+            "tipo": "I", 
+            "tipo_de_cargo": "E"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 13
+    }, 
+    {
+        "fields": {
+            "clave": "DescEmpleado", 
+            "descripcion": "Descuento Empleado", 
+            "estatus": "1", 
+            "formula": "", 
+            "importe": 550.0, 
+            "nombre": "Descuento Empleado", 
+            "tipo": "I", 
+            "tipo_de_cargo": "E"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 14
+    }, 
+    {
+        "fields": {
+            "clave": "AjusteCargo", 
+            "descripcion": "Ajuste de Cargos", 
+            "estatus": "1", 
+            "formula": "", 
+            "importe": 0.0, 
+            "nombre": "Ajuste de Cargos", 
+            "tipo": "E", 
+            "tipo_de_cargo": "E"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 15
+    }, 
+    {
+        "fields": {
+            "clave": "AjusteAbono", 
+            "descripcion": "Ajuste de Abonos", 
+            "estatus": "1", 
+            "formula": "", 
+            "importe": 0.0, 
+            "nombre": "Ajuste Abono", 
+            "tipo": "I", 
+            "tipo_de_cargo": "E"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 16
+    }, 
+    {
+        "fields": {
+            "clave": "RECARGO3", 
+            "descripcion": "Cuota por Recargo Mensualidad 3", 
+            "estatus": "1", 
+            "formula": " MENSUALIDAD*0.0527272727272727", 
+            "importe": 29.0, 
+            "nombre": "RECARGO3", 
+            "tipo": "E", 
+            "tipo_de_cargo": "A"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 17
+    }, 
+    {
+        "fields": {
+            "clave": "RECARGOH3", 
+            "descripcion": "Cuota por Recargo Mensualidad 3 (Hermano)", 
+            "estatus": "1", 
+            "formula": " ", 
+            "importe": 25.5, 
+            "nombre": "RECARGOH3", 
+            "tipo": "E", 
+            "tipo_de_cargo": "A"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 18
+    }, 
+    {
+        "fields": {
+            "clave": "BECAEMPLEADO", 
+            "descripcion": "BECA HIJO DE EMPLEADO", 
+            "estatus": "1", 
+            "formula": " ", 
+            "importe": 0.0, 
+            "nombre": "BECA EMPLEADO", 
+            "tipo": "I", 
+            "tipo_de_cargo": "E"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 19
+    }, 
+    {
+        "fields": {
+            "clave": "TRASPASOE", 
+            "descripcion": "TRASPASO DE SALDO EGRESO", 
+            "estatus": "1", 
+            "formula": " ", 
+            "importe": 0.0, 
+            "nombre": "TRASPASO DE SALDO", 
+            "tipo": "E", 
+            "tipo_de_cargo": "E"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 20
+    }, 
+    {
+        "fields": {
+            "clave": "TRASPASOI", 
+            "descripcion": "TRASPASO DE SALDO INGRESO", 
+            "estatus": "1", 
+            "formula": "", 
+            "importe": 0.0, 
+            "nombre": "TRASPASO DE SALDO", 
+            "tipo": "I", 
+            "tipo_de_cargo": "E"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 21
+    }, 
+    {
+        "fields": {
+            "clave": "DESCNOMINA", 
+            "descripcion": "DESCUENTO VIA NOMINA", 
+            "estatus": "1", 
+            "formula": " ", 
+            "importe": 0.0, 
+            "nombre": "DESCUENTO VIA NOMINA", 
+            "tipo": "I", 
+            "tipo_de_cargo": "E"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 22
+    }, 
+    {
+        "fields": {
+            "clave": "IMPRESION", 
+            "descripcion": "IMPRESIÓN DE PLAYERA", 
+            "estatus": "1", 
+            "formula": "", 
+            "importe": 45.0, 
+            "nombre": "IMPRESION", 
+            "tipo": "E", 
+            "tipo_de_cargo": "E"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 23
+    }, 
+    {
+        "fields": {
+            "clave": "BECAM", 
+            "descripcion": "BECA MENSUALIDAD", 
+            "estatus": "1", 
+            "formula": " ", 
+            "importe": 0.0, 
+            "nombre": "BECAM", 
+            "tipo": "I", 
+            "tipo_de_cargo": "E"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 24
+    }, 
+    {
+        "fields": {
+            "clave": "BECAIN", 
+            "descripcion": "BECA INSCRIPCION", 
+            "estatus": "1", 
+            "formula": "", 
+            "importe": 0.0, 
+            "nombre": "BECAIN", 
+            "tipo": "I", 
+            "tipo_de_cargo": "E"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 25
+    }, 
+    {
+        "fields": {
+            "clave": "JUSTIF", 
+            "descripcion": "IMPORTE POR JUSTIFICANTE DE PAGO", 
+            "estatus": "1", 
+            "formula": "", 
+            "importe": 0.0, 
+            "nombre": "JUSTIFICANTE", 
+            "tipo": "I", 
+            "tipo_de_cargo": "E"
+        }, 
+        "model": "catalogo.concepto", 
+        "pk": 26
+    }
+]
