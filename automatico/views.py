@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
-from automatico.models import cron_auto
-from automatico.forms import cron_autoForm
+from automatico.models import cron_auto,recargo_pago
+from automatico.forms import cron_autoForm,recargo_pagoFormset
 from django.contrib import messages
 
 # Create your views here.
@@ -11,11 +11,12 @@ def vista_cron_auto(request,pk=None):
   minuto      = range(1,59)
   hora        = range(1,24)
   dia         = range(1,31)
-  mes         = messes()  
+  mes         = messes()    
   min_select  = []
   hor_select  = []
   dia_select  = []
   mes_select  = []
+
   if pk is not None:
     obj       = cron_auto.objects.get(pk=pk)
     if obj.definicion:
@@ -24,9 +25,8 @@ def vista_cron_auto(request,pk=None):
       hor_select = tmp[1]
       dia_select = tmp[2]
       mes_select = tmp[3]
-
+  form_set    =  recargo_pagoFormset(request.POST or None,instance=obj)
   form        = form_class(request.POST or None,instance=obj)
-
   if request.POST and form.is_valid():
     minuto_tmp    = request.POST.getlist('minuto')
     hora_tmp      = request.POST.getlist('hora')
@@ -43,10 +43,14 @@ def vista_cron_auto(request,pk=None):
     obj           = form.save(commit=False)
     obj.definicion = str(','.join(map(str, minuto_tmp)))+' '+str(','.join(map(str, hora_tmp)))+' '+str(','.join(map(str, dia_tmp)))+' '+str(','.join(map(str, mes_tmp)))+' *'
     obj.save()
-  
+    form_set    =  recargo_pagoFormset(request.POST or None,instance=obj)
+    if form_set.is_valid():
+      form_set.save()
+    
     messages.success(request,"Se ha Guardado la información con éxito")
-
+    form_set =recargo_pagoFormset(instance=obj)
   parametros  ={
+    'formset' : form_set,
     'form'    : form,
     'minuto'  : minuto,
     'hora'    : hora,

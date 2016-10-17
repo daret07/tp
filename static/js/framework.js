@@ -90,6 +90,15 @@ function showModal(app,modal,extra_params) {
 
 }
 
+Number.prototype.truncateDecimal = function(digits) {
+    var num     = this.toString()
+    var decimal = num.indexOf('.')
+    num = parseFloat(num).toPrecision(decimal+2)
+    var re = new RegExp("(\\d+\\.\\d{" + digits + "})(\\d)"),
+        m = num.match(re);
+    return m ? parseFloat(m[1]) : num;
+};
+
 /**
 Metodo que permite imprimir formatos
 **/

@@ -270,7 +270,7 @@ def vista_estado_cuenta(request,pk=None):
         for i in movimiento_pdf:
           if 'principal' in i.descripcion.lower():
             refere = 'Referencia: '+i.referencia
-            mov = movimiento.objects.filter(alumno=alumno_pdf)
+            mov = movimiento.objects.filter(alumno=alumno_pdf,fecha_registro__month=mes,fecha_registro__year=anio)
             for i in mov:
               if 'mens' in str(i.concepto).lower():
                 total_men += i.monto

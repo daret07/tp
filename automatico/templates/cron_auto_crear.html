@@ -8,68 +8,141 @@
 </style>
 <script type="text/javascript">
   $(document).ready(function(){
-    $('#id_activo').bootstrapSwitch({'onText':'Activo','offText':'Inactivo','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
+    $('#id_activo').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
+    $('#id_hermanos').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
+    $('#id_condiciones').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
     $('#minuto').val([{{min_s}}]);
     $('#hora').val([{{hor_s}}]);
     $('#dia').val([{{dia_s}}]);
     $('#mes').val([{{mes_s}}]);
+    $('#id_concepto').combobox();
+    $('#id_cron').combobox();
+
+    $('input[name="condiciones"]').on('switchChange.bootstrapSwitch', function(event, state) {
+        if(state==true){
+          $('#condiciones').show()
+          $('#input_id_concepto').prop('readonly',true);
+        }
+        if(state==false){
+          $('#condiciones').hide();
+          $('#input_id_concepto').prop('readonly',false);
+        }
+    });
   });
 </script>
 {% endblock %}
 {% block contenido %}
 <form method="post" enctype="multipart/form-data" action="">
   {% csrf_token %}
-  <div class="box box-danger">
-    <h3 class='box-title'>Automaticos</h3>
+<div class="row">
+  <div class="col-md-6">
+    <div class="box box-danger">
+      <h3 class='box-title'>Porgramar Automaticos</h3>
       <div class='box-body'>
-      <div class="row">
-      <div class="col-md-1">
-        {{form.activo}}
+        <div class="row">
+          <div class="col-md-3">
+            <select multiple size="15" name="minuto" style="width:80%;" id='minuto'>
+            <optgroup label = "Minuto">
+              {%for i in minuto%}
+                <option value="{{i}}">{{i}}</option>
+              {%endfor%}
+            </optgroup>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <select multiple size="15" name="hora" style="width:80%;" id='hora'>
+              <optgroup label = "Hora">
+                {%for i in hora%}
+                  <option value="{{i}}">{{i}}</option>
+                {%endfor%}
+              </optgroup>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <select multiple size="15" name="dia" style="width:80%;" id='dia'>
+              <optgroup label = "Dia">
+              {%for i in dia%}
+                <option value="{{i}}">{{i}}</option>
+              {%endfor%}
+              </optgroup>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <select multiple size="15" name="mes" style="width:120%;" id='mes'>
+                <optgroup label = "mes">
+                {%for i in mes%}
+                <option value="{{i.0}}">{{i.1}}</option>
+                {%endfor%}
+              </optgroup>
+            </select>
+          </div>
+        </div>
       </div>
-      <div class="col-md-1">
-      Tipo:
-      </div>
-      <div class="col-md-2">
-        {{form.cron}}
-      </div>
-      <div class="col-md-1">
-        <select multiple size="15" name="minuto" style="width:80%;" id='minuto'>
-        <optgroup label = "Minuto">
-          {%for i in minuto%}
-            <option value="{{i}}">{{i}}</option>
-          {%endfor%}
-        </optgroup>
-        </select>
-      </div>
-      <div class="col-md-1">
-        <select multiple size="15" name="hora" style="width:80%;" id='hora'>
-        <optgroup label = "Hora">
-          {%for i in hora%}
-            <option value="{{i}}">{{i}}</option>
-          {%endfor%}
-        </optgroup>
-        </select>
-      </div>
-      <div class="col-md-1">
-        <select multiple size="15" name="dia" style="width:80%;" id='dia'>
-        <optgroup label = "Dia">
-          {%for i in dia%}
-            <option value="{{i}}">{{i}}</option>
-          {%endfor%}
-        </optgroup>
-        </select>
-      </div>
-    <div class="col-md-1">
-        <select multiple size="15" name="mes" style="width:120%;" id='mes'>
-        <optgroup label = "mes">
-          {%for i in mes%}
-            <option value="{{i.0}}">{{i.1}}</option>
-          {%endfor%}
-        </optgroup>
-        </select>
-      </div>
-    </div>
     </div>
   </div>
+  <div class="col-md-6">
+    <div class="box box-danger">
+      <h3 class='box-title'>Conceptos</h3>
+      <div class='box-body'>
+        <div class="row">
+          <div class="col-md-3">Activo</div>
+          <div class="col-md-3">{{form.activo}}</div>
+          <div class="col-md-3">Tomar en Cuenta Hermanos</div>
+          <div class="col-md-3">{{form.hermanos}}</div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">Que Tipo de Concepto:</div>
+          <div class="col-md-9">{{form.concepto}}</div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">Aplicara Condiciones<br/>(Se Usa para recargos) </div>
+          <div class="col-md-9">{{form.condiciones}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" id="condiciones" {%if form.condiciones%} {% else %}hidden{% endif %}>
+  <div class="col-md-12">
+      <div class="box box-danger">
+        <h3 class='box-title'>Recargos</h3>
+        <div class='box-body'>
+        <div class="row">
+          <div class="col-md-3">Aplicara Recargos</div>
+          <div class="col-md-9">{{form.recargos}}</div>
+        </div>
+          <div class="row">
+            <div id="condicion">
+              {{formset.management_form}}
+                <table class='table table-condensed'>
+                  <thead>
+                    <tr>
+                      <th>Activo</th>
+                      <th>Si Debe</th>
+                      <th>Concepto que se debe</th>
+                      <th>Se aplicara</th>
+                      <th>Eliminar</th>
+                    </tr>
+                  </thead>
+                <tbody>
+                  {%for i in formset%}
+                  {{i.id}}
+                      <tr class="dynamic-form" >
+                        <td>{{i.activo}}</td>
+                        <td>{{i.cantidad_debe}}</td>
+                        <td>{{i.concepto}}</td>
+                        <td>{{i.aplica}}</td>
+                        <td>{{i.DELETE}}</td>
+                      </tr>
+                  {%endfor%}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </form>
 {% endblock %}
