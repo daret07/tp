@@ -17,8 +17,13 @@
 {% endif %}
 <form method='POST' action='' enctype='multipart/form-data'>
   {% csrf_token %}
-  <p style='height:200px;'></p>
+  <p style='height:150px;'></p>
     <div style='max-width:450px;padding:30px;margin:0px auto; border-radius: 5px; '>
+    <div class="text-center">
+    <h3>Inicio de Sesión</h3>
+    </div>
+    <hr style="background-color:red; height: 5px;" />
+    <br>
     <div class='row'>
       <div class='col-lg-2'>
          <img src="{% static 'images/fuerzam.png' %}" width="50px;">
@@ -40,8 +45,13 @@
         </div>
       </div>
     </div>
-    <hr />
+    <br/>
     <button class='btn btn-primary pull-right'>Ingresar</button><br />
+    <hr />
+    <div class="text-center">
+    La siguiente aplicación ha sido desarrollada por <a href="http://www.divox.com.mx"><img src="{%static 'images/logo_divox.png'%}" height="25px" /> Divox S.A. de C.V.</a>, y esta optimizada para visualizase con navegador <span class='label label-primary'>Firefox. </span>
+    </div>
   </div>
+
 </form>
 {% endblock %}
