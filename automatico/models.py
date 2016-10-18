@@ -8,7 +8,6 @@ from catalogo.models import concepto
 class cron_auto(models.Model):
   definicion    = models.CharField(max_length=50)
   activo        = models.BooleanField(default=True)
-  hermanos      = models.BooleanField()
   concepto      = models.ForeignKey('catalogo.concepto',blank=True,null=True,on_delete=models.SET_NULL)
   condiciones   = models.BooleanField()
 
