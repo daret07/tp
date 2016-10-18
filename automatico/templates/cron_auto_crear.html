@@ -8,6 +8,21 @@
 </style>
 <script type="text/javascript">
   $(document).ready(function(){
+    {%if obj%}
+      {%if obj.condiciones == True%}
+        $('#principal').hide();
+        $('#secundario').show();
+        $('#condiciones').show()
+      {%else%}
+        $('#principal').show();
+        $('#secundario').hide();
+        $('#condiciones').hide()
+      {%endif%}
+    {%elif not obj%}
+        $('#condiciones').hide()
+        $('#principal').show();
+        $('#secundario').hide();
+    {%endif%}
     $('#id_activo').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
     $('#id_hermanos').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
     $('#id_condiciones').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
@@ -21,13 +36,19 @@
     $('input[name="condiciones"]').on('switchChange.bootstrapSwitch', function(event, state) {
         if(state==true){
           $('#condiciones').show()
-          $('#input_id_concepto').prop('readonly',true);
+          $('#principal').hide();
+          $('#secundario').show();
         }
         if(state==false){
           $('#condiciones').hide();
-          $('#input_id_concepto').prop('readonly',false);
+          $('#principal').show();
+          $('#secundario').hide();
         }
     });
+
+    $('#agregar').on('click',function(){
+      addForm('','#recargo','recargo_set');
+    })
   });
 </script>
 {% endblock %}
@@ -92,7 +113,8 @@
         </div>
         <div class="row">
           <div class="col-md-3">Que Tipo de Concepto:</div>
-          <div class="col-md-9">{{form.concepto}}</div>
+          <div class="col-md-9" id='principal'>{{form.concepto}}</div>
+          <div class="col-md-9" id='secundario' hidden><input type="text" name="" class="form-control" readonly="readonly"></div>
         </div>
         <div class="row">
           <div class="col-md-3">Aplicara Condiciones<br/>(Se Usa para recargos) </div>
@@ -102,17 +124,17 @@
     </div>
   </div>
 </div>
-<div class="row" id="condiciones" {%if form.condiciones%} {% else %}hidden{% endif %}>
+<div class="row" >
   <div class="col-md-12">
       <div class="box box-danger">
         <h3 class='box-title'>Recargos</h3>
-        <div class='box-body'>
+        <div class='box-body' id="condiciones" {%if form.condiciones%} {% else %}hidden{% endif %}>
         <div class="row">
-          <div class="col-md-3">Aplicara Recargos</div>
+          <div class="col-md-3">Aplicara Recargos <i class="btn btn-primary fa fa-plus" id='agregar' name=""></i></div>
           <div class="col-md-9">{{form.recargos}}</div>
         </div>
           <div class="row">
-            <div id="condicion">
+            <div id="recargo">
               {{formset.management_form}}
                 <table class='table table-condensed'>
                   <thead>
@@ -143,6 +165,5 @@
       </div>
     </div>
   </div>
-</div>
 </form>
 {% endblock %}
