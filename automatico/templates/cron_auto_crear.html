@@ -8,47 +8,29 @@
 </style>
 <script type="text/javascript">
   $(document).ready(function(){
-    {%if obj%}
-      {%if obj.condiciones == True%}
-        $('#principal').hide();
-        $('#secundario').show();
-        $('#condiciones').show()
-      {%else%}
-        $('#principal').show();
-        $('#secundario').hide();
-        $('#condiciones').hide()
-      {%endif%}
-    {%elif not obj%}
-        $('#condiciones').hide()
-        $('#principal').show();
-        $('#secundario').hide();
+    {%if not obj%}
+    $('#id_tipo').val({{obj.tipo}});
     {%endif%}
     $('#id_activo').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
     $('#id_hermanos').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
-    $('#id_condiciones').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
     $('#minuto').val([{{min_s}}]);
     $('#hora').val([{{hor_s}}]);
     $('#dia').val([{{dia_s}}]);
     $('#mes').val([{{mes_s}}]);
     $('#id_concepto').combobox();
     $('#id_cron').combobox();
-
-    $('input[name="condiciones"]').on('switchChange.bootstrapSwitch', function(event, state) {
-        if(state==true){
-          $('#condiciones').show()
-          $('#principal').hide();
-          $('#secundario').show();
-        }
-        if(state==false){
-          $('#condiciones').hide();
-          $('#principal').show();
-          $('#secundario').hide();
-        }
-    });
-
     $('#agregar').on('click',function(){
       addForm('','#recargo','recargo_set');
+    });
+    $('#agregar_m').on('click',function(){
+      addForm('','#mensual','pronto_pago_set');
     })
+    $('#mens').on('click',function(){
+      $('#id_tipo').val('1');
+    });
+    $('#rec').on('click',function(){
+      $('#id_tipo').val('2');
+    });
   });
 </script>
 {% endblock %}
@@ -110,13 +92,19 @@
           <div class="col-md-3">{{form.activo}}</div>
         </div>
         <div class="row">
-          <div class="col-md-3">Que Tipo de Concepto:</div>
-          <div class="col-md-9" id='principal'>{{form.concepto}}</div>
-          <div class="col-md-9" id='secundario' hidden><input type="text" name="" class="form-control" readonly="readonly"></div>
-        </div>
-        <div class="row">
-          <div class="col-md-3">Aplicara Condiciones<br/>(Se Usa para recargos) </div>
-          <div class="col-md-9">{{form.condiciones}}</div>
+          <div class="col-md-3">Tipo de automatico</div>
+          <div class="col-md-9">
+          <ul class="nav nav-tabs">
+          {%if not obj.tipo%}
+              <li class="active"><a data-toggle="tab" href="#mensual" id='mens'>Mensual</a></li>
+              <li><a data-toggle="tab" href="#recargo_tab" id='rec'>Recargos</a></li>
+              <li>Solo Puede seleccionar alguna de los dos tipos de automaticos</li>
+          {%else%}
+              <li>Ya fue seleccionado {%if obj.tipo == '1'%}Mensualidad{%elif obj.tipo == '2'%}Recargos{%endif%} al momento de darse de alta </li>
+          {%endif%}
+          </ul>
+          <div hidden>{{form.tipo}}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -124,44 +112,89 @@
 </div>
 <div class="row" >
   <div class="col-md-12">
-      <div class="box box-danger">
-        <h3 class='box-title'>Recargos</h3>
-        <div class='box-body' id="condiciones" {%if form.condiciones%} {% else %}hidden{% endif %}>
-        <div class="row">
-          <div class="col-md-3">Aplicara Recargos <i class="btn btn-primary fa fa-plus" id='agregar' name=""></i></div>
-          <div class="col-md-9">{{form.recargos}}</div>
-        </div>
-          <div class="row">
-            <div id="recargo">
-              {{formset.management_form}}
-                <table class='table table-condensed'>
-                  <thead>
-                    <tr>
-                      <th>Activo</th>
-                      <th>Si Debe</th>
-                      <th>Concepto que se debe</th>
-                      <th>Se aplicara</th>
-                      <th>Eliminar</th>
-                    </tr>
-                  </thead>
-                <tbody>
-                  {%for i in formset%}
-                  {{i.id}}
-                      <tr class="dynamic-form" >
-                        <td>{{i.activo}}</td>
-                        <td>{{i.cantidad_debe}}</td>
-                        <td>{{i.concepto}}</td>
-                        <td>{{i.aplica}}</td>
-                        <td>{{i.DELETE}}</td>
-                      </tr>
-                  {%endfor%}
-                </tbody>
-              </table>
+    <div class="box box-danger">
+      <div class="tab-content">
+
+         <div id="mensual" class="tab-pane fade in active">
+            <h3 class='box-title'>Ajustes a mensualidad</h3>
+            <div class='box-body'>
+            <div class="row">
+              <div class="col-md-3"><i class="btn btn-primary fa fa-plus" id='agregar_m' name=""></i></div>
+              <div class="col-md-9">{{form.recargos}}</div>
+            </div>
+              <div class="row">
+                <div id="mensual">
+                  {{prontose.management_form}}
+                    <table class='table table-condensed'>
+                      <thead>
+                        <tr>
+                          <th>Activo</th>
+                          <th style="width: 10%">Del Dia:</th>
+                          <th style="width: 10%">Al Dia:</th>
+                          <th>Se aplica:</th>
+                          <th>Eliminar</th>
+                        </tr>
+                      </thead>
+                    <tbody>
+                      {%for i in prontose%}
+                      {{i.id}}
+                          <tr class="dynamic-form" >
+                            <td>{{i.activo}}</td>
+                            <td>{{i.dia_i}}</td>
+                            <td>{{i.dia_f}}</td>
+                            <td>{{i.beca}}</td>
+                            <td>{{i.DELETE}}</td>
+                          </tr>
+                      {%endfor%}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+         </div>
+
+
+
+         <div id="recargo_tab" class="tab-pane fade ">
+            <h3 class='box-title'>Recargos</h3>
+            <div class='box-body'>
+            <div class="row">
+              <div class="col-md-3">Aplicara Recargos <i class="btn btn-primary fa fa-plus" id='agregar' name=""></i></div>
+              <div class="col-md-9">{{form.recargos}}</div>
+            </div>
+              <div class="row">
+                <div id="recargo">
+                  {{formset.management_form}}
+                    <table class='table table-condensed'>
+                      <thead>
+                        <tr>
+                          <th>Activo</th>
+                          <th>Si Debe</th>
+                          <th>Concepto que se debe</th>
+                          <th>Se aplicara</th>
+                          <th>Eliminar</th>
+                        </tr>
+                      </thead>
+                    <tbody>
+                      {%for i in formset%}
+                      {{i.id}}
+                          <tr class="dynamic-form" >
+                            <td>{{i.activo}}</td>
+                            <td>{{i.cantidad_debe}}</td>
+                            <td>{{i.concepto}}</td>
+                            <td>{{i.aplica}}</td>
+                            <td>{{i.DELETE}}</td>
+                          </tr>
+                      {%endfor%}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
       </div>
     </div>
+  </div>
   </div>
 </form>
 {% endblock %}
