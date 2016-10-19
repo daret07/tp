@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from django.core.validators import MaxValueValidator
 from django.db import models
 from datetime import datetime 
+from django.utils import timezone
 
 # Create your views here.
 
@@ -82,7 +83,7 @@ alumno_rama=(
 )
 class alumno(models.Model):
   id                  = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
-  fecha_de_ingreso    = models.DateField(auto_now=False,default=datetime.now())
+  fecha_de_ingreso    = models.DateField(auto_now=False,default=timezone.now)
   nombre              = models.CharField(max_length=50)
   paterno             = models.CharField(max_length=50)
   materno             = models.CharField(max_length=50)

@@ -18,16 +18,16 @@ def vista_concepto(request,pk=None):
     obj = form.save(commit=False)
     operario = 0
     if len(obj.formula)>0:
-      if len(a.split('*',2))>1:
+      if len(obj.formula.split('*',2))>1:
         clave_tmp = obj.formula.split('*',2)
         operario  = 1
-      elif len(a.split('+',2))>1:
+      elif len(obj.formula.split('+',2))>1:
         clave_tmp = obj.formula.split('+',2)
         operario  = 2
-      elif len(a.split('-',2))>1:
+      elif len(obj.formula.split('-',2))>1:
         clave_tmp = obj.formula.split('-',2)
         operario  = 3
-      elif len(a.split('/',2))>1:
+      elif len(obj.formula.split('/',2))>1:
         clave_tmp = obj.formula.split('/',2)
         operario  = 4
 
