@@ -115,7 +115,7 @@
     <div class="box box-danger">
       <div class="tab-content">
 
-         <div id="mensual" class="tab-pane fade in active">
+         <div id="mensual" class="tab-pane fade {%if obj.tipo == '1' or obj == None%} in active {%endif%} ">
             <h3 class='box-title'>Ajustes a mensualidad</h3>
             <div class='box-body'>
             <div class="row">
@@ -129,8 +129,6 @@
                       <thead>
                         <tr>
                           <th>Activo</th>
-                          <th style="width: 10%">Del Dia:</th>
-                          <th style="width: 10%">Al Dia:</th>
                           <th>Se aplica:</th>
                           <th>Eliminar</th>
                         </tr>
@@ -140,8 +138,6 @@
                       {{i.id}}
                           <tr class="dynamic-form" >
                             <td>{{i.activo}}</td>
-                            <td>{{i.dia_i}}</td>
-                            <td>{{i.dia_f}}</td>
                             <td>{{i.beca}}</td>
                             <td>{{i.DELETE}}</td>
                           </tr>
@@ -155,7 +151,7 @@
 
 
 
-         <div id="recargo_tab" class="tab-pane fade ">
+         <div id="recargo_tab" class="tab-pane fade {%if obj.tipo == '2'%} in active {%endif%} ">
             <h3 class='box-title'>Recargos</h3>
             <div class='box-body'>
             <div class="row">
@@ -171,6 +167,7 @@
                           <th>Activo</th>
                           <th>Si Debe</th>
                           <th>Concepto que se debe</th>
+                          <th style="width: 10%">Diferencia Permitida( + , - ) </th>
                           <th>Se aplicara</th>
                           <th>Eliminar</th>
                         </tr>
@@ -182,6 +179,7 @@
                             <td>{{i.activo}}</td>
                             <td>{{i.cantidad_debe}}</td>
                             <td>{{i.concepto}}</td>
+                            <td>{{i.diferencia}}</td>
                             <td>{{i.aplica}}</td>
                             <td>{{i.DELETE}}</td>
                           </tr>
