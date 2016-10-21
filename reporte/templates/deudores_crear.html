@@ -21,6 +21,7 @@
               <th>Matricula</th>
               <th>Alumno</th>
               <th>Fecha de Nacimiento</th>
+              <th>Estado</th>
               <th>Total</th>
             </tr>
           </thead>
@@ -32,6 +33,7 @@
               <a href="{%url 'editar' 'inscripcion' 'inscripcion' i.0.pk %}" data-app='inscripcion' data-modelo='inscripcion' data-pk='{{i.0.pk}}' class='acceso_edita' >{{i.0.nombre}} {{i.0.paterno}} {{i.0.materno}}</a>
               </td>
               <td>{{i.0.fecha_de_nacimiento|date:"d/m/Y"}}</td>
+              <td>{% if i.0.estatus%}<i class="fa fa-check-circle"></i>{%else%}<i class="fa fa-times-circle"></i>{%endif%}</td>
               <td>$ {{i.1}}</td>
             </tr>
             {%endfor%}

@@ -20,11 +20,11 @@
     $('#id_concepto').combobox();
     $('#id_cron').combobox();
     $('#agregar').on('click',function(){
-      addForm('','#recargo','recargo_set');
+      addForm('','#recargo_inline','recargo_pago_set');
     });
     $('#agregar_m').on('click',function(){
       addForm('','#mensual','pronto_pago_set');
-    })
+    });
     $('#mens').on('click',function(){
       $('#id_tipo').val('1');
     });
@@ -149,8 +149,6 @@
             </div>
          </div>
 
-
-
          <div id="recargo_tab" class="tab-pane fade {%if obj.tipo == '2'%} in active {%endif%} ">
             <h3 class='box-title'>Recargos</h3>
             <div class='box-body'>
@@ -159,7 +157,7 @@
               <div class="col-md-9">{{form.recargos}}</div>
             </div>
               <div class="row">
-                <div id="recargo">
+                <div id="recargo_inline">
                   {{formset.management_form}}
                     <table class='table table-condensed'>
                       <thead>
@@ -167,7 +165,7 @@
                           <th>Activo</th>
                           <th>Si Debe</th>
                           <th>Concepto que se debe</th>
-                          <th style="width: 10%">Diferencia Permitida( + , - ) </th>
+                          <th style="width: 10%">Diferencia Permitida</th>
                           <th>Se aplicara</th>
                           <th>Eliminar</th>
                         </tr>

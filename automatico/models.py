@@ -11,7 +11,7 @@ tip=(
   )
 
 class cron_auto(models.Model):
-  definicion    = models.CharField(max_length=50)
+  definicion    = models.CharField(max_length=550)
   activo        = models.BooleanField(default=True)
   tipo          = models.CharField(max_length=10,choices=tip,default='1')
 

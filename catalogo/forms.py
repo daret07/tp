@@ -68,5 +68,6 @@ descuentoFormset = forms.inlineformset_factory(
         'tipo_descuento':forms.Select(attrs={'class':'form-control'}),
         'monto':forms.TextInput(attrs={'class':'form-control decimal'}),
         'concepto': forms.Select(attrs={'class':'form-control concepto_auto'}),
+        'descripcion':forms.TextInput(attrs={'class':'form-control'}),
         }
     )

@@ -124,3 +124,4 @@ class descuento(models.Model):
   monto               = models.IntegerField()
   activo              = models.BooleanField(default=True)
   concepto            = models.ForeignKey('catalogo.concepto')
+  descripcion         = models.CharField(max_length=125)

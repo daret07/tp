@@ -22,10 +22,16 @@ class categoriaAdmin(CustomModelAdmin):
 	search_fields=('nombre','cupo_maximo',)
 
 class alumnoAdmin(CustomModelAdmin):
-	list_display=('nombre','paterno','materno','matricula','ciclo_escolar','padre','emergencia')
+	list_display=('nombre','paterno','materno','matricula','ciclo_escolar','padre','emergencia','estado')
 	list_display_links=('nombre',)
 	list_filter=('nombre',)
 	search_fields=('nombre','cupo_maximo',)
+
+	def estado(self,obj):
+		if obj.estatus == True:
+			return 'ALTA'
+		elif  obj.estatus == False:
+			return 'BAJA'
 
 class personaAdmin(CustomModelAdmin):
 	list_display=('nombre',)
