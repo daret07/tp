@@ -10,22 +10,32 @@
 {% block boton_titulo %}
 {% endblock %}
 {% block contenido %}
+
   <div class="row">
     <div class="col-md-12">
       <div class="box box-danger">
-        <h3 class='box-title '>Relación de alumnos con Adeudos </h3>
+        <h3 class='box-title '>
+        <div class='row'>
+        <div class="col-md-6">Relación de alumnos con Adeudos </div>
+        <div class="col-md-6"> 
+            <div class="form-group has-feedback">
+              <input type="text" class="form-control busqueda" id="search" placeholder="Buscador"  data-zone="#detalle tr" data-option="#id_clase #id_subclase"/>
+              <i class="fa fa-search form-control-feedback"></i>
+            </div>
+        </div>
+      </h3>
         <div class='box-body'>
         <table class="table">
           <thead>
             <tr>
-              <th>Matricula</th>
-              <th>Alumno</th>
-              <th>Fecha de Nacimiento</th>
-              <th>Estado</th>
-              <th>Total</th>
+              <th class="th_sort">Matricula</th>
+              <th class="th_sort">Alumno</th>
+              <th class="th_sort">Fecha de Nacimiento</th>
+              <th class="th_sort">Estado</th>
+              <th class="th_sort">Total</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id='detalle'>
             {%for i in saldo%}
             <tr>
               <td>{{i.0.matricula}}</td>
@@ -33,7 +43,7 @@
               <a href="{%url 'editar' 'inscripcion' 'inscripcion' i.0.pk %}" data-app='inscripcion' data-modelo='inscripcion' data-pk='{{i.0.pk}}' class='acceso_edita' >{{i.0.nombre}} {{i.0.paterno}} {{i.0.materno}}</a>
               </td>
               <td>{{i.0.fecha_de_nacimiento|date:"d/m/Y"}}</td>
-              <td>{% if i.0.estatus%}<i class="fa fa-check-circle"></i>{%else%}<i class="fa fa-times-circle"></i>{%endif%}</td>
+              <td>{% if i.0.estatus%}<i class="fa fa-check-circle"><div hidden>1</div></i>{%else%}<i class="fa fa-times-circle"><div hidden>0</div></i>{%endif%}</td>
               <td>$ {{i.1}}</td>
             </tr>
             {%endfor%}

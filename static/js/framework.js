@@ -269,40 +269,101 @@ $(document).ready(function() {
     }
   });
 
-  $("body").on("change",".option_search",function(ev) {
-    var e = $.Event('keyup');
-    e.keyCode = 8;
-    $("#search").trigger(e);
-  })
-  $("body").on("keyup",".busqueda",function(ev) {
-    var tabla   = $(this).data('zone');
-    var entrada = $(this).val().trim().split(' ')
-    var options = $(this).data('option')
-    var back    = 0
+$("body").on("change",".option_search",function(ev) {
+  var e = $.Event('keyup');
+  e.keyCode = 8;
+  $("#search").trigger(e);
+})
+$("body").on("keyup",".busqueda",function(ev) {
+  var tabla   = $(this).data('zone');
+  var entrada = $(this).val().trim().split(' ')
+  var options = $(this).data('option')
+  var back    = 0
 
-    if(ev.keyCode == 8){
-      back = 1
+  if(ev.keyCode == 8){
+    back = 1
+  }
+  if( options != undefined ){
+    options = options.split(' ')
+    for(item in options){
+      var campo = options[item]+' option:selected'
+      if($(campo).val() != '' && $(campo).text() != ''){
+        entrada.unshift($(campo).text())
+      }
     }
-    if( options != undefined ){
-      options = options.split(' ')
-      for(item in options){
-        var campo = options[item]+' option:selected'
-        if($(campo).val() != '' && $(campo).text() != ''){
-          entrada.unshift($(campo).text())
+  }
+
+  for(item in entrada){
+    if(item == 0){
+           back = 1
+    }else{
+      back = 0
+    }
+    if(entrada[item] != '' || entrada[0].length == 0){
+       search(entrada[item].toUpperCase(),tabla,back);
+    }
+  }
+
+});
+
+/*
+* para utilizar el ordenador
+** unicamente es necesario colocar una clase th_sort en los TH del head
+*/
+
+
+  $('.th_sort').prepend('<i class="fa fa-sort-amount-desc font-sort"></i>&nbsp;').css('cursor','pointer')
+  var orden = 1
+  $("body").on("click",".th_sort",function (e) {
+    var position = $(this).index()
+    var table    = $(this).parents('table')
+    var field    = $(this)
+
+    function sortTable(){
+      tbody    = table.find('tbody tr:not(:hidden)')
+      var rows = tbody.get();
+
+      rows.sort(function(a, b) {
+
+        if($(a).children('td').eq(position).find('input').length > 0){
+            var A = $(a).children('td').eq(position).find('input').val().toUpperCase();
+            var B = $(b).children('td').eq(position).find('input').val().toUpperCase();
+        }else if($(a).children('td').eq(position).find('select').length > 0){
+            var A = $(a).children('td').eq(position).find('select').val().toUpperCase();
+            var B = $(b).children('td').eq(position).find('select').val().toUpperCase();
+        }else{
+            var A = $(a).children('td').eq(position).text().toUpperCase();
+            var B = $(b).children('td').eq(position).text().toUpperCase();
         }
+
+
+        if (orden == 0){
+            if(A < B) { return -1 }
+            if(A > B) { return 1  }
+            return 0;
+        } else{
+            if(A > B) { return -1 }
+            if(A < B) { return 1  }
+            return 0;
+        }
+
+      });
+
+      $.each(rows, function(index, row) {
+         table.find('tbody').append(row);
+      });
+
+      if(orden == 1){
+        $(".font-sort").removeClass( "fa fa-sort-amount-desc" ).addClass( "fa fa-sort-amount-asc" );
+        orden = 0
+      }else{
+        $(".font-sort").removeClass( "fa fa-sort-amount-asc" ).addClass( "fa fa-sort-amount-desc" );
+        orden = 1
       }
+
     }
 
-    for(item in entrada){
-      if(item == 0){
-             back = 1
-      }else{
-        back = 0
-      }
-      if(entrada[item] != '' || entrada[0].length == 0){
-         search(entrada[item].toUpperCase(),tabla,back);
-      }
-    }
+    sortTable();
 
   });
   
@@ -346,3 +407,4 @@ $.fn.val = function(value) {
     return originalVal.call(this,value);
   }
 };
+
