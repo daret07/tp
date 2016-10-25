@@ -22,6 +22,7 @@
 
   {%if matricula %}
   $('#id_matricula').val('{{matricula}}');
+  $('#id_ant').val('{{ant}}');
   {%endif%}
 
   {%if principal%}
@@ -240,7 +241,8 @@ function comboboxes(){
         <div class='box-body'>
           <div class="row">
             <div class="col-md-4{%if form.matricula.errors%} error {%endif%}">{{form.matricula.label_tag}}</div>
-            <div class="col-md-8">{{form.matricula}}</div>
+            <div class="col-md-2">{{form.ant}}</div>
+            <div class="col-md-6">{{form.matricula}}</div>
           </div>
           <div class="row">
             <div class="col-md-4{%if form.calle.errors%} error {%endif%}">{{form.calle.label_tag}}</div>

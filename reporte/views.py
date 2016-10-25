@@ -209,7 +209,7 @@ def vista_reporte_saldos(request,pk=None):
         elif str(i.concepto.tipo) == 'E':
           suma -= i.monto
           total -= i.monto
-      reporte.append((al.matricula,al.nombre+' '+al.paterno+' '+al.materno, al.fecha_de_nacimiento,suma,al.estatus,al.pk))
+      reporte.append((al.ant+al.matricula.zfill(4) ,al.nombre+' '+al.paterno+' '+al.materno, al.fecha_de_nacimiento,suma,al.estatus,al.pk))
     form = reporte_saldosForm(request.POST or None)
   else:
     form = reporte_saldosForm(initial={'desde':fecha_inicio,'hasta':fecha_fin})
@@ -237,6 +237,7 @@ def vista_deudores(request,pk=None):
       deudores_tmp.append((i['alumno'],suma))
   for i in deudores_tmp:
     alumno_tmp=alm.objects.get(pk=i[0])
+    alumno_tmp.matricula = alumno_tmp.matricula.zfill(4) 
     deudores.append((alumno_tmp,float(i[1])))
   parametros={'saldo':deudores,'total':total}
   return parametros

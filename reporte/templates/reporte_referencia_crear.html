@@ -39,7 +39,7 @@
                 <tr>
                   <td>{{i.referencia}}</td>
                   <td>{{i.descripcion}}</td>
-                  <td><a href="{%url 'editar' 'inscripcion' 'inscripcion' i.pk %}" data-app='inscripcion' data-modelo='inscripcion' data-pk='{{i.0.pk}}' class='acceso_edita' >{{i.alumno.matricula}}</a></td>
+                  <td><a href="{%url 'editar' 'inscripcion' 'inscripcion' i.pk %}" data-app='inscripcion' data-modelo='inscripcion' data-pk='{{i.0.pk}}' class='acceso_edita' >{{i.alumno.ant}}{{i.alumno.matricula}}</a></td>
                   <td>
                   <a href="{%url 'editar' 'inscripcion' 'inscripcion' i.pk %}" data-app='inscripcion' data-modelo='inscripcion' data-pk='{{i.0.pk}}' class='acceso_edita' >{{i.alumno.nombre}} {{i.alumno.paterno}} {{i.alumno.materno}}</a>
                   </td>

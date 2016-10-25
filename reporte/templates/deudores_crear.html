@@ -39,7 +39,7 @@
           <tbody id='detalle'>
             {%for i in saldo%}
             <tr>
-              <td>{{i.0.matricula}}</td>
+              <td>{{i.0.ant}}{{i.0.matricula}}</td>
               <td>
               <a href="{%url 'editar' 'inscripcion' 'inscripcion' i.0.pk %}" data-app='inscripcion' data-modelo='inscripcion' data-pk='{{i.0.pk}}' class='acceso_edita' >{{i.0.nombre}} {{i.0.paterno}} {{i.0.materno}}</a>
               </td>

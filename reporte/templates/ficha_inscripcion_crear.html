@@ -66,7 +66,7 @@
                   <td>{{i.ciclo}}</td>
                   <td>
                     <a href="{%url 'editar' 'inscripcion' 'inscripcion' i.pk %}" data-app='inscripcion' data-modelo='inscripcion' data-pk='{{i.alumno.pk}}' class='acceso_edita' >
-                      {{i.alumno_matricula}}
+                      {{i.alumno.ant}}{{i.alumno_matricula}}
                     </a>
                   </td>
                   <td>{{i.alumno_fecha_de_nacimiento}}</td>

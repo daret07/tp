@@ -140,10 +140,12 @@ def vista_alumno(request,pk=None):
   matricula = ''
   ref_p = False
   ref_u = False
+  ant = str(time.strftime("%y"))
   if pk is not None:
     obj = alumno.objects.get(pk=pk)
     mat = False
     tmp_ref = referencias.objects.filter(alumno=obj)
+    obj.matricula = obj.matricula.zfill(4)
     if tmp_ref:
       for i in tmp_ref:
         print i.descripcion
@@ -178,22 +180,17 @@ def vista_alumno(request,pk=None):
       tmp_last = 0
     else:
       tmp_last = int(last.pk)
-    matricula = str(time.strftime("%y"))+str(tmp_last+1).zfill(4)
+    matricula = str(tmp_last+1).zfill(4)
 
   conceptos = concepto.objects.all()
   for i in conceptos:
     if 'E' in str(i.tipo):
       cons_pks.append(i.pk)
   descuento_formset.form.base_fields['concepto'].queryset = concepto.objects.filter(pk__in=cons_pks)
-  if pk is None:
-    form.fields['emergencia'].queryset = persona.objects.filter(tipo='emergencia')
-    form.fields['padre'].queryset = persona.objects.filter(tipo='padre')
-  else:
-    form.fields['padre'].queryset = persona.objects.filter(pk=int(obj.padre.pk))
-    form.fields['emergencia'].queryset = persona.objects.filter(pk=int(obj.emergencia.pk))
 
   form.fields['ciclo_escolar'].queryset = ciclo_escolar.objects.filter(activo=True)
   parametros={
+    'ant'       : ant,
     'form'      : form,
     'form_req'  : referencia_formset,
     'form_desc' : descuento_formset,

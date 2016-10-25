@@ -34,6 +34,8 @@ class alumnoForm(CustomModelForm):
     super(alumnoForm,self).__init__(*args,**kwargs)
     if self.fields['matricula'].widget.attrs.has_key('class'):
       self.fields['matricula'].widget.attrs.update({'class' : 'form-control decimal','readonly':'readonly'})
+    if self.fields['ant'].widget.attrs.has_key('class'):
+      self.fields['ant'].widget.attrs.update({'class' : 'form-control decimal','readonly':'readonly'})
     if self.fields['fecha_de_ingreso'].widget.attrs.has_key('class'):
       self.fields['fecha_de_ingreso'].widget.attrs.update({'class' : 'form-control ','readonly':'readonly'})
   class Meta:

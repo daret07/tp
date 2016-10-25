@@ -22,7 +22,7 @@ class movimientoAdmin(CustomModelAdmin):
       alumno_return = alumno.matricula
     except:
       alumno_return='No asociado'
-    return alumno_return
+    return alumno.ant+alumno_return
   
   def descripcion(self,obj):
     desc_tmp = obj.referencia

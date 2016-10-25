@@ -105,6 +105,7 @@ class alumno(models.Model):
   entidad_federativa  = models.CharField(max_length=50)
   estatus             = models.BooleanField(default=True)
   ciclo_escolar       = models.ForeignKey('catalogo.ciclo_escolar',blank=True,null=True,on_delete=models.SET_NULL)
+  ant                 = models.CharField(max_length=10)
   def __unicode__(self):
     return self.nombre +' '+ self.paterno +' '+ self.materno
 
