@@ -120,7 +120,7 @@ def vista_categoria(request,pk=None):
     obj.save()
   
     messages.success(request,"Se ha Guardado la información con éxito")
-  
+  form.fields['ciclo_escolar'].queryset = ciclo_escolar.objects.filter(activo=True)
   parametros={
     'form'    : form,
     'custom'  : True,
@@ -191,6 +191,8 @@ def vista_alumno(request,pk=None):
   else:
     form.fields['padre'].queryset = persona.objects.filter(pk=int(obj.padre.pk))
     form.fields['emergencia'].queryset = persona.objects.filter(pk=int(obj.emergencia.pk))
+
+  form.fields['ciclo_escolar'].queryset = ciclo_escolar.objects.filter(activo=True)
   parametros={
     'form'      : form,
     'form_req'  : referencia_formset,
