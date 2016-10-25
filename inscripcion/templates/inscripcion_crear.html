@@ -8,7 +8,6 @@
 </style>
 <script type="text/javascript">
   $(document).ready(function(){
-    $('#id_categoria').prop('disabled',true);
     $('#id_categoria option').hide();
     $('#id_doc_acta').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
     $('#id_doc_fotografias').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
@@ -105,13 +104,15 @@
         'ciclo'  : ciclo,
       } 
       $.ajax({data:params}).done(function(data){
+        if ((data.response.categoria).length > 0){
         $(data.response.categoria).each(function( index,val ) {
             tmp =String(val)
-            console.log(tmp);
             $("#id_categoria option[value="+tmp+"]").show();
           });
+      }else{
+        $("#id_categoria").html('');
+      }
       });
-      $('#id_categoria').prop('disabled',false);
     });
     $('#id_alumno').combobox();
   });

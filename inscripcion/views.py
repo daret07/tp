@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from inscripcion.forms import (inscripcionForm)
 from inscripcion.models import (inscripcion)
-from catalogo.models import alumno,categoria
+from catalogo.models import alumno,categoria,ciclo_escolar
 from django.contrib import messages
 # Create your views here.
 
@@ -34,6 +34,7 @@ def vista_inscripcion(request,pk=None):
 		if len(tmp) <= i.cupo_maximo:
 			tmp_id_ins.append(i.pk)
 		form.fields['categoria'].queryset = categoria.objects.filter(pk__in=tmp_id_ins)
+	form.fields['ciclo'].queryset = ciclo_escolar.objects.filter(activo=True)
 	parametros={
 		'form'    : form,
 		'custom'	:	True,
