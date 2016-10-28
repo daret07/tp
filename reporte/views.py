@@ -227,7 +227,7 @@ def vista_deudores(request,pk=None):
   total = 0
   for i in alumno:
     tmp= i['alumno']
-    movimientos=movimiento.objects.filter(alumno=tmp)
+    movimientos=movimiento.objects.filter(alumno=tmp).prefetch_related('concepto')
     suma = 0
     for a in movimientos:
       if str(a.concepto.tipo) == 'I':
