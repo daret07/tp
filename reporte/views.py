@@ -169,7 +169,7 @@ def vista_ficha_inscripcion(request,pk=None):
   return parametros
 
 def vista_reporte_referencia(request,pk=None):
-  refe = ref.objects.all()
+  refe = ref.objects.all().prefetch_related('alumno')
   referes=[]
   for i in refe:
     referes.append((i.pk,i.referencia,i.descripcion,str(i.alumno.ant)+str(i.alumno.matricula),i.alumno.nombre+' '+i.alumno.paterno+' '+i.alumno.materno,i.alumno.fecha_de_nacimiento,i.alumno.estatus))
