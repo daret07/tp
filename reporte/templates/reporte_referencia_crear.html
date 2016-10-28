@@ -37,14 +37,14 @@
             <tbody id='detalle'>
               {%for i in referencias%}
                 <tr>
-                  <td>{{i.referencia}}</td>
-                  <td>{{i.descripcion}}</td>
-                  <td><a href="{%url 'editar' 'inscripcion' 'inscripcion' i.pk %}" data-app='inscripcion' data-modelo='inscripcion' data-pk='{{i.0.pk}}' class='acceso_edita' >{{i.alumno.ant}}{{i.alumno.matricula}}</a></td>
+                  <td>{{i.1}}</td>
+                  <td>{{i.2}}</td>
+                  <td><a href="{%url 'editar' 'inscripcion' 'inscripcion' i.0 %}" data-app='inscripcion' data-modelo='inscripcion' class='acceso_edita' >{{i.3}}</a></td>
                   <td>
-                  <a href="{%url 'editar' 'inscripcion' 'inscripcion' i.pk %}" data-app='inscripcion' data-modelo='inscripcion' data-pk='{{i.0.pk}}' class='acceso_edita' >{{i.alumno.nombre}} {{i.alumno.paterno}} {{i.alumno.materno}}</a>
+                  <a href="{%url 'editar' 'inscripcion' 'inscripcion' i.0 %}" data-app='inscripcion' data-modelo='inscripcion' class='acceso_edita' >{{i.4}}</a>
                   </td>
-                  <td>{{i.alumno.fecha_de_nacimiento|date:"d/m/Y"}}</td>
-                  <td>{%if i.alumno.estatus %}ALTA{%else%}BAJA{%endif%}</td>
+                  <td>{{i.5|date:"d/m/Y"}}</td>
+                  <td>{%if i.6 %}ALTA{%else%}BAJA{%endif%}</td>
                 </tr>
               {%endfor%}
             </tbody>
