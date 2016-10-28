@@ -241,7 +241,7 @@ def vista_deudores(request,pk=None):
   for i in deudores_tmp:
     alumno_tmp=alm.objects.get(pk=i[0])
     alumno_tmp.matricula = alumno_tmp.matricula.zfill(4) 
-    deudores.append((alumno_tmp,float(i[1])))
+    deudores.append((alumno_tmp.pk,str(alumno_tmp.ant)+str(alumno_tmp.matricula),alumno_tmp.nombre+' '+alumno_tmp.paterno+' '+alumno_tmp.materno,alumno_tmp.fecha_de_nacimiento,alumno_tmp.estatus,float(i[1])))
   parametros={'saldo':deudores,'total':total}
   return parametros
 
