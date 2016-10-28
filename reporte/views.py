@@ -240,7 +240,7 @@ def vista_deudores(request,pk=None):
       deudores_tmp.append((i['alumno'],suma))
   for i in deudores_tmp:
     alumno_tmp=alm.objects.get(pk=i[0])
-    deudores.append((alumno_tmp,float(i[1])),)
+    deudores.append((alumno_tmp,alumno_tmp.pk,float(i[1])),)
   parametros={'saldo':deudores,'total':total}
   return parametros
 
