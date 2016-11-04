@@ -180,9 +180,11 @@ $(document).ready(function() {
     {% block action_menu_right %}{% endblock %}
   </div>
   <div class='col-lg-5'>
+    {% block search_js %}
     <div class='pull-right'>
       {% search_form cl %}
-    </div>
+      </div>
+    {% endblock %}
   </div>
 </div>
 {% endblock %}

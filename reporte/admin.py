@@ -11,7 +11,6 @@ class movimientoAdmin(CustomModelAdmin):
   list_display=('campo_fecha_registro','folio','matricula','alumno','referencia','descripcion','ciclo','concepto','campo_monto')
   list_display_links=('alumno','referencia',)
   list_filter=('alumno','referencia',)
-  search_fields=('alumno','pk',)
   date_hierarchy='fecha_registro'
   
 

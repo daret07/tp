@@ -8,7 +8,17 @@
 </script>
 {%endblock%}
 {% block action_menu_left %}
-{{ block.super }}
+{{ block.super }} 
+{% endblock %}
+{% block search_js %}
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-group has-feedback">
+        <input type="text" class="form-control busqueda" id="search" placeholder="Buscador"  data-zone="#result_list tr" data-option="#id_clase #id_subclase"/>
+        <i class="fa fa-search form-control-feedback"></i>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 {% block content_bottom %} 
   <div class="row">
