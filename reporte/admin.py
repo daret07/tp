@@ -16,26 +16,14 @@ class movimientoAdmin(CustomModelAdmin):
   
 
   def matricula(self,obj):
-    alumno_tmp = obj.alumno
-    alumno_return = ''
-    try:
-      alumno = alm.objects.get(pk=alumno_tmp.pk)
-      alumno_return = alumno.matricula
-    except:
-      alumno_return='No asociado'
-    return alumno.ant+alumno_return
+    return obj.alumno.ant+obj.alumno.matricula
   
   def descripcion(self,obj):
-    desc_tmp = obj.referencia
-    descrip  = None
-    if desc_tmp:
-      tmp = referencias.objects.get(referencia=int(desc_tmp))
-      descrip =  tmp.descripcion
-    elif obj.descripcion:
-      descrip = obj.descripcion
+    if obj.referencia.descripcion:
+      return obj.referencia.descripcion
     else:
-      descrip = 'Movimiento Manual'
-    return descrip
+      return 'Movimiento Manual'
+    
 
   def campo_monto(self,obj):
     
