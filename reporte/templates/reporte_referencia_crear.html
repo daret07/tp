@@ -39,9 +39,9 @@
                 <tr>
                   <td>{{i.1}}</td>
                   <td>{{i.2}}</td>
-                  <td><a href="{%url 'editar' 'inscripcion' 'inscripcion' i.0 %}" data-app='inscripcion' data-modelo='inscripcion' class='acceso_edita' >{{i.3}}</a></td>
+                  <td><a href="{%url 'editar' 'catalogo' 'alumno' i.0 %}" data-app='alumno' data-modelo='alumno' class='acceso_edita' >{{i.3}}</a></td>
                   <td>
-                  <a href="{%url 'editar' 'inscripcion' 'inscripcion' i.0 %}" data-app='inscripcion' data-modelo='inscripcion' class='acceso_edita' >{{i.4}}</a>
+                  <a href="{%url 'editar' 'catalogo' 'alumno' i.0 %}" data-app='alumno' data-modelo='alumno' class='acceso_edita' >{{i.4}}</a>
                   </td>
                   <td>{{i.5|date:"d/m/Y"}}</td>
                   <td>{%if i.6 %}ALTA{%else%}BAJA{%endif%}</td>

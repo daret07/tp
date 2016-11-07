@@ -22,7 +22,7 @@
        "modelo": "usuario",
        "padre": 1,
        "icono": "fa fa-user-plus",
-       "permiso": null,
+       "permiso": "usuario.add_usuario",
        "listar": true,
        "nivel": 0,
        "activo": true}
@@ -36,7 +36,7 @@
        "modelo": "perfil",
        "padre": 1,
        "icono": "fa fa-user-plus",
-       "permiso": null,
+       "permiso": "usuario.add_perfil",
        "listar": true,
        "nivel": 0,
        "activo": true}
@@ -64,7 +64,7 @@
        "modelo": "ciclo_escolar",
        "padre": 4,
        "icono": "fa fa-calendar",
-       "permiso": null,
+       "permiso": "catalogo.add_ciclo_escolar",
        "listar": true,
        "nivel": 0,
        "activo": true}
@@ -78,7 +78,7 @@
        "modelo": "concepto",
        "padre": 4,
        "icono": "fa fa-list-alt",
-       "permiso": null,
+       "permiso": "catalogo.add_concepto",
        "listar": true,
        "nivel": 0,
        "activo": true}
@@ -92,7 +92,7 @@
        "modelo": "categoria",
        "padre": 4,
        "icono": "fa fa-th",
-       "permiso": null,
+       "permiso": "catalogo.add_categoria",
        "listar": true,
        "nivel": 0,
        "activo": true}
@@ -106,21 +106,21 @@
        "modelo": "alumno",
        "padre": 4,
        "icono": "fa fa-users",
-       "permiso": null,
+       "permiso": "catalogo.add_alumno",
        "listar": true,
        "nivel": 0,
        "activo": true}
   },
-  {
+    {
     "model": "navegacion.menu",
     "pk": 9,
     "fields": {
-      "nombre": "Inscripciones",
-       "app": "",
-       "modelo": "",
-       "padre": null,
-       "icono": "fa fa-user",
-       "permiso": null,
+      "nombre": "Inscripción",
+       "app": "inscripcion",
+       "modelo": "inscripcion",
+       "padre": 4,
+       "icono": "fa fa-user-plus",
+       "permiso": "inscripcion.add_inscripcion",
        "listar": true,
        "nivel": 0,
        "activo": true}
@@ -128,20 +128,6 @@
     {
     "model": "navegacion.menu",
     "pk": 10,
-    "fields": {
-      "nombre": "Inscripción",
-       "app": "inscripcion",
-       "modelo": "inscripcion",
-       "padre": 9,
-       "icono": "fa fa-user-plus",
-       "permiso": null,
-       "listar": true,
-       "nivel": 0,
-       "activo": true}
-  },
-    {
-    "model": "navegacion.menu",
-    "pk": 11,
     "fields": {
       "nombre": "Reportes",
        "app": "",
@@ -155,15 +141,29 @@
   },
     {
     "model": "navegacion.menu",
-    "pk": 12,
+    "pk": 11,
     "fields": {
       "nombre": "Movimientos",
        "app": "reporte",
        "modelo": "movimiento",
-       "padre": 11,
+       "padre": 10,
        "icono": "fa fa-file",
-       "permiso": null,
+       "permiso": "reporte.add_movimiento",
        "listar": true,
+       "nivel": 0,
+       "activo": true}
+  },
+    {
+    "model": "navegacion.menu",
+    "pk": 12,
+    "fields": {
+      "nombre": "Ficha Inscripcion",
+       "app": "reporte",
+       "modelo": "ficha_inscripcion",
+       "padre": 10,
+       "icono": "fa fa-th",
+       "permiso": "reporte.ficha_inscripcion",
+       "listar": false,
        "nivel": 0,
        "activo": true}
   },
@@ -171,12 +171,12 @@
     "model": "navegacion.menu",
     "pk": 13,
     "fields": {
-      "nombre": "Ficha Inscripcion",
+      "nombre": "Referencias",
        "app": "reporte",
-       "modelo": "ficha_inscripcion",
-       "padre": 11,
-       "icono": "fa fa-th",
-       "permiso": null,
+       "modelo": "reporte_referencia",
+       "padre": 10,
+       "icono": "fa fa-th-large",
+       "permiso": "reporte.reporte_referencia",
        "listar": false,
        "nivel": 0,
        "activo": true}
@@ -185,12 +185,12 @@
     "model": "navegacion.menu",
     "pk": 14,
     "fields": {
-      "nombre": "Referencias",
+      "nombre": "Saldos",
        "app": "reporte",
-       "modelo": "reporte_referencia",
-       "padre": 11,
-       "icono": "fa fa-th-large",
-       "permiso": null,
+       "modelo": "reporte_saldos",
+       "padre": 10,
+       "icono": "fa fa-dollar",
+       "permiso": "reporte.reporte_saldos",
        "listar": false,
        "nivel": 0,
        "activo": true}
@@ -199,12 +199,12 @@
     "model": "navegacion.menu",
     "pk": 15,
     "fields": {
-      "nombre": "Saldos",
+      "nombre": "Deudores",
        "app": "reporte",
-       "modelo": "reporte_saldos",
-       "padre": 11,
-       "icono": "fa fa-dollar",
-       "permiso": null,
+       "modelo": "deudores",
+       "padre": 10,
+       "icono": "fa fa-gg",
+       "permiso": "reporte.deudores",
        "listar": false,
        "nivel": 0,
        "activo": true}
@@ -213,27 +213,27 @@
     "model": "navegacion.menu",
     "pk": 16,
     "fields": {
-      "nombre": "Deudores",
+      "nombre": "Estado De Cuenta",
        "app": "reporte",
-       "modelo": "deudores",
-       "padre": 11,
-       "icono": "fa fa-gg",
-       "permiso": null,
+       "modelo": "estado_cuenta",
+       "padre": 10,
+       "icono": "fa fa-table",
+       "permiso": "reporte.estado_cuenta",
        "listar": false,
        "nivel": 0,
        "activo": true}
   },
-    {
+  {
     "model": "navegacion.menu",
     "pk": 17,
     "fields": {
-      "nombre": "Estado De Cuenta",
-       "app": "reporte",
-       "modelo": "estado_cuenta",
-       "padre": 11,
-       "icono": "fa fa-table",
-       "permiso": null,
-       "listar": false,
+      "nombre": "Nuevo Automático",
+       "app": "automatico",
+       "modelo": "cron_auto",
+       "padre": 1,
+       "icono": "fa fa-plus",
+       "permiso": "automatico.add_cron_auto",
+       "listar": true,
        "nivel": 0,
        "activo": true}
   },
@@ -241,27 +241,13 @@
     "model": "navegacion.menu",
     "pk": 18,
     "fields": {
-      "nombre": "Automáticos",
-       "app": "automatico",
-       "modelo": "",
-       "padre": null,
-       "icono": "fa fa-bolt",
-       "permiso": null,
-       "listar": false,
-       "nivel": 0,
-       "activo": true}
-  },
-    {
-    "model": "navegacion.menu",
-    "pk": 19,
-    "fields": {
-      "nombre": "Nuevo Automático",
-       "app": "automatico",
-       "modelo": "cron_auto",
-       "padre": 18,
+      "nombre": "Generar",
+       "app": "generar",
+       "modelo": "generar",
+       "padre": 17,
        "icono": "fa fa-plus",
-       "permiso": null,
-       "listar": true,
+       "permiso": "generar.add_generar",
+       "listar": false,
        "nivel": 0,
        "activo": true}
   }

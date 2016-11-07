@@ -50,6 +50,7 @@ def login(request):
         
         try:
             user = authenticate(username=username, password=password)
+            user.is_authenticated
         except:
             form.add_error('usuario','Usuario y/o contraseña incorrectos, verifiquelo e intente nuevamente.')
             user = None

@@ -6,6 +6,7 @@ from django.contrib import messages
 import xlrd
 from os.path import join, dirname, abspath
 from catalogo.models import concepto,alumno as alm,referencias as ref, ciclo_escolar
+from inscripcion.models import inscripcion
 from reportlab.pdfgen import canvas
 from io import BytesIO
 from django.http import HttpResponse
@@ -97,6 +98,13 @@ def vista_movimiento(request,pk=None):
     if obj.alumno:
       referencia_null = True
 
+  operacion = request.POST.get('form_action',None)
+
+  if operacion == 'SAVE_AND_OTHER':
+    return redirect('crear',app='reporte',modelo='movimiento')
+  elif operacion == 'SAVE':
+    return redirect('listar',app='reporte',modelo='movimiento')
+
   parametros={
     'form'      : form,
     'custom'    : True,
@@ -134,7 +142,6 @@ def descuentos(alumno,monto,concepto):
 
 def vista_ficha_inscripcion(request,pk=None):
   from catalogo.models import ciclo_escolar,categoria
-  from inscripcion.models import inscripcion
   from django.db.models import Q
   ciclo = ciclo_escolar.objects.all()
   categ = categoria.objects.all()
@@ -172,7 +179,7 @@ def vista_reporte_referencia(request,pk=None):
   refe = ref.objects.all().prefetch_related('alumno')
   referes=[]
   for i in refe:
-    referes.append((i.pk,i.referencia,i.descripcion,str(i.alumno.ant)+str(i.alumno.matricula),i.alumno.nombre+' '+i.alumno.paterno+' '+i.alumno.materno,i.alumno.fecha_de_nacimiento,i.alumno.estatus))
+    referes.append((i.alumno.pk,i.referencia,i.descripcion,str(i.alumno.ant)+str(i.alumno.matricula),i.alumno.nombre+' '+i.alumno.paterno+' '+i.alumno.materno,i.alumno.fecha_de_nacimiento,i.alumno.estatus))
   parametros={'referencias':referes}
   return parametros
 
@@ -220,7 +227,6 @@ def vista_reporte_saldos(request,pk=None):
   return parametros
 
 def vista_deudores(request,pk=None):
-  from django.db.models import Count, Sum
   alumno = movimiento.objects.values('alumno').distinct()
   deudores_tmp=[]
   deudores =[]
@@ -360,7 +366,7 @@ def listado_movimiento(request):
   abono      = 0
   cargo      = 0
   diferencia = 0
-  abonos = movimiento.objects.all().prefetch_related('concepto')
+  abonos = movimiento.objects.all()
   for i in abonos:
     if 'I' == str(i.concepto.tipo):
       abono += i.monto

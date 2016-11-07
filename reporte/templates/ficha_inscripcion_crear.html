@@ -5,6 +5,25 @@
     padding: 25px;
   }
 </style>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#id_ciclo').on('change',function(){
+      var params={
+        'app'    : 'reporte',
+        'method' : 'filtro_categoria',
+        'cat'    : $(this).val(),
+      } 
+      $.ajax({data:params}).done(function(data){
+        document.getElementById("id_categoria").selectedIndex = "0";
+        $('#id_categoria option').hide();
+        $(data.response.categorias).each(function( index,val ) {
+            tmp =String(val)
+            $("#id_categoria option[value="+tmp+"]").show();
+          });
+      });
+    });
+  });
+</script>
 {{block.super}}
 {% endblock %}
 {% block boton_titulo %}

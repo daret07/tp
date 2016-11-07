@@ -8,6 +8,12 @@
   color      : red;
 }
 </style>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#id_usuario").data("enter",1) 
+    $("#id_contrasena").data("enter",1) 
+  });
+</script>
 {% endblock %}
 {% block body %}
 {% if form.errors %}

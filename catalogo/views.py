@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from catalogo.forms import (conceptoForm,categoriaForm,alumnoForm,ciclo_escolarForm,personaForm,referenciaFormset,descuentoFormset)
 from catalogo.models import (concepto,categoria,alumno,ciclo_escolar,persona,referencias)
 from django.contrib import messages
@@ -48,6 +48,12 @@ def vista_concepto(request,pk=None):
         messages.error(request,"El concepto ingresado en la formula es incorrecto y/o no existe")    
     obj.save()
     messages.success(request,"Se ha Guardado la información con éxito")
+  
+  operacion = request.POST.get('form_action',None)
+  if operacion == 'SAVE_AND_OTHER':
+    return redirect('crear',app='catalogo',modelo='concepto')
+  elif operacion == 'SAVE':
+    return redirect('listar',app='catalogo',modelo='concepto')
 
   parametros={
     'form'    : form,
@@ -96,12 +102,18 @@ def vista_ciclo_escolar(request,pk=None):
     obj.save()
   
     messages.success(request,"Se ha Guardado la información con éxito")
-  
+
+  operacion = request.POST.get('form_action',None)
+  if operacion == 'SAVE_AND_OTHER':
+    return redirect('crear',app='catalogo',modelo='ciclo_escolar')
+  elif operacion == 'SAVE':
+    return redirect('listar',app='catalogo',modelo='ciclo_escolar')
+
   parametros={
     'form'    : form,
     'custom'  : True,
     'obj'     : obj,  
-    'modulo'  : 'categoria'
+    'modulo'  : 'ciclo_escolar'
   }
   return parametros
 
@@ -121,6 +133,14 @@ def vista_categoria(request,pk=None):
   
     messages.success(request,"Se ha Guardado la información con éxito")
   form.fields['ciclo_escolar'].queryset = ciclo_escolar.objects.filter(activo=True)
+
+
+  operacion = request.POST.get('form_action',None)
+  if operacion == 'SAVE_AND_OTHER':
+    return redirect('crear',app='catalogo',modelo='categoria')
+  elif operacion == 'SAVE':
+    return redirect('listar',app='catalogo',modelo='categoria')
+
   parametros={
     'form'    : form,
     'custom'  : True,
@@ -189,6 +209,16 @@ def vista_alumno(request,pk=None):
   descuento_formset.form.base_fields['concepto'].queryset = concepto.objects.filter(pk__in=cons_pks)
 
   form.fields['ciclo_escolar'].queryset = ciclo_escolar.objects.filter(activo=True)
+
+
+  operacion = request.POST.get('form_action',None)
+  if operacion == 'SAVE_AND_OTHER':
+    return redirect('crear',app='catalogo',modelo='alumno')
+  elif operacion == 'SAVE':
+    return redirect('listar',app='catalogo',modelo='alumno')
+
+
+
   parametros={
     'ant'       : ant,
     'form'      : form,

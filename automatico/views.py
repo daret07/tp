@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from automatico.models import cron_auto,recargo_pago,pronto_pago
 from automatico.forms import cron_autoForm,recargo_pagoFormset,pronto_pagoFormset
 from django.contrib import messages
@@ -62,6 +62,13 @@ def vista_cron_auto(request,pk=None):
       hor_select = tmp[1]
       dia_select = tmp[2]
       mes_select = tmp[3]
+
+  operacion = request.POST.get('form_action',None)
+
+  if operacion == 'SAVE_AND_OTHER':
+    return redirect('crear',app='automatico',modelo='cron_auto')
+  elif operacion == 'SAVE':
+    return redirect('listar',app='automatico',modelo='cron_auto')
   parametros  ={
     'prontose': pronto,
     'formset' : form_set,

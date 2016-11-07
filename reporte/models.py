@@ -16,3 +16,12 @@ class movimiento(models.Model):
   monto                   = models.DecimalField(max_digits=6,decimal_places=2,blank=True,null=True)
   archivo                 = models.FileField(blank=True,null=True)
   descripcion             = models.CharField(max_length=50,blank=True,null=True)
+
+  class Meta:
+    permissions = (
+      ('estado_cuenta','Can add estado_cuenta'),
+      ('ficha_inscripcion','Can add ficha_inscripcion'),
+      ('reporte_referencia','Can add reporte_referencia'),
+      ('reporte_saldos','Can add saldo'),
+      ('deudores','Can add deudores'),
+      )
