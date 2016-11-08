@@ -15,7 +15,7 @@
       $('#id_alumno').combobox();
    
       $('#id_alumno').on('change',function(){
-        $('#body').css('cursor','progress');
+        $('.row').css('cursor','progress');
       var params={
         'app'    : 'reporte',
         'method' : 'estado_cuenta',
@@ -46,7 +46,7 @@
         });
         }
         $('#export').show();
-        $('#body').css('cursor','default');
+        $('.row').css('cursor','default');
       });
     });
   
