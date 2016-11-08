@@ -7,11 +7,46 @@
 </style>
 <script type="text/javascript">
   $(document).ready(function(){
+      var f = (new Date) ;
       var anio = (new Date).getFullYear();
       $('#id_anio').val(anio);
       var mes = new Date().getMonth();
       $('#id_mes').val(mes+1);
       $('#id_alumno').combobox();
+   
+      $('#id_alumno').on('change',function(){
+      var params={
+        'app'    : 'reporte',
+        'method' : 'estado_cuenta',
+        'cuenta' : $(this).val(),
+        'mes'    : $('#id_mes').val(),
+        'anio'   : $('#id_anio').val(),
+      } 
+      $.ajax({data:params}).done(function(data){
+        $('#total').html('');
+        $('#fecha').html('');
+        $('#antes').html('');
+        $('#estado').html('');
+        $('#table').show();
+        $('#total').append('<h4>Total a Pagar: $'+data.response.total+'</h4>');
+        $('#fecha').append('<h4>Fecha de Emision: '+f.getDate() + "/" + (f.getMonth() +1) + "/" + f.getFullYear()+'</h4>');
+        $('#antes').append('<h5>Pagar antes del: '+10+ "/" + (f.getMonth() +1) + "/" + f.getFullYear()+'</h5>');
+        $('#antes').append('<h6>(para no pagar intereses)</h6>');
+        $('#estado').append('<h5>Saldo Anterior: $'+data.response.saldo_anterior+'</h5>');
+        $('#estado').append('<h5>Mes Actual: $'+data.response.saldo_mensual+'</h5>');
+        if(data.response.mensualidad.length>0){
+        $.each(data.response.mensualidad,function(k,v){
+          if (String(v[2])=='I'){
+            $('#cuerpo_table').append('<tr><td>'+v[0]+'</td><td>'+v[1]+'</td><td>0.00</td><td>'+v[3]+'</td></tr>');
+          }else if (String(v[2])=='E'){
+            $('#cuerpo_table').append('<tr><td>'+v[0]+'</td><td>'+v[1]+'</td><td>'+v[3]+'</td><td>0.00</td></tr>');
+
+          }  
+        });
+        }
+      });
+    });
+  
   });
 </script>
 {{block.super}}
@@ -31,7 +66,40 @@
             <div class="col-md-1">{{form.anio}}</div>
             <div class="col-md-1">Alumno</div>
             <div class="col-md-3">{{form.alumno}}</div>
-            <div class="col-md-1"><button class="btn btn-primary" ><i class="fa fa-search"></i></button></div>
+            <div class="col-md-1"><button class="btn btn-primary" ><i class="fa fa-file-pdf-o"></i></button></div>
+          </div>
+        </div>
+        <div id="cuerpo">
+          <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-7">
+              <div class="row">
+                <div class="col-md-4 pull-right" id='fecha'></div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 pull-right" id='total'></div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 pull-right" id='antes'></div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 pull-left" id="estado"></div>
+                <div class="col-md-6 pull-right" id="mensualidad_estado">
+                  <table class='table table-bordered'id="table" hidden>
+                    <thead>
+                      <tr>
+                        <td>Fecha</td>
+                        <td>Concepto</td>
+                        <td>Abono</td>
+                        <td>cargo</td>
+                      </tr>
+                    </thead>
+                    <tbody id="cuerpo_table"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3"></div>
           </div>
         </div>
       </div>
