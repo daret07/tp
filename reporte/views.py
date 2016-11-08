@@ -393,7 +393,7 @@ def listado_movimiento(request):
   abono      = 0
   cargo      = 0
   diferencia = 0
-  abonos = movimiento.objects.all()
+  abonos = movimiento.objects.all().prefetch_related('concepto')
   for i in abonos:
     if 'I' == str(i.concepto.tipo):
       abono += i.monto
