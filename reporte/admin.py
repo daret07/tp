@@ -8,21 +8,10 @@ from datetime import datetime
 # Register your models here.
 class movimientoAdmin(CustomModelAdmin):
   list_per_page = 50
-  list_display=('campo_fecha_registro','folio','matricula','alumno','referencia','descripcion','ciclo','concepto','campo_monto')
+  list_display=('campo_fecha_registro','folio','alumno','referencia','ciclo','concepto','campo_monto')
   list_display_links=('alumno','referencia',)
   list_filter=('alumno','referencia',)
   date_hierarchy='fecha_registro'
-  
-
-  def matricula(self,obj):
-    return obj.alumno.ant+obj.alumno.matricula
-  
-  def descripcion(self,obj):
-    if obj.referencia.descripcion:
-      return obj.referencia.descripcion
-    else:
-      return 'Movimiento Manual'
-    
 
   def campo_monto(self,obj):
     
