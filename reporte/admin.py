@@ -7,7 +7,7 @@ import humanize
 from datetime import datetime
 # Register your models here.
 class movimientoAdmin(CustomModelAdmin):
-  list_per_page = 25
+  list_per_page = 20
   list_display=('campo_fecha_registro','folio','matricula','alumno','referencia','descripcion','ciclo','concepto','campo_monto')
   list_display_links=('alumno','referencia',)
   list_filter=('alumno','referencia',)
