@@ -41,7 +41,7 @@
             <tr>
               <td>{{i.0.ant}}{{i.0.matricula}}</td>
               <td>
-              <a href="{%url 'editar' 'inscripcion' 'inscripcion' i.1 %}" data-app='inscripcion' data-modelo='inscripcion' data-pk='{{i.2}}' class='acceso_edita' >{{i.0.nombre}} {{i.0.paterno}} {{i.0.materno}}</a>
+              <a href="{%url 'editar' 'catalogo' 'alumno' i.0.pk %}" data-app='inscripcion' data-modelo='inscripcion' data-pk='{{i.0.pk}}' class='acceso_edita' >{{i.0.nombre}} {{i.0.paterno}} {{i.0.materno}}</a>
               </td>
               <td>{{i.0.fecha_de_nacimiento|date:"d/m/Y"}}</td>
               <td>{% if i.0.estatus%}<i class="fa fa-check-circle"><div hidden>1</div></i>{%else%}<i class="fa fa-times-circle"><div hidden>0</div></i>{%endif%}</td>
