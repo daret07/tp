@@ -272,23 +272,47 @@ def vista_estado_cuenta(request,pk=None):
     total_men =0
     total_abon = 0
     total_total = 0
+
     if alumno_temp:
       alumno_pdf = alm.objects.get(pk=alumno_temp)
       movimiento_pdf = ref.objects.filter(alumno=alumno_pdf)
+
+    #total a pagar saldo anterior y saldo actual
+    abono_c_total = 0
+    cargo_c_total = 0
+    total_total_total = 0
+
+    if alumno_temp:
       if movimiento_pdf:
         for i in movimiento_pdf:
-          if 'principal' in i.descripcion.lower():
-            refere = 'Referencia: '+i.referencia
-            mov = movimiento.objects.filter(alumno=alumno_pdf,fecha_registro__month=mes,fecha_registro__year=anio)
+          if 'principal' in i.descripcion.encode('utf-8').lower():
+            movimiento_total = movimiento.objects.filter(alumno=alumno_pdf).prefetch_related('concepto')
+            for a in movimiento_total:  
+              if str(a.concepto.tipo) == 'E':
+                total_total_total += a.monto
+              if str(a.concepto.tipo) == 'I':
+                total_total_total -= a.monto
+                
+
+    monto  = str(total_total_total)
+
+
+
+    # estado de cuenta
+    if alumno_temp:
+      if movimiento_pdf:
+        for movi in movimiento_pdf:
+          if 'principal' in movi.descripcion.encode('utf-8').lower():
+            refere = 'Referencia: '+movi.referencia
+            mov = movimiento.objects.filter(alumno=alumno_pdf,fecha_registro__month=mes,fecha_registro__year=anio).prefetch_related('concepto')
             for i in mov:
-              if 'mens' in str(i.concepto).lower():
+              if str(a.concepto.tipo) == 'E':
                 total_men += i.monto
-              if 'abon' in str(i.concepto).lower():
+              if str(a.concepto.tipo) == 'I':
                 total_abon += i.monto
             total_total = total_men-total_abon
             if total_total < 0:
               total_total = 0
-        monto  = 'Total a Pagar: $'+str(total_total)
         monto_2 = str(total_total)
       else:
         messages.error(request,'El Alumno no tiene ninguna referencia asignada')
@@ -296,6 +320,9 @@ def vista_estado_cuenta(request,pk=None):
           'form':form,
         }
         return parametros
+
+
+
     if alumno_pdf:
       alumno    = 'Nombre Alumno: '+alumno_pdf.nombre+' '+alumno_pdf.paterno+' '+alumno_pdf.materno
       padre     = 'Nombre Padre:  '+alumno_pdf.padre.nombre+' '+alumno_pdf.padre.paterno+' '+alumno_pdf.padre.materno
@@ -319,13 +346,13 @@ def vista_estado_cuenta(request,pk=None):
     p.drawString(50 , 650, padre)
     p.drawString(50 , 640, refere)
     p.drawString(350 , 670, fecha)
-    p.drawString(350 , 660, monto)
+    p.drawString(350 , 660, 'Total a pagar: $'+monto)
     p.drawString(350 , 650, antes_de)
     p.setFont("Helvetica", 6)
     p.drawString(350 , 640, intereses)
     p.setFont("Helvetica", 8)
     p.drawString(50 , 620, 'Resumen Informativo')
-    p.drawString(50 , 610, 'Saldo Anterior')
+    p.drawString(50 , 610, 'Saldo Anterior: $'+str(float(monto)-float(monto_2)))
     p.drawString(50 , 600, 'Mes Actual: $'+monto_2)
     p.drawString(350 , 620, 'Cargos del Mes')
     p.drawString(210 , 610, 'Fecha')
