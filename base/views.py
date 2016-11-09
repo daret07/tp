@@ -50,7 +50,6 @@ def login(request):
         
         try:
             user = authenticate(username=username, password=password)
-            user.is_authenticated
         except:
             form.add_error('usuario','Usuario y/o contraseña incorrectos, verifiquelo e intente nuevamente.')
             user = None
@@ -61,7 +60,10 @@ def login(request):
                 return redirect('index')
             else:
                 form.add_error('usuario','El usuario se encuentra inactivo, contacte con su administrador.')
-
+        else:
+            if not form._errors.has_key('usuario'):
+                form.add_error('usuario','Usuario y/o contraseña incorrectos, verifiquelo e intente nuevamente.')
+                
     return TemplateResponse(request,'core/login.html',{'form':form})
 
 def logout(request):
