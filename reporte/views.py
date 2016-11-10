@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from reporte.forms import (movimientoForm,reporte_saldosForm,ficha_inscricionForm,estado_cuentaForm)
 from reporte.models import (movimiento)
 from django.contrib import messages
@@ -311,8 +311,6 @@ def vista_estado_cuenta(request,pk=None):
               if str(a.concepto.tipo) == 'I':
                 total_abon += i.monto
             total_total = total_men-total_abon
-            if total_total < 0:
-              total_total = 0
         monto_2 = str(total_total)
       else:
         messages.error(request,'El Alumno no tiene ninguna referencia asignada')
