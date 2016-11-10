@@ -307,10 +307,9 @@ def vista_estado_cuenta(request,pk=None):
             mov = movimiento.objects.filter(alumno=alumno_pdf,fecha_registro__month=mes,fecha_registro__year=anio).prefetch_related('concepto')
             for i in mov:
               if str(a.concepto.tipo) == 'E':
-                total_men += i.monto
+                total_total += i.monto
               if str(a.concepto.tipo) == 'I':
-                total_abon += i.monto
-            total_total = total_men-total_abon
+                total_total -= i.monto
         monto_2 = str(total_total)
       else:
         messages.error(request,'El Alumno no tiene ninguna referencia asignada')
