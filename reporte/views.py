@@ -252,6 +252,7 @@ def vista_deudores(request,pk=None):
 
 def vista_estado_cuenta(request,pk=None):
   from base import settings
+  from django.db.models import Sum
   form = estado_cuentaForm
   algo =None
   if request.POST:
@@ -268,35 +269,37 @@ def vista_estado_cuenta(request,pk=None):
     alumno=''
     ciclo = ''
     refere = ''
-    monto = ''
+    
     total_men =0
     total_abon = 0
     total_total = 0
+
+    total_ingreso=0
+    total_eso=0
+    debe=0
+    saldo_mensual=0
 
     if alumno_temp:
       alumno_pdf = alm.objects.get(pk=alumno_temp)
       movimiento_pdf = ref.objects.filter(alumno=alumno_pdf)
 
+      ingreso = movimiento.objects.filter(concepto__tipo = 'I',alumno=alumno_pdf)
+      total_ingreso = ingreso.aggregate(total = Sum('monto'))['total'] 
+      if not total_ingreso:
+        total_ingreso = 0
+
+      egreso = movimiento.objects.filter(concepto__tipo = 'E',alumno=alumno_pdf)
+      total_eso = egreso.aggregate(total = Sum('monto'))['total'] 
+      if not total_eso:
+        total_eso = 0
+      
+      debe = total_eso-total_ingreso
+
+
     #total a pagar saldo anterior y saldo actual
     abono_c_total = 0
     cargo_c_total = 0
     total_total_total = 0
-
-    if alumno_temp:
-      if movimiento_pdf:
-        for i in movimiento_pdf:
-          if 'principal' in i.descripcion.encode('utf-8').lower():
-            movimiento_total = movimiento.objects.filter(alumno=alumno_pdf).prefetch_related('concepto')
-            for a in movimiento_total:  
-              if str(a.concepto.tipo) == 'E':
-                total_total_total += a.monto
-              if str(a.concepto.tipo) == 'I':
-                total_total_total -= a.monto
-                
-
-    monto  = str(total_total_total)
-
-
 
     # estado de cuenta
     if alumno_temp:
@@ -306,11 +309,10 @@ def vista_estado_cuenta(request,pk=None):
             refere = 'Referencia: '+movi.referencia
             mov = movimiento.objects.filter(alumno=alumno_pdf,fecha_registro__month=mes,fecha_registro__year=anio).prefetch_related('concepto')
             for i in mov:
-              if str(a.concepto.tipo) == 'E':
-                total_total += i.monto
-              if str(a.concepto.tipo) == 'I':
-                total_total -= i.monto
-        monto_2 = str(total_total)
+              if str(i.concepto.tipo) == 'E':
+                saldo_mensual += i.monto
+              if str(i.concepto.tipo) == 'I':
+                saldo_mensual -= i.monto
       else:
         messages.error(request,'El Alumno no tiene ninguna referencia asignada')
         parametros={
@@ -343,14 +345,14 @@ def vista_estado_cuenta(request,pk=None):
     p.drawString(50 , 650, padre)
     p.drawString(50 , 640, refere)
     p.drawString(350 , 670, fecha)
-    p.drawString(350 , 660, 'Total a pagar: $'+monto)
+    p.drawString(350 , 660, 'Total a pagar: $'+str(debe))
     p.drawString(350 , 650, antes_de)
     p.setFont("Helvetica", 6)
     p.drawString(350 , 640, intereses)
     p.setFont("Helvetica", 8)
     p.drawString(50 , 620, 'Resumen Informativo')
-    p.drawString(50 , 610, 'Saldo Anterior: $'+str(float(monto)-float(monto_2)))
-    p.drawString(50 , 600, 'Mes Actual: $'+monto_2)
+    p.drawString(50 , 610, 'Saldo Anterior: $'+str(float(debe)-float(saldo_mensual)))
+    p.drawString(50 , 600, 'Mes Actual: $'+str(saldo_mensual))
     p.drawString(350 , 620, 'Cargos del Mes')
     p.drawString(210 , 610, 'Fecha')
     p.drawString(290 , 610, 'Concepto')
