@@ -227,13 +227,27 @@
     "model": "navegacion.menu",
     "pk": 17,
     "fields": {
-      "nombre": "Nuevo Automático",
+      "nombre": "Movimientos Automáticos",
        "app": "automatico",
        "modelo": "cron_auto",
        "padre": 1,
        "icono": "fa fa-plus",
        "permiso": "automatico.add_cron_auto",
        "listar": true,
+       "nivel": 0,
+       "activo": true}
+  },
+    {
+    "model": "navegacion.menu",
+    "pk": 18,
+    "fields": {
+      "nombre": "Generar",
+       "app": "generar",
+       "modelo": "generar",
+       "padre": 17,
+       "icono": "fa fa-plus",
+       "permiso": "generar.add_generar",
+       "listar": false,
        "nivel": 0,
        "activo": true}
   }
