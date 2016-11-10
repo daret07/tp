@@ -6,26 +6,26 @@ class ciclo_escolarAdmin(CustomModelAdmin):
 	list_display=('clave','descripcion')
 	list_display_links=('clave',)
 	list_filter=('clave',)
-	search_fields=('clave','pk',)
+	search_fields=('clave','descripcion')
 
 
 class conceptoAdmin(CustomModelAdmin):
 	list_display=('clave','descripcion','importe')
 	list_display_links=('clave',)
 	list_filter=('clave',)
-	search_fields=('clave','pk',)
+	search_fields=('clave','descripcion','importe')
 
 class categoriaAdmin(CustomModelAdmin):
 	list_display=('nombre','descripcion','cupo_maximo','ciclo_escolar')
 	list_display_links=('nombre',)
 	list_filter=('nombre',)
-	search_fields=('nombre','cupo_maximo',)
+	search_fields=('nombre','descripcion','cupo_maximo','ciclo_escolar')
 
 class alumnoAdmin(CustomModelAdmin):
 	list_display=('nombre','paterno','materno','Matricula','ciclo_escolar','padre','emergencia','estado')
 	list_display_links=('nombre',)
 	list_filter=('nombre',)
-	search_fields=('nombre','cupo_maximo',)
+	search_fields=('nombre','paterno','materno','Matricula','ciclo_escolar','padre','emergencia','estado')
 
 	def estado(self,obj):
 		if obj.estatus == True:
