@@ -236,19 +236,5 @@
        "listar": true,
        "nivel": 0,
        "activo": true}
-  },
-    {
-    "model": "navegacion.menu",
-    "pk": 18,
-    "fields": {
-      "nombre": "Generar",
-       "app": "generar",
-       "modelo": "generar",
-       "padre": 17,
-       "icono": "fa fa-plus",
-       "permiso": "generar.add_generar",
-       "listar": false,
-       "nivel": 0,
-       "activo": true}
   }
 ]
