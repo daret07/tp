@@ -1,4 +1,4 @@
-#!/home/daret/fbasicas/1.10.1/bin/python2.7
+#!/var/www/html/1.10.1/bin/python2.7
 import sys
 import datetime
 import time
@@ -6,8 +6,8 @@ from imp import reload
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
-sys.path.append('/home/daret/fbasicas/dj_fbasicas')
-sys.path.append('/home/daret/fbasicas/1.10.1/lib/python2.7/site-packages')
+sys.path.append('/var/www/html/dj_fbasicas')
+sys.path.append('/var/www/html/1.10.1/lib/python2.7/site-packages')
 
 import os,django
 os.environ.setdefault("DJANGO_SETTINGS_MODULE","base.settings")
@@ -19,8 +19,6 @@ from inscripcion.models import inscripcion
 from reporte.models import movimiento
 from reporte.views import descuentos
 from django.utils import timezone
-
-
 def mensualidad(cron):
   alumnos     = alumno.objects.filter(estatus=True)
   mensualidad = pronto_pago.objects.filter(padre=cron)
@@ -84,19 +82,16 @@ def recargos(cron):
         
         
 
-
 crons = cron_auto.objects.filter(activo=True)
 actual = datetime.datetime.now()
 cron_actual=[]  
 hora = actual.strftime("%H")
 
-
 cron_actual.append(str(int(actual.strftime("%M"))))
 cron_actual.append(str(int(hora)))
-cron_actual.append(actual.strftime("%d"))
-cron_actual.append(actual.strftime("%m"))
+cron_actual.append(str(int(actual.strftime("%d"))))
+cron_actual.append(str(int(actual.strftime("%m"))))
 cron_actual.append('*')
-
 for i in crons:
   cron_verificar = (i.definicion).split(' ')
   if cron_actual[0] in cron_verificar[0]:
