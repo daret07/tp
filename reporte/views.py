@@ -37,39 +37,46 @@ def vista_movimiento(request,pk=None):
         break
     
     if imagen_valida:
-      obj = form.save(commit=False)
-      obj.archivo = request.FILES.get('archivo' or None)
-      obj.save()
-      libro = xlrd.open_workbook(obj.archivo.path)
+      obj_1 = form.save(commit=False)
+      obj_1.archivo = request.FILES.get('archivo' or None)
+      obj_1.save()
+      libro = xlrd.open_workbook(obj_1.archivo.path)
       hojas = libro.sheet_names()
       hoja  = libro.sheet_by_name(hojas[0])
       columnas = hoja.ncols
       if columnas == 10:
-        for row_idx in range(0, hoja.ncols):
-          label_numero = hoja.cell(0,row_idx).value
 
-          if label_numero.lower() == 'referencia':
-            obj.referencia = hoja.cell(1,row_idx).value
-            tmp            = int(hoja.cell(1,row_idx).value)
-            try:
-              ref_tmp        = ref.objects.get(referencia=tmp)
-              alumno_tmp     = alm.objects.get(pk=ref_tmp.alumno.pk)
-              obj.alumno     = alumno_tmp
-              obj.ciclo      = alumno_tmp.ciclo_escolar
-            except:
-              referencia_null = True
-          
-          if label_numero.lower() == 'importe':
-            obj.monto = hoja.cell(1,row_idx).value
+        for row in range(1, hoja.nrows):
+          obj = movimiento.objects.create()
+          for row_idx in range(0, hoja.ncols):
+            label_numero = hoja.cell(0,row_idx).value
 
-          if label_numero.lower().encode('utf8') == 'numero operación':
-            obj.folio = hoja.cell(1,row_idx).value
+            if label_numero.lower() == 'referencia':
+              obj.referencia = hoja.cell(row,row_idx).value
+              tmp            = int(hoja.cell(row,row_idx).value)
 
-          if label_numero.lower().encode('utf8') == 'fecha de operación':
-            obj.fecha_registro = xlrd.xldate.xldate_as_datetime(hoja.cell(1,row_idx).value, libro.datemode)
+              try:
+                ref_tmp        = ref.objects.get(referencia=tmp)
+                alumno_tmp     = alm.objects.get(pk=ref_tmp.alumno.pk)
+                obj.alumno     = alumno_tmp
+                obj.ciclo      = alumno_tmp.ciclo_escolar
+              except:
+                referencia_null = True
+            
+            if label_numero.lower() == 'importe':
+              obj.monto = hoja.cell(row,row_idx).value
 
-      obj.concepto = concepto.objects.get(clave='ABONO')
-      obj.save()
+            if label_numero.lower().encode('utf8') == 'numero operación':
+              obj.folio = hoja.cell(row,row_idx).value
+
+            if label_numero.lower().encode('utf8') == 'fecha de operación':
+              obj.fecha_registro = xlrd.xldate.xldate_as_datetime(hoja.cell(row,row_idx).value, libro.datemode)
+            obj.concepto = concepto.objects.get(clave='ABONO')
+          if not movimiento.objects.filter(folio=obj.folio):
+            obj.save()
+          else:
+            obj.delete()
+      obj_1.delete()  
       try:
         descuentos(alm.objects.get(pk=ref_tmp.alumno.pk),obj.monto,obj.concepto)
         messages.success(request,"Se ha Guardado la información con éxito")
@@ -85,7 +92,6 @@ def vista_movimiento(request,pk=None):
     monto  = request.POST.get('monto')
     if monto != '':
       obj = form.save(commit=False)
-      obj.ciclo = ciclo_escolar.objects.get(alumno=alumno)
       obj.descripcion = 'Movimiento Manual'
       obj.save()
       descuentos(alumno,obj.monto,obj.concepto)
@@ -227,27 +233,35 @@ def vista_reporte_saldos(request,pk=None):
   return parametros
 
 def vista_deudores(request,pk=None):
+  from django.db.models import Sum
   alumno = movimiento.objects.values('alumno').distinct()
-  deudores_tmp=[]
-  deudores =[]
+  ciclo = ciclo_escolar.objects.all()
+  valor = 0
+  total_I= 0
+  total_E= 0
   total = 0
-  for i in alumno:
-    tmp= i['alumno']
-    movimientos=movimiento.objects.filter(alumno=tmp).prefetch_related('concepto')
-    suma = 0
-    for a in movimientos:
-      if str(a.concepto.tipo) == 'I':
-        suma += a.monto
-        total += a.monto
-      elif str(a.concepto.tipo) == 'E':
-        suma -= a.monto
-        total -= a.monto
-    if suma < 0:
-      deudores_tmp.append((i['alumno'],suma))
-  for i in deudores_tmp:
-    alumno_tmp=alm.objects.get(pk=i[0])
-    deudores.append((alumno_tmp,alumno_tmp.pk,float(i[1])),)
-  parametros={'saldo':deudores,'total':total}
+  deudores_ciclo=[]
+  deudores =[]
+  for ciclos in ciclo:
+    for alms in alumno:
+      alumno_tmp = alm.objects.get(pk=alms['alumno'])
+      if alumno_tmp:
+        movis_i = movimiento.objects.filter(alumno= alumno_tmp,ciclo=ciclos,concepto__tipo='I')
+        total_I = movis_i.aggregate(total = Sum('monto'))['total']
+        movis_e = movimiento.objects.filter(alumno= alumno_tmp,ciclo=ciclos,concepto__tipo='E')
+        total_E = movis_e.aggregate(total = Sum('monto'))['total']
+        if total_E is None:
+          total_E=0.00
+        if total_I is None:
+          total_I = 0.00
+        total += float(total_E)
+        if (float(total_I)-float(total_E))<0:
+          deudores_ciclo.append((alms,float(total_I)-float(total_E),ciclos),)
+
+  for deu in deudores_ciclo:
+    alumno_tmp=alm.objects.get(pk=deu[0]['alumno'])
+    deudores.append((alumno_tmp,alumno_tmp.pk,float(deu[1]),deu[2]))
+  parametros={'saldo':deudores,'total':total,'ciclo':ciclo}
   return parametros
 
 def vista_estado_cuenta(request,pk=None):
@@ -394,9 +408,13 @@ def listado_movimiento(request):
   diferencia = 0
   abonos = movimiento.objects.all().prefetch_related('concepto')
   for i in abonos:
-    if 'I' == str(i.concepto.tipo):
-      abono += i.monto
-    if 'E' == str(i.concepto.tipo):
-      cargo += i.monto
+    try:
+      if 'I' == str(i.concepto.tipo):
+        abono += i.monto
+      if 'E' == str(i.concepto.tipo):
+        cargo += i.monto
+    except:
+      cargo +=0
+      abono +=0
   diferencia = abono - cargo
   return {'abono':abono,'cargo':cargo,'diferencia':diferencia}

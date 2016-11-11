@@ -5,6 +5,13 @@
     padding: 25px;
   }
 </style>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#select').on('change',function(){
+
+    });
+  });
+</script>
 {{block.super}}
 {% endblock %}
 {% block boton_titulo %}
@@ -17,6 +24,20 @@
         <h3 class='box-title '>
         <div class='row'>
           <div class="col-md-6">Relación de alumnos con Adeudos </div>
+        <!--  <div class="col-md-4">
+          <div class="row">
+          <div class="col-md-4">Ciclo Escolar</div>
+            <div class="col-md-8">
+              <select name='ciclo_escolar' class="form-control" id="select">
+                <option>------</option>
+                {%for i in ciclo%}
+                <option value="{{i.pk}}">{{i}}</option>
+                {%endfor%}
+              </select>
+            </div>
+          </div>
+          </div>-->
+
           <div class="col-md-6"> 
             <div class="form-group has-feedback">
               <input type="text" class="form-control busqueda" id="search" placeholder="Buscador"  data-zone="#detalle tr" data-option="#id_clase #id_subclase"/>
@@ -33,6 +54,7 @@
               <th class="th_sort">Alumno</th>
               <th class="th_sort">Fecha de Nacimiento</th>
               <th class="th_sort">Estado</th>
+              <th class="th_sort">Ciclo</th>
               <th class="th_sort">Total</th>
             </tr>
           </thead>
@@ -45,6 +67,7 @@
               </td>
               <td>{{i.0.fecha_de_nacimiento|date:"d/m/Y"}}</td>
               <td>{% if i.0.estatus%}<i class="fa fa-check-circle"><div hidden>1</div></i>{%else%}<i class="fa fa-times-circle"><div hidden>0</div></i>{%endif%}</td>
+              <td>{{i.3}}</td>
               <td>$ {{i.2}}</td>
             </tr>
             {%endfor%}
