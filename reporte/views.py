@@ -237,26 +237,23 @@ def vista_deudores(request,pk=None):
   alumno = movimiento.objects.values('alumno').distinct()
   ciclo = ciclo_escolar.objects.all()
   valor = 0
-  total_I= 0
-  total_E= 0
   total = 0
   deudores_ciclo=[]
   deudores =[]
   for ciclos in ciclo:
     for alms in alumno:
-      alumno_tmp = alm.objects.get(pk=alms['alumno'])
-      if alumno_tmp:
-        movis_i = movimiento.objects.filter(alumno= alumno_tmp,ciclo=ciclos,concepto__tipo='I')
-        total_I = movis_i.aggregate(total = Sum('monto'))['total']
-        movis_e = movimiento.objects.filter(alumno= alumno_tmp,ciclo=ciclos,concepto__tipo='E')
-        total_E = movis_e.aggregate(total = Sum('monto'))['total']
-        if total_E is None:
-          total_E=0.00
-        if total_I is None:
-          total_I = 0.00
-        total += float(total_E)
-        if (float(total_I)-float(total_E))<0:
-          deudores_ciclo.append((alms,float(total_I)-float(total_E),ciclos),)
+      total_I= 0
+      total_E= 0
+      movis_i = movimiento.objects.filter(alumno= alms['alumno'],ciclo=ciclos).prefetch_related('concepto')
+      for i in movis_i:
+        if str(i.concepto.tipo) == 'I':
+          total_I += i.monto
+        if str(i.concepto.tipo) == 'E':
+          total_E += i.monto
+
+      total += float(total_E)
+      if (float(total_I)-float(total_E))<0:
+        deudores_ciclo.append((alms,float(total_I)-float(total_E),ciclos),)
 
   for deu in deudores_ciclo:
     alumno_tmp=alm.objects.get(pk=deu[0]['alumno'])
