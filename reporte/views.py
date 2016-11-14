@@ -268,8 +268,8 @@ def vista_estado_cuenta(request,pk=None):
   algo =None
   if request.POST:
     response = HttpResponse(content_type='application/pdf')
-    logo =str(settings.BASE_DIR)+ str('/static/images/fmonarca2.png')
-    logoback =str(settings.BASE_DIR)+ str('/static/images/fmonarcaB.png')
+    logo =str(settings.BASE_DIR)+ str('/static/images/fmonarca2.jpg')
+    logoback =str(settings.BASE_DIR)+ str('/static/images/fmonarcaB.jpg')
     alumno_temp = request.POST.get('alumno' or None)
     ciclo_temp  = request.POST.get('ciclo_escolar' or None)
     mes         = request.POST.get('mes' or None)
@@ -345,8 +345,8 @@ def vista_estado_cuenta(request,pk=None):
     # Create the PDF object, using the BytesIO object as its "file."
     p = canvas.Canvas(buffer)
     p.setFont("Helvetica", 12)
-    p.drawImage(logo,50,715,80,80)
-    p.drawImage(logoback,170,415,280,280)
+    p.drawImage(logo,50,715,160,70)
+    p.drawImage(logoback,100,315,430,260)
     # Draw things on the PDF. Here's where the PDF generation happens.
     # See the ReportLab documentation for the full list of functionality.
     p.drawString(225 , 730, "ESTADO DE CUENTA INTEGRAL")

@@ -1,4 +1,5 @@
 {% extends 'core/base.html'  %}
+{% load static %}
 {% block extra_head %}
 <style>
 .errorlist {
@@ -6,33 +7,49 @@
   list-style : none;
   color      : red;
 }
+.img-responsive {margin:0 auto;  }
 </style>
 {% endblock %}
 {% block body %}
-{% if form.errors %}
-<div class='alert alert-warning'>
-  Por favor llene la información marcada
-</div>
-{% endif %}
-<form method='POST' action='' enctype='multipart/form-data'>
-  {% csrf_token %}
-  <p style='height:200px;'></p>
-  <div style='max-width:400px;padding:30px;margin:0px auto;'>
-    <div class='row'>
-      <div class='col-lg-3'>{{ form.usuario.label }}</div>
-      <div class='col-lg-9'>
-        {{ form.usuario }}
-        {{ form.usuario.errors }}</div>
+
+<div id="login" class="container-fluid" style="max-width:350px;" >
+
+  <form method='POST' action='' enctype='multipart/form-data'>
+    {% csrf_token %}
+    <p style='height:10px;'></p>
+    <div class='' style='max-width:600px;height:40px;margin:0px auto;'>
+      <h3 style='margin-top:-10px;'><center>{% block titulo %}{% endblock %}</center></h3>
     </div>
-    <div class='row'>
-      <div class='col-lg-3'>{{ form.contrasena.label }}</div>
-      <div class='col-lg-9'>
-        {{ form.contrasena }}
-        {{ form.contrasena.errors }}
+    {% block logo %}
+    {% endblock %}
+    <div style='max-width:400px;padding:30px;margin:0px auto;'>
+      <div class="row">
+        <div class='col-lg-12'><b>{{ form.usuario.label }}</b></div>
       </div>
+      <div class='row'>
+        <div class='col-lg-12'>
+          {{ form.usuario }}
+          {{ form.usuario.errors }}</div>
+      </div>
+      <div class="row">
+        <div class='col-lg-12'><b>{{ form.contrasena.label }}</b></div>
+      </div>
+      <div class='row'>
+        <div class='col-lg-12'>
+          {{ form.contrasena }}
+          {{ form.contrasena.errors }}
+        </div>
+      </div>
+      <hr />
+      <button class='btn btn-primary pull-right'>Iniciar Sesión</button><br />
     </div>
-    <hr />
-    <button class='btn btn-primary pull-right'>Guardar</button><br />
-  </div>
-</form>
+    {% block aviso %}
+      <p align="center">
+        Esta aplicación ha sido desarrollada por <a href="http://www.divox.com.mx/" target="_blank">DIVOX S.A de C.V.</a>
+        Se encuentra optimizada para visualizarse sobre navegador:<a href="https://www.mozilla.org/es-MX/firefox/new/" target="_blank" > <i class="fa fa-firefox"> </i> firefox</a>
+      </p>
+    {% endblock %}
+  </form>
+</div>
+
 {% endblock %}

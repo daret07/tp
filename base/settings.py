@@ -146,5 +146,5 @@ AUTH_USER_MODEL         = 'usuario.usuario'
 LOGIN_URL               = STATIC_PATH+'/login/'
 LOGIN_REDIRECT_URL      = STATIC_PATH+'/login/'
 
-PROJECT_NAME      = '<b>F Monarca</b>'
-PROJECT_NAME_MINI = '<b>F</b>M'
+PROJECT_NAME      = '<b>I Morelia</b>'
+PROJECT_NAME_MINI = '<b>I</b>M'
