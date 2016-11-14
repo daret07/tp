@@ -16,6 +16,7 @@ class movimiento(models.Model):
   monto                   = models.DecimalField(max_digits=6,decimal_places=2,blank=True,null=True)
   archivo                 = models.FileField(blank=True,null=True,upload_to='archivo')
   descripcion             = models.CharField(max_length=50,blank=True,null=True)
+  anticipo                = models.BooleanField(default=False)
 
   class Meta:
     permissions = (

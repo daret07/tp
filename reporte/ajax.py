@@ -60,3 +60,12 @@ def estado_cuenta(request):
   'saldo_anterior' : float(debe)-float(saldo_mensual),
   }
   return parametros
+
+
+def getvalue(request):
+  from catalogo.models import concepto
+  concept = concepto.objects.get(pk=request.POST.get('concep'))
+  parametros={
+  'importe':concept.importe
+  }
+  return parametros

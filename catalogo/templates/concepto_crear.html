@@ -45,7 +45,7 @@
       $('#id_formula').prop('disabled', false);
     }
     });
-    $('#id_estatus').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
+    $('#id_estatus').bootstrapSwitch({'onText':'Activo','offText':'Inactivo','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
   });
 </script>
 {% endblock %}
@@ -71,7 +71,10 @@
 	  <div class="row">
     <div class="col-md-6">
       <div class="box box-danger">
-        <h3 class='box-title'>Conceptos</h3>
+        <div class='box-title'>
+          <h3 >Conceptos</h3>
+          (Para aplicar conceptos de anticipos, anteponer ANTICIPO_ a la clave )
+        </div>
         <div class='box-body'>
           <div class="row">
             <div class="col-md-4 {%if form.clave.errors%} error {%endif%}">{{form.clave.label_tag}}</div>

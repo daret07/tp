@@ -74,14 +74,14 @@ def vista_movimiento(request,pk=None):
             obj.concepto = concepto.objects.get(clave='ABONO')
           if not movimiento.objects.filter(folio=obj.folio):
             obj.save()
+            try:
+              alumno_s = alm.objects.get(pk=ref_tmp.alumno.pk)
+              descuentos(alumno_s,obj.monto,obj.concepto,alumno_s.ciclo_escolar)
+            except:
+              tmpes=''
           else:
             obj.delete()
-      obj_1.delete()  
-      try:
-        descuentos(alm.objects.get(pk=ref_tmp.alumno.pk),obj.monto,obj.concepto)
-        messages.success(request,"Se ha Guardado la información con éxito")
-      except:
-        messages.success(request,"Se ha Guardado la información con éxito")
+      obj_1.delete()
       form = form_class(instance=obj)
     else:
       messages.success(request,"La extencion del archivo debe de ser xls o xlsx")
@@ -90,17 +90,20 @@ def vista_movimiento(request,pk=None):
     alumno = request.POST.get('alumno')
     referencia = request.POST.get('referencia')
     monto  = request.POST.get('monto')
+    anticipo = request.POST.get('anticipo')
     if monto != '':
       obj = form.save(commit=False)
       obj.descripcion = 'Movimiento Manual'
       obj.save()
-      descuentos(alumno,obj.monto,obj.concepto)
+      descuentos(alumno,obj.monto,obj.concepto,obj.ciclo)
+      if anticipo:
+        anticipos(alumno,obj.monto,obj.concepto,obj.ciclo)
       messages.success(request,"Se ha Guardado la información con éxito")
     else:
       messages.error(request,'Se debe de colocar almenos una de las dos opciones, ya se archivo o llenar todos los campos')
     form = form_class(request.POST or None,instance=obj)
   
-  if obj:
+  if pk:
     if obj.alumno:
       referencia_null = True
 
@@ -120,8 +123,24 @@ def vista_movimiento(request,pk=None):
   }
   return parametros
 
+def anticipos(alumno,monto,concepto,ciclo):
+  from catalogo.models import alumno as alm,concepto as concepto_fuente
+  from reporte.models import movimiento
+  alumno_antic = alm.objects.get(pk=alumno)
+  consep_tmp ='ANTICIPO_'+str(concepto)
+  concepto_tmp       = concepto_fuente.objects.filter(clave=consep_tmp,estatus=True)
+  f_i = datetime.now()
+  for concep in concepto_tmp:
+    movimiento.objects.create(fecha_registro=(datetime.strptime(str(f_i)[:10],"%Y-%m-%d").strftime("%Y-%m-%d")),
+      ciclo=ciclo,alumno=alumno_antic,concepto=concep,monto=concep.importe,descripcion='Descuento de Pago Anticipado')
+  parametros={
+    'mensaje':True
+  }
+  return parametros
 
-def descuentos(alumno,monto,concepto):
+
+
+def descuentos(alumno,monto,concepto,ciclo):
   from catalogo.models import descuento, alumno as alm
   from reporte.models import movimiento
   tip_tmp        = ''
@@ -129,7 +148,6 @@ def descuentos(alumno,monto,concepto):
   monto_tmp      = ''
   alumno_tmp     = alm.objects.get(pk=alumno)
   desc           = descuento.objects.filter(alumno=alumno,activo=True)
-  ciclo_tmp      = alumno_tmp.ciclo_escolar
   f_i = datetime.now()
   for i in desc:
     tip_tmp = i.tipo_descuento
@@ -139,7 +157,7 @@ def descuentos(alumno,monto,concepto):
       else:
         monto_tmp = -float(i.monto)
       movimiento.objects.create(fecha_registro=(datetime.strptime(str(f_i)[:10],"%Y-%m-%d").strftime("%Y-%m-%d")),
-      ciclo=ciclo_tmp,alumno=alumno_tmp,concepto=i.concepto,monto=monto_tmp,descripcion='Movimiento de Beca')
+      ciclo=ciclo,alumno=alumno_tmp,concepto=i.concepto,monto=monto_tmp,descripcion='Movimiento de Beca')
   parametros={
   'mensaje':True
   }
