@@ -3,10 +3,10 @@ from django.contrib import admin
 from base.utilidades import CustomModelAdmin
 # Register your models here.
 class cron_autoAdmin(CustomModelAdmin):
-  list_display=('id','esta_activo','descripcion')
+  list_display=('esta_activo','descripcion')
   list_display_links=('id',)
   list_filter=('id',)
-  search_fields=('id',)
+
   
 
 
