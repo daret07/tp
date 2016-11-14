@@ -16,11 +16,6 @@
 </script>
 {% endblock %}
 {% block body %}
-{% if form.errors %}
-<div class='alert alert-warning'>
-  Por favor llene la información marcada
-</div>
-{% endif %}
 <form method='POST' action='' enctype='multipart/form-data'>
   {% csrf_token %}
   <p style='height:150px;'></p>
@@ -52,10 +47,10 @@
       </div>
     </div>
     <br/>
-    <button class='btn btn-primary pull-right'>Ingresar</button><br />
+    <button class='btn btn-primary pull-right'>Iniciar Sesión</button><br />
     <hr />
     <div class="text-center">
-    La siguiente aplicación ha sido desarrollada por <br/><a href="http://www.divox.com.mx"><img src="{%static 'images/logo_divox.png'%}" height="25px" /> Divox S.A. de C.V.</a>, y esta optimizada para visualizase con navegador <span class='label label-primary'>Firefox. </span>
+    La siguiente aplicación ha sido desarrollada por <br/><a href="http://www.divox.com.mx"><img src="{%static 'images/logo_divox.png'%}" height="25px" /> Divox S.A. de C.V.</a>, y esta optimizada para visualizase con navegador <a href="https://www.mozilla.org/es-MX/firefox/new/" target="_blank" > <i class="fa fa-firefox"> </i> firefox</a>
     </div>
   </div>
 
