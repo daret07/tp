@@ -1,6 +1,5 @@
 from django.contrib import admin
 from base.utilidades import CustomModelAdmin
-import humanize
 # Register your models here.
 
 class ciclo_escolarAdmin(CustomModelAdmin):
@@ -11,14 +10,10 @@ class ciclo_escolarAdmin(CustomModelAdmin):
 
 
 class conceptoAdmin(CustomModelAdmin):
-	list_display=('clave','descripcion','monto')
+	list_display=('clave','descripcion','importe')
 	list_display_links=('clave',)
 	list_filter=('clave',)
-	search_fields=('clave','descripcion')
-
-	def monto(self,obj):
-    
-    return '$ %s'%humanize.intcomma(obj.importe)
+	search_fields=('clave','descripcion','importe')
 
 class categoriaAdmin(CustomModelAdmin):
 	list_display=('nombre','descripcion','cupo_maximo','ciclo_escolar')
