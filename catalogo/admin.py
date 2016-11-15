@@ -1,5 +1,6 @@
 from django.contrib import admin
 from base.utilidades import CustomModelAdmin
+import humanize
 # Register your models here.
 
 class ciclo_escolarAdmin(CustomModelAdmin):
