@@ -4,8 +4,8 @@ from base.utilidades import CustomModelAdmin
 # Register your models here.
 class cron_autoAdmin(CustomModelAdmin):
   list_display=('esta_activo','descripcion')
-  list_display_links=('id',)
-  list_filter=('id',)
+  list_display_links=('descripcion',)
+  list_filter=('descripcion',)
 
   
 

@@ -9,6 +9,7 @@
 <script type="text/javascript">
   $(document).ready(function(){
     $('#id_alumno').combobox();
+    $('#id_ciclo').combobox();
     $('#id_concepto').combobox();
     $("#id_anticipo").bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
     $('#id_concepto').on('change',function(){
@@ -89,7 +90,7 @@
                     {{form.monto}}
                   </div>
                 </div>
-                <div class="col-md-3">Pago Anticipado</div>
+                <div class="col-md-3">Mensualidad Anticipada</div>
                 <div class="col-md-3">{{form.anticipo}}</div>
               </div>
             </div>
