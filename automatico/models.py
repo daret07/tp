@@ -52,12 +52,12 @@ class recargo_pago(models.Model):
   activo        = models.BooleanField()
   padre         = models.ForeignKey('automatico.cron_auto')
   cantidad_debe = models.CharField(max_length=2,choices=numero)
-  concepto      = models.ForeignKey('catalogo.concepto')
-  aplica        = models.ForeignKey('catalogo.concepto',related_name='aplica')
+  concepto      = models.ForeignKey('catalogo.concepto',blank=True,null=True,on_delete=models.SET_NULL)
+  aplica        = models.ForeignKey('catalogo.concepto',related_name='aplica',blank=True,null=True,on_delete=models.SET_NULL)
   diferencia    = models.IntegerField()
 
 
 class pronto_pago(models.Model):
   activo        = models.BooleanField()
   padre         = models.ForeignKey('automatico.cron_auto')
-  beca          = models.ForeignKey('catalogo.concepto')
+  beca          = models.ForeignKey('catalogo.concepto',blank=True,null=True,on_delete=models.SET_NULL)

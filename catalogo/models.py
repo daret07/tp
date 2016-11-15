@@ -120,9 +120,9 @@ tipo_desc=(
 
 
 class descuento(models.Model):
-  alumno              = models.ForeignKey('catalogo.alumno')
+  alumno              = models.ForeignKey('catalogo.alumno',blank=True,null=True,on_delete=models.SET_NULL)
   tipo_descuento      = models.CharField(max_length=20,choices=tipo_desc)
   monto               = models.IntegerField()
   activo              = models.BooleanField(default=True)
-  concepto            = models.ForeignKey('catalogo.concepto')
+  concepto            = models.ForeignKey('catalogo.concepto',blank=True,null=True,on_delete=models.SET_NULL)
   descripcion         = models.CharField(max_length=125)

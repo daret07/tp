@@ -8,9 +8,9 @@ from catalogo.models import alumno,categoria,ciclo_escolar,concepto
 class movimiento(models.Model):
   fecha_registro          = models.DateField(auto_now=False,blank=True,null=True)
   fecha_captura           = models.DateField(auto_now=True,blank=True,null=True)
-  ciclo                   = models.ForeignKey('catalogo.ciclo_escolar',blank=True,null=True)  
-  alumno                  = models.ForeignKey('catalogo.alumno',blank=True,null=True)
-  concepto                = models.ForeignKey('catalogo.concepto',blank=True,null=True)
+  ciclo                   = models.ForeignKey('catalogo.ciclo_escolar',blank=True,null=True,on_delete=models.SET_NULL)  
+  alumno                  = models.ForeignKey('catalogo.alumno',blank=True,null=True,on_delete=models.SET_NULL)
+  concepto                = models.ForeignKey('catalogo.concepto',blank=True,null=True,on_delete=models.SET_NULL)
   folio                   = models.CharField(max_length=50,blank=True,null=True)
   referencia              = models.CharField(max_length=50,blank=True,null=True)
   monto                   = models.DecimalField(max_digits=6,decimal_places=2,blank=True,null=True)
