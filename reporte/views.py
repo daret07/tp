@@ -208,6 +208,7 @@ def vista_reporte_referencia(request,pk=None):
   return parametros
 
 def vista_reporte_saldos(request,pk=None): 
+  from django.db.models import Sum
   from reporte.models import movimiento
   alumnos =''
   reporte =[]
@@ -231,18 +232,37 @@ def vista_reporte_saldos(request,pk=None):
     else:
       alumnos = alm.objects.all()
     for al in alumnos:
-      suma=0
+
+      suma = 0
+      total_ingreso = 0
+      total_eso = 0
       if ciclo_existe:
-        mov = movimiento.objects.filter(fecha_registro__range=(fecha_inicio,fecha_fin),ciclo=ciclo,alumno=al)
+        ingreso = movimiento.objects.filter(fecha_registro__range=(fecha_inicio,fecha_fin),ciclo=ciclo,concepto__tipo = 'I',alumno=al)
+        total_ingreso = ingreso.aggregate(total = Sum('monto'))['total'] 
+        if not total_ingreso:
+          total_ingreso = 0
+
+        egreso = movimiento.objects.filter(fecha_registro__range=(fecha_inicio,fecha_fin),ciclo=ciclo,concepto__tipo = 'E',alumno=al)
+        total_eso = egreso.aggregate(total = Sum('monto'))['total'] 
+        if not total_eso:
+          total_eso = 0
+        
+        suma = total_eso-total_ingreso
+        total += suma
       else:
-        mov = movimiento.objects.filter(fecha_registro__range=(fecha_inicio,fecha_fin),alumno=al)  
-      for i in mov:
-        if str(i.concepto.tipo) == 'I':
-          suma += i.monto
-          total += i.monto
-        elif str(i.concepto.tipo) == 'E':
-          suma -= i.monto
-          total -= i.monto
+        ingreso = movimiento.objects.filter(fecha_registro__range=(fecha_inicio,fecha_fin),concepto__tipo = 'I',alumno=al)
+        total_ingreso = ingreso.aggregate(total = Sum('monto'))['total'] 
+        if not total_ingreso:
+          total_ingreso = 0
+
+        egreso = movimiento.objects.filter(fecha_registro__range=(fecha_inicio,fecha_fin),concepto__tipo = 'E',alumno=al)
+        total_eso = egreso.aggregate(total = Sum('monto'))['total'] 
+        if not total_eso:
+          total_eso = 0
+    
+        suma = total_eso-total_ingreso
+        total += suma
+
       reporte.append((al.ant+al.matricula.zfill(4) ,al.nombre+' '+al.paterno+' '+al.materno, al.fecha_de_nacimiento,suma,al.estatus,al.pk))
     form = reporte_saldosForm(request.POST or None)
   else:
