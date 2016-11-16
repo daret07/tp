@@ -15,6 +15,7 @@
       $('#id_alumno').combobox();
    
       $('#id_alumno').on('change',function(){
+        $('#cuerpo_table').html('')
         $('.row').css('cursor','progress');
       var params={
         'app'    : 'reporte',

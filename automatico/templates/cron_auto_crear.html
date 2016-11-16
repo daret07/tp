@@ -15,25 +15,31 @@
     {%if not obj%}
     $('#id_tipo').val({{obj.tipo}});
     {%endif%}
+
     $('#id_activo').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
     $('#id_hermanos').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
     $('#minuto').val([{{min_s}}]);
     $('#hora').val([{{hor_s}}]);
     $('#dia').val([{{dia_s}}]);
     $('#mes').val([{{mes_s}}]);
-    $('#id_concepto').combobox();
-    $('#id_cron').combobox();
+    
     $('#agregar').on('click',function(){
       addForm('','#recargo_inline','recargo_pago_set');
     });
     $('#agregar_m').on('click',function(){
       addForm('','#mensual','pronto_pago_set');
     });
+    $('#agregar_exc').on('click',function(){
+      addForm('','#excendente','excendente_set');
+    });
     $('#mens').on('click',function(){
       $('#id_tipo').val('1');
     });
     $('#rec').on('click',function(){
       $('#id_tipo').val('2');
+    });
+    $('#exc').on('click',function(){
+      $('#id_tipo').val('3');
     });
   });
 </script>
@@ -108,9 +114,10 @@
           {%if not obj.tipo%}
               <li class="active"><a data-toggle="tab" href="#mensual" id='mens'>Fijo</a></li>
               <li><a data-toggle="tab" href="#recargo_tab" id='rec'>Condicionado</a></li>
+              <li><a data-toggle="tab" href="#excendente" id='exc'>Excendente</a></li>
               <li>Solo Puede seleccionar un concepto de los dos tipos de automaticos</li>
           {%else%}
-              <li>Ya fue seleccionado {%if obj.tipo == '1'%}Mensualidad{%elif obj.tipo == '2'%}Recargos{%endif%} al momento de darse de alta </li>
+              <li>Ya fue seleccionado {%if obj.tipo == '1'%}Mensualidad{%elif obj.tipo == '2'%}Recargos{%elif obj.tipo == '3'%}Excendente{%endif%} al momento de darse de alta </li>
           {%endif%}
           </ul>
           <div hidden>{{form.tipo}}</div>
@@ -198,6 +205,47 @@
               </div>
             </div>
           </div>
+
+         <div id="excendente" class="tab-pane fade {%if obj.tipo == '3'%} in active {%endif%} ">
+            <h3 class='box-title'>Excedentes</h3>
+            <div class='box-body'>
+            <!--<div class="row">
+              <div class="col-md-3"><i class="btn btn-primary fa fa-plus" id='agregar_exc' name=""></i></div>
+              <div class="col-md-9"></div>
+            </div>-->
+              <div class="row">
+                <div id="excendente">
+                  {{excendente.management_form}}
+                    <table class='table table-condensed'>
+                      <thead>
+                        <tr>
+                          <th>Activo</th>
+                          <th>Si es Menor de</th>
+                          <th>Integrar concepto</th>
+                          <th>Eliminar</th>
+                        </tr>
+                      </thead>
+                    <tbody>
+                      {%for i in excendente%}
+                      {{i.id}}
+                          <tr class="dynamic-form" >
+                            <td>{{i.activo}}</td>
+                            <td>{{i.monto}}</td>
+                            <td>{{i.concepto_exc}}</td>
+                            <td>{{i.DELETE}}</td>
+                          </tr>
+                      {%endfor%}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+         </div>
+
+
+
+
+
       </div>
     </div>
   </div>

@@ -2,12 +2,13 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from catalogo.models import concepto
+from catalogo.models import concepto,alumno
 # Create your models here.
 
 tip=(
   (u'1',u'Mensual'),
-  (u'2',u'Recargos')
+  (u'2',u'Recargos'),
+  (u'3',u'Excedente')
   )
 
 class cron_auto(models.Model):
@@ -61,3 +62,10 @@ class pronto_pago(models.Model):
   activo        = models.BooleanField()
   padre         = models.ForeignKey('automatico.cron_auto')
   beca          = models.ForeignKey('catalogo.concepto',blank=True,null=True,on_delete=models.SET_NULL)
+
+
+class excendente(models.Model):
+  activo                  = models.BooleanField(default=False)
+  padre                   = models.ForeignKey('automatico.cron_auto')
+  monto                   = models.CharField(max_length=30)
+  concepto_exc            = models.ForeignKey('catalogo.concepto',blank=True,null=True,on_delete=models.SET_NULL)

@@ -3,7 +3,7 @@ from django.contrib import admin
 from base.utilidades import CustomModelAdmin
 # Register your models here.
 class cron_autoAdmin(CustomModelAdmin):
-  list_display=('esta_activo','descripcion')
+  list_display=('esta_activo','descripcion','definicion')
   list_display_links=('descripcion',)
   list_filter=('descripcion',)
 
