@@ -114,6 +114,7 @@ def vista_movimiento(request,pk=None):
   elif operacion == 'SAVE':
     return redirect('listar',app='reporte',modelo='movimiento')
 
+  form.fields["concepto"].queryset = concepto.objects.exclude(clave__contains="ANTICIPO_")
   parametros={
     'form'      : form,
     'custom'    : True,
