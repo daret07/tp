@@ -14,8 +14,8 @@ class ciclo_escolar(models.Model):
     return  self.clave  
 
 tipo_conceptos=(
-  (u'I',u'Ingreso'),
-  (u'E',u'Egreso'),
+  (u'I',u'Abono'),
+  (u'E',u'Cargo'),
 )
 
 tipo_cargo=(
