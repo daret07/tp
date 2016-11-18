@@ -41,7 +41,9 @@ def vista_inscripcion(request,pk=None):
   if operacion == 'SAVE_AND_OTHER':
     return redirect('crear',app='inscripcion',modelo='inscripcion')
   elif operacion == 'SAVE':
-    return redirect('listar',app='inscripcion',modelo='inscripcion')
+    if form.is_valid():
+      return redirect('listar',app='inscripcion',modelo='inscripcion')
+
     
   parametros={
     'form'    : form,

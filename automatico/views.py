@@ -78,7 +78,9 @@ def vista_cron_auto(request,pk=None):
   if operacion == 'SAVE_AND_OTHER':
     return redirect('crear',app='automatico',modelo='cron_auto')
   elif operacion == 'SAVE':
-    return redirect('listar',app='automatico',modelo='cron_auto')
+    if form.is_valid():
+      return redirect('listar',app='automatico',modelo='cron_auto')
+
   parametros  ={
     'prontose': pronto,
     'formset' : form_set,

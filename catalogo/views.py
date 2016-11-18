@@ -53,7 +53,8 @@ def vista_concepto(request,pk=None):
   if operacion == 'SAVE_AND_OTHER':
     return redirect('crear',app='catalogo',modelo='concepto')
   elif operacion == 'SAVE':
-    return redirect('listar',app='catalogo',modelo='concepto')
+    if form.is_valid():
+      return redirect('listar',app='catalogo',modelo='concepto')
 
   parametros={
     'form'    : form,
@@ -107,7 +108,8 @@ def vista_ciclo_escolar(request,pk=None):
   if operacion == 'SAVE_AND_OTHER':
     return redirect('crear',app='catalogo',modelo='ciclo_escolar')
   elif operacion == 'SAVE':
-    return redirect('listar',app='catalogo',modelo='ciclo_escolar')
+    if form.is_valid():
+      return redirect('listar',app='catalogo',modelo='ciclo_escolar')
 
   parametros={
     'form'    : form,
@@ -139,7 +141,8 @@ def vista_categoria(request,pk=None):
   if operacion == 'SAVE_AND_OTHER':
     return redirect('crear',app='catalogo',modelo='categoria')
   elif operacion == 'SAVE':
-    return redirect('listar',app='catalogo',modelo='categoria')
+    if form.is_valid():
+      return redirect('listar',app='catalogo',modelo='categoria')
 
   parametros={
     'form'    : form,
@@ -215,7 +218,8 @@ def vista_alumno(request,pk=None):
   if operacion == 'SAVE_AND_OTHER':
     return redirect('crear',app='catalogo',modelo='alumno')
   elif operacion == 'SAVE':
-    return redirect('listar',app='catalogo',modelo='alumno')
+    if form.is_valid():
+      return redirect('listar',app='catalogo',modelo='alumno')
 
 
 

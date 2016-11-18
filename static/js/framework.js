@@ -140,6 +140,14 @@ function imprimir(aplicacion,metodo,params) {
 
 $(document).ready(function() {
 
+
+  $("body").on("click",".whait_btn",function(){
+     $.blockUI({ message: '<h4>Espere un momento...</h4>' });
+    $(this).text("Espere..").prop("disabled","disabled");
+  });
+
+
+
   $.datetimepicker.setLocale('es');
 
   $.ajaxSetup({
@@ -192,6 +200,7 @@ $(document).ready(function() {
   $("body").on("click",'input',function() {
     $(this).select();
   });
+
 
 
   $("body").on("keypress",".entero",function (e) {
