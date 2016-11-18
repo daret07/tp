@@ -66,6 +66,7 @@ def getvalue(request):
   from catalogo.models import concepto
   concept = concepto.objects.get(pk=request.POST.get('concep'))
   parametros={
-  'importe':concept.importe
+  'importe':concept.importe,
+  'tipo':concept.tipo,
   }
   return parametros

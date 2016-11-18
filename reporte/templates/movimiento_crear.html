@@ -11,7 +11,9 @@
     $('#id_alumno').combobox();
     $('#id_ciclo').combobox();
     $('#id_concepto').combobox();
+
     $("#id_anticipo").bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
+
     $('#id_concepto').on('change',function(){
       let value = $(this).val();
       var params={
@@ -20,9 +22,17 @@
         'concep' : $(this).val(),
       } 
       $.ajax({data:params}).done(function(data){
+        let tipo = data.response.tipo;
         $('#id_monto').val(data.response.importe);
+        if(tipo=='I'){
+          $('#anticipos').show();
+        }
+        if(tipo=='E'){
+          $('#anticipos').hide();
+        }
       });
     });
+
   });
 </script>
 {% endblock %}
@@ -90,8 +100,10 @@
                     {{form.monto}}
                   </div>
                 </div>
+                <div id='anticipos' hidden>
                 <div class="col-md-3">Mensualidad Anticipada</div>
                 <div class="col-md-3">{{form.anticipo}}</div>
+                </div>
               </div>
             </div>
         </div>
