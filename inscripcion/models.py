@@ -27,9 +27,9 @@ alumno_rama=(
 )
 class inscripcion(models.Model):
   fecha_inscripcion              = models.DateField(auto_now=True)
-  alumno                         = models.ForeignKey('catalogo.alumno')
-  categoria                      = models.ForeignKey('catalogo.categoria')  
-  ciclo                          = models.ForeignKey('catalogo.ciclo_escolar')
+  alumno                         = models.ForeignKey('catalogo.alumno',blank=True,null=True,on_delete=models.SET_NULL)
+  categoria                      = models.ForeignKey('catalogo.categoria',blank=True,null=True,on_delete=models.SET_NULL)
+  ciclo                          = models.ForeignKey('catalogo.ciclo_escolar',blank=True,null=True,on_delete=models.SET_NULL)
   alumno_nombre                  = models.CharField(max_length=50,verbose_name='Nombre')
   alumno_paterno                 = models.CharField(max_length=50,verbose_name='Apellido Paterno')
   alumno_materno                 = models.CharField(max_length=50,verbose_name='Apellido Materno')

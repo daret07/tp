@@ -141,9 +141,27 @@ function imprimir(aplicacion,metodo,params) {
 $(document).ready(function() {
 
 
-  $("body").on("click",".whait_btn",function(){
-     $.blockUI({ message: '<h4>Espere un momento...</h4>' });
+  $("body").on("click",".wait_btn",function(){
+             $.blockUI({ message: '<h4>Espere un momento...</h4>', css: { 
+            border: 'none', 
+            padding: '15px', 
+            backgroundColor: '#000', 
+            '-webkit-border-radius': '10px', 
+            '-moz-border-radius': '10px', 
+            opacity: .5, 
+            color: '#fff',
+            'z-index': '2000'
+            },
+            overlayCSS:{
+              backgroundColor: '#000', 
+              opacity:         0.6, 
+              cursor:          'wait',
+              'z-index': '1999'
+            } 
+          }); 
     $(this).text("Espere..").prop("disabled","disabled");
+    setTimeout($.unblockUI, 2000);
+    setTimeout($(this).text("Guardar").prop('disabled', false), 2000); 
   });
 
 

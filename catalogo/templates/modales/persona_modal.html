@@ -11,6 +11,7 @@
       var tipo = String('{{obj.tipo}}');
       loadCombo('id_'+tipo,'catalogo','get_persona',ids,{});
       $('#myModal').modal('toggle');
+
     }
   });
 </script>
@@ -90,6 +91,6 @@
 {% block modal_footer %}
 <input type="text" name="tipo" value='{{tipo}}' hidden>
 <input type="text" name="pk" id='pk' value='{{obj.pk}}' hidden>
-<input type="submit" name="guardar" class='btn btn-primary' value='Guardar'>
+<input type="submit" name="guardar" class='btn btn-primary wait_btn' value='Guardar'>
 {% endblock %}
 
