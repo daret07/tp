@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render,redirect
-from automatico.models import cron_auto,recargo_pago,pronto_pago,excendente
-from automatico.forms import cron_autoForm,recargo_pagoFormset,pronto_pagoFormset,excendenteFormset
+from automatico.models import cron_auto,recargo_pago,pronto_pago#,excendente
+from automatico.forms import cron_autoForm,recargo_pagoFormset,pronto_pagoFormset#,excendenteFormset
 from django.contrib import messages
 
 # Create your views here.
@@ -28,7 +28,7 @@ def vista_cron_auto(request,pk=None):
   form        = form_class(request.POST or None,instance=obj)
   pronto      = pronto_pagoFormset(request.POST or None,instance=obj)
   form_set    =  recargo_pagoFormset(request.POST or None,instance=obj)
-  excendent   = excendenteFormset(request.POST or None, instance=obj)
+# excendent   = excendenteFormset(request.POST or None, instance=obj)
   if request.POST and form.is_valid():
     minuto_tmp    = request.POST.getlist('minuto')
     hora_tmp      = request.POST.getlist('hora')
@@ -56,15 +56,15 @@ def vista_cron_auto(request,pk=None):
       if pronto.is_valid():
         pronto.save()  
     
-    elif str(obj.tipo) == '3':
-      excedent      = excendenteFormset(request.POST or None,instance=obj)
-      if excedent.is_valid():
-        excedent.save() 
+#    elif str(obj.tipo) == '3':
+#      excedent      = excendenteFormset(request.POST or None,instance=obj)
+#      if excedent.is_valid():
+#        excedent.save() 
 
     messages.success(request,"Se ha Guardado la información con éxito")
   form_set =recargo_pagoFormset(instance=obj)
   pronto      = pronto_pagoFormset(instance=obj)
-  excendent   = excendenteFormset(instance=obj)
+#  excendent   = excendenteFormset(instance=obj)
   if obj:
     if obj.definicion:
       tmp = obj.definicion.split(' ')
@@ -95,8 +95,8 @@ def vista_cron_auto(request,pk=None):
     'min_s'  :min_select,
     'hor_s'  :hor_select,
     'dia_s'  :dia_select,
-    'mes_s'  :mes_select,
-    'excendente':excendent,
+    'mes_s'  :mes_select
+    #'excendente':excendent,
   }
   
   return parametros
@@ -116,3 +116,4 @@ def messes():
   val.append(('11','Noviembre'),)
   val.append(('12','Diciembre'),)
   return val
+

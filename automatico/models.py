@@ -64,8 +64,8 @@ class pronto_pago(models.Model):
   beca          = models.ForeignKey('catalogo.concepto',blank=True,null=True,on_delete=models.SET_NULL)
 
 
-class excendente(models.Model):
-  activo                  = models.BooleanField(default=False)
-  padre                   = models.ForeignKey('automatico.cron_auto')
-  monto                   = models.CharField(max_length=30)
-  concepto_exc            = models.ForeignKey('catalogo.concepto',blank=True,null=True,on_delete=models.SET_NULL)
+#class excendente(models.Model):
+#  activo                  = models.BooleanField(default=False)
+#  padre                   = models.ForeignKey('automatico.cron_auto')
+#  monto                   = models.CharField(max_length=30)
+#  concepto_exc            = models.ForeignKey('catalogo.concepto',blank=True,null=True,on_delete=models.SET_NULL)

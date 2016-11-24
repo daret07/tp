@@ -16,5 +16,6 @@ class cron_autoAdmin(CustomModelAdmin):
       return "<i class='fa fa-check-circle' aria-hidden='true' style='color:green;'></i>"
     else:
       return "<i class='fa fa-times-circle' aria-hidden='true' style='color:green;'></i>"
+      
   esta_activo.allow_tags=True
 

@@ -38,9 +38,9 @@
     $('#rec').on('click',function(){
       $('#id_tipo').val('2');
     });
-    $('#exc').on('click',function(){
+    /*$('#exc').on('click',function(){
       $('#id_tipo').val('3');
-    });
+    });*/
   });
 </script>
 {% endblock %}
@@ -114,7 +114,7 @@
           {%if not obj.tipo%}
               <li class="active"><a data-toggle="tab" href="#mensual" id='mens'>Fijo</a></li>
               <li><a data-toggle="tab" href="#recargo_tab" id='rec'>Condicionado</a></li>
-              <li><a data-toggle="tab" href="#excendente" id='exc'>Excendente</a></li>
+              <!--<li><a data-toggle="tab" href="#excendente" id='exc'>Excendente</a></li>-->
               <li>Solo Puede seleccionar un concepto de los dos tipos de automaticos</li>
           {%else%}
               <li>Ya fue seleccionado {%if obj.tipo == '1'%}Mensualidad{%elif obj.tipo == '2'%}Recargos{%elif obj.tipo == '3'%}Excendente{%endif%} al momento de darse de alta </li>
@@ -206,14 +206,14 @@
             </div>
           </div>
 
-         <div id="excendente" class="tab-pane fade {%if obj.tipo == '3'%} in active {%endif%} ">
+         <!--<div id="excendente" class="tab-pane fade {%if obj.tipo == '3'%} in active {%endif%} ">
             <h3 class='box-title'>Excedentes</h3>
-            <div class='box-body'>
+            <div class='box-body'>-->
             <!--<div class="row">
               <div class="col-md-3"><i class="btn btn-primary fa fa-plus" id='agregar_exc' name=""></i></div>
               <div class="col-md-9"></div>
             </div>-->
-              <div class="row">
+            <!-- <div class="row">
                 <div id="excendente">
                   {{excendente.management_form}}
                     <table class='table table-condensed'>
@@ -240,7 +240,7 @@
                 </div>
               </div>
             </div>
-         </div>
+         </div>-->
 
 
 

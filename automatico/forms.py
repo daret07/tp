@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from automatico.models import cron_auto,recargo_pago,pronto_pago,excendente
+from automatico.models import cron_auto,recargo_pago,pronto_pago#,excendente
 from django import forms
 from base.forms import CustomForm,CustomModelForm
 class cron_autoForm(CustomModelForm):
@@ -35,14 +35,14 @@ pronto_pagoFormset = forms.inlineformset_factory(
         }
     )
 
-excendenteFormset = forms.inlineformset_factory(
-    cron_auto,
-    excendente,
-    fields='__all__',
-    extra=0,
-    min_num=1,
-    widgets={
-        'concepto_exc': forms.Select(attrs={'class':'form-control'}),
-        'monto'   : forms.TextInput(attrs={'class':'form-control decimal'}),
-        }
-    )
+#excendenteFormset = forms.inlineformset_factory(
+#    cron_auto,
+#    excendente,
+#    fields='__all__',
+#    extra=0,
+#    min_num=1,
+#    widgets={
+#        'concepto_exc': forms.Select(attrs={'class':'form-control'}),
+#        'monto'   : forms.TextInput(attrs={'class':'form-control decimal'}),
+#        }
+#    )
