@@ -1,7 +1,9 @@
 from __future__ import unicode_literals
 
-from django.db import models
+from django.db import models 
 from catalogo.models import alumno,categoria,ciclo_escolar,concepto
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your models here.
 
@@ -26,3 +28,10 @@ class movimiento(models.Model):
       ('reporte_saldos','Can add saldo'),
       ('deudores','Can add deudores'),
       )
+
+@receiver(post_save, sender=movimiento, dispatch_uid=None)
+def save_move(sender, instance, created, **kwargs):
+    if not created:
+        # User object updated
+        print instance.monto
+        pass

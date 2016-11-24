@@ -64,6 +64,7 @@ def vista_movimiento(request,pk=None):
                 referencia_null = True
             
             if label_numero.lower() == 'importe':
+
               obj.monto = hoja.cell(row,row_idx).value
 
             if label_numero.lower().encode('utf8') == 'numero operación':
@@ -112,8 +113,7 @@ def vista_movimiento(request,pk=None):
   if operacion == 'SAVE_AND_OTHER':
     return redirect('crear',app='reporte',modelo='movimiento')
   elif operacion == 'SAVE':
-    if form.is_valid():
-      return redirect('listar',app='reporte',modelo='movimiento')
+    return redirect('listar',app='reporte',modelo='movimiento')
 
   form.fields["concepto"].queryset = concepto.objects.exclude(clave__contains="ANTICIPO_")
   parametros={
