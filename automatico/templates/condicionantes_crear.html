@@ -1,0 +1,117 @@
+{% extends 'core/crear.html'%}
+{% block extra_head %}
+{{block.super}}
+<style type="text/css">
+  .box-danger{
+    padding: 25px;
+  }
+  .title{
+    font-size: 15px;
+    font
+  }
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+  $('#id_activo').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
+  $('#id_concepto').combobox();
+      $('#agregar').on('click',function(){
+      addForm('','#condicionante_tmp','condicionante_tmp_set');
+      
+    });
+ 
+});
+</script>
+
+{% endblock %}
+{% block contenido %}
+
+  <div class="row">
+    
+    <div class="col-md-6">
+      <div class="box box-danger">
+        <h3 class='box-title '>
+          <div class='row'>
+            <div class="col-md-6">Movimientos</div>
+          </div>
+        </h3>
+        <div class='box-body'>
+          <div class="row">
+            <div class="col-md-2">
+              Activo
+            </div>
+            <div class="col-md-10">
+              {{form.activo}}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-2 {%if form.concepto.errors%} error {%endif%}">
+              Concepto
+            </div>
+            <div class="col-md-10">
+               {{form.concepto}}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 {%if form.descripcion.errors%} error {%endif%}">
+              Descripción
+            </div>
+            <div class="col-md-10">
+               {{form.descripcion}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="box box-danger">
+        <h3 class='box-title '>
+          <div class='row'>
+            <div class="col-md-6">Condiciones que se aplicaran</div>
+          </div>
+        </h3>
+        <div class='box-body'>
+          <div class="row">
+
+         <div class="row">
+              <div class="col-md-3">Agregar Concepto <i class="btn btn-primary fa fa-plus" id='agregar' name=""></i></div>
+            </div>
+
+
+              <div class="row">
+                <div id="condicionante_tmp">
+                  {{formset.management_form}}
+                    <table class='table table-condensed'>
+                      <thead>
+                        <tr>
+                          <th>Concepto que se aplicara</th>
+                          <th>Eliminar</th>
+                        </tr>
+                      </thead>
+                    <tbody>
+                      {%for i in formset%}
+                      {{i.id}}
+                          <tr class="dynamic-form" >
+                            <td>{{i.concepto_tmp}}</td>
+                            <td class="delete">{{i.DELETE}}</td>
+                          </tr>
+                      {%endfor%}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+
+
+
+{% endblock %}
