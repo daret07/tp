@@ -22,8 +22,17 @@ def vista_inscripcion(request,pk=None):
   form = form_class(request.POST or None,instance=obj)
 
   if request.POST and form.is_valid():
+    pk_alumno          = request.POST.get('alumno')
+    alumno_inscripcion = alumno.objects.get(pk=pk_alumno)
+    inscripcion_tmp    = inscripcion.objects.filter(alumno=alumno_inscripcion)
+    if inscripcion.objects.filter(alumno=alumno_inscripcion):
+      auto_inscripcion(request,alumno_inscripcion,True)
+    else:
+      auto_inscripcion(request,alumno_inscripcion,False)
+      
     obj = form.save(commit=False)
     obj.save()
+    
     alumno.objects.filter(pk=obj.alumno.pk).update(ciclo_escolar=obj.ciclo)
     messages.success(request,"Se ha Guardado la información con éxito")
 
@@ -54,3 +63,39 @@ def vista_inscripcion(request,pk=None):
     'maximo'  : maximo,
   }
   return parametros
+
+
+def auto_inscripcion(request,alumno,tipo):
+  from automatico.models import condicionantes,condicionante_tmp
+  from catalogo.models import concepto
+  from reporte.models import movimiento
+  from django.utils import timezone
+  from reporte.views import descuentos
+  if tipo:
+    concepto_tmp = concepto.objects.filter(clave='REINSCRIPCION')
+    tmps = condicionantes.objects.filter(concepto=concepto_tmp,activo=True)
+    for item in tmps:
+      tmps_tmp = condicionante_tmp.objects.filter(padre=item)
+      for item_tmp in tmps_tmp:
+        movimiento.objects.create(
+              fecha_registro=timezone.now(),
+              ciclo=alumno.ciclo_escolar,
+              alumno=alumno,
+              concepto=item_tmp.concepto_tmp,
+              monto=item_tmp.concepto_tmp.importe,
+              descripcion='Movimiento De Reinscripcion')
+        descuentos(alumno.pk,item_tmp.concepto_tmp.importe,item_tmp.concepto_tmp,alumno.ciclo_escolar)
+  else:
+    concepto_tmp = concepto.objects.filter(clave='INSCRIPCION')
+    tmps = condicionantes.objects.filter(concepto=concepto_tmp,activo=True)
+    for item in tmps:
+      tmps_tmp = condicionante_tmp.objects.filter(padre=item)
+      for item_tmp in tmps_tmp:
+        movimiento.objects.create(
+              fecha_registro=timezone.now(),
+              ciclo=alumno.ciclo_escolar,
+              alumno=alumno,
+              concepto=item_tmp.concepto_tmp,
+              monto=item_tmp.concepto_tmp.importe,
+              descripcion='Movimiento De Inscripcion')
+        descuentos(alumno.pk,item_tmp.concepto_tmp.importe,item_tmp.concepto_tmp,alumno.ciclo_escolar)

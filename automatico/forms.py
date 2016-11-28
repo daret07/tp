@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from automatico.models import cron_auto,recargo_pago,pronto_pago#,excendente
+from automatico.models import cron_auto,recargo_pago,pronto_pago,condicionantes,condicionante_tmp#,excendente
+from catalogo.models import concepto
 from django import forms
 from base.forms import CustomForm,CustomModelForm
 class cron_autoForm(CustomModelForm):
@@ -46,3 +47,29 @@ pronto_pagoFormset = forms.inlineformset_factory(
 #        'monto'   : forms.TextInput(attrs={'class':'form-control decimal'}),
 #        }
 #    )
+
+class condicionForm(CustomModelForm):
+    concepto     = forms.ModelChoiceField(queryset=concepto.objects.filter(tipo='E'))
+    class Meta:
+        model = condicionantes
+        fields = '__all__'
+
+
+class form_hijo_condicionante(CustomModelForm):
+    concepto_tmp     = forms.ModelChoiceField(queryset=concepto.objects.filter(tipo='E'))
+    class Meta:
+        model = condicionante_tmp
+        fields = '__all__'
+
+
+condicionante_Formset = forms.inlineformset_factory(
+    condicionantes,
+    condicionante_tmp,
+    form = form_hijo_condicionante,
+    fields='__all__',
+    extra = 0,
+    min_num=1,
+    widgets={
+        'concepto_tmp': forms.Select(attrs={'class':'form-control'}),
+        }
+    )

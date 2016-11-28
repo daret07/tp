@@ -237,4 +237,19 @@
        "nivel": 0,
        "activo": true}
   }
+  ,
+  {
+    "model": "navegacion.menu",
+    "pk": 18,
+    "fields": {
+      "nombre": "Movimientos Inscripcion",
+       "app": "automatico",
+       "modelo": "condicionantes",
+       "padre": 1,
+       "icono": "fa fa-plus",
+       "permiso": "automatico.add_condicionantes",
+       "listar": true,
+       "nivel": 0,
+       "activo": true}
+  }
 ]

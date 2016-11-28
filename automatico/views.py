@@ -4,6 +4,7 @@ from automatico.models import cron_auto,recargo_pago,pronto_pago#,excendente
 from automatico.forms import cron_autoForm,recargo_pagoFormset,pronto_pagoFormset#,excendenteFormset
 from django.contrib import messages
 
+
 # Create your views here.
 def vista_cron_auto(request,pk=None):
   form_class  = cron_autoForm
@@ -117,3 +118,42 @@ def messes():
   val.append(('12','Diciembre'),)
   return val
 
+def vista_condicionantes(request,pk=None):
+  from django.contrib import messages
+  from catalogo.models import concepto
+  from automatico.models import condicionantes,condicionante_tmp
+  from automatico.forms import condicionForm,condicionante_Formset
+  obj = None
+
+  if pk is not None:
+    obj = condicionantes.objects.get(pk=pk)
+
+  form        = condicionForm(request.POST or None,instance=obj)
+  formset      = condicionante_Formset(request.POST or None,instance=obj)
+
+  if request.POST:
+    if form.is_valid():
+      obj = form.save(commit=False)
+      obj.save()
+      formset      = condicionante_Formset(request.POST or None,instance=obj)
+      if formset.is_valid():
+        formset.save()
+        messages.success(request,"Se a guardado Correctamente")
+
+  form        = condicionForm(request.POST or None,instance=obj)
+  formset      = condicionante_Formset(request.POST or None,instance=obj)
+
+  operacion = request.POST.get('form_action',None)
+  if operacion == 'SAVE_AND_OTHER':
+    return redirect('crear',app='automatico',modelo='condicionantes')
+  elif operacion == 'SAVE':
+    if form.is_valid():
+      return redirect('listar',app='automatico',modelo='condicionantes')
+  
+  parametros  ={
+  'form'    :form,
+  'formset' :formset,
+  'custom'  : True,
+  'obj'     : obj,
+  }
+  return parametros

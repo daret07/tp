@@ -64,17 +64,17 @@ def vista_movimiento(request,pk=None):
                 referencia_null = True
             
             if label_numero.lower() == 'importe':
-
               obj.monto = hoja.cell(row,row_idx).value
 
             if label_numero.lower().encode('utf8') == 'numero operación':
-              obj.folio = hoja.cell(row,row_idx).value
+              obj.folio = int(hoja.cell(row,row_idx).value)
 
             if label_numero.lower().encode('utf8') == 'fecha de operación':
               obj.fecha_registro = xlrd.xldate.xldate_as_datetime(hoja.cell(row,row_idx).value, libro.datemode)
             obj.concepto = concepto.objects.get(clave='ABONO')
           if not movimiento.objects.filter(folio=obj.folio):
             obj.save()
+            monto_calc(obj)
             try:
               alumno_s = alm.objects.get(pk=ref_tmp.alumno.pk)
               descuentos(alumno_s,obj.monto,obj.concepto,alumno_s.ciclo_escolar)
@@ -124,6 +124,46 @@ def vista_movimiento(request,pk=None):
     'nula'      : referencia_null
   }
   return parametros
+
+
+def monto_calc(obj):
+  from django.utils import timezone
+  tmp_concepto = concepto.objects.filter(clave='MENSUALIDAD')
+  for item_tmp in tmp_concepto:
+    if float(item_tmp.importe) < float(obj.monto):
+      sub_total = float(obj.monto) - float(item_tmp.importe)
+      tmp = concepto.objects.filter(importe=float(sub_total))
+      if tmp:
+        for i in tmp:
+          print i.importe
+          if 'ANTICIPO_' not in i.clave:
+            movimiento.objects.filter(pk=obj.pk).update(monto=item_tmp.importe)
+            movimiento.objects.create(
+              fecha_registro=timezone.now(),
+              ciclo=obj.ciclo,
+              alumno=obj.alumno,
+              concepto=i,
+              monto=i.importe,
+              descripcion='Mensualidad de Anticipo')
+            anticipos(obj.alumno.pk,obj.monto,i,obj.ciclo)
+      else:
+        tmp = concepto.objects.filter(importe=float(obj.monto))
+        if tmp:
+          for i in tmp:
+            if 'ANTICIPO_' not in i.clave:
+              if i.importe == obj.monto:
+                movimiento.objects.filter(pk=obj.pk).update(monto=i.importe)
+              else:
+                movimiento.objects.create(
+                  fecha_registro=timezone.now(),
+                  ciclo=obj.ciclo,
+                  alumno=obj.alumno,
+                  concepto=i,
+                  monto=i.importe,
+                  descripcion='Mensualidad de Anticipo')
+              anticipos(obj.alumno.pk,obj.monto,i,obj.ciclo)
+
+
 
 def anticipos(alumno,monto,concepto,ciclo):
   from catalogo.models import alumno as alm,concepto as concepto_fuente

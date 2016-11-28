@@ -69,3 +69,12 @@ class pronto_pago(models.Model):
 #  padre                   = models.ForeignKey('automatico.cron_auto')
 #  monto                   = models.CharField(max_length=30)
 #  concepto_exc            = models.ForeignKey('catalogo.concepto',blank=True,null=True,on_delete=models.SET_NULL)
+
+class condicionantes(models.Model):
+  activo       = models.BooleanField();
+  concepto      = models.ForeignKey('catalogo.concepto',blank=True,null=True,on_delete=models.SET_NULL)
+  descripcion  = models.TextField(max_length=200)
+
+class condicionante_tmp(models.Model):
+  padre        = models.ForeignKey('automatico.condicionantes')
+  concepto_tmp = models.ForeignKey('catalogo.concepto',blank=True,null=True,on_delete=models.SET_NULL)

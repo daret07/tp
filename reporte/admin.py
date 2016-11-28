@@ -29,7 +29,7 @@ class movimientoAdmin(CustomModelAdmin):
       return obj.referencia.descripcion
     else:
       return 'Movimiento Manual'
-    
+
 
   def campo_monto(self,obj):
     
