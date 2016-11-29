@@ -54,7 +54,7 @@ class estado_cuentaForm(CustomForm):
   def __init__(self, *args,**kwargs):
     super(estado_cuentaForm,self).__init__(*args,**kwargs)
     self.fields['mes'].widget.attrs['class']='form-control'
-    self.fields['anio'].widget.attrs['class']='form-control decimal'
+    self.fields['anio'].widget.attrs.update({'class' : 'form-control decimal','maxlength':'4'})
     self.fields['alumno'].widget.attrs['class']='form-control'
   mes           = forms.ChoiceField(choices=meses,required=False)
   anio          = forms.IntegerField(required=False)
