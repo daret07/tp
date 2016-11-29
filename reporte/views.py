@@ -444,12 +444,12 @@ def vista_estado_cuenta(request,pk=None):
     p.drawString(50 , 620, 'Resumen Informativo')
     p.drawString(50 , 610, 'Saldo Anterior: $'+str(float(debe)-float(saldo_mensual)))
     p.drawString(50 , 600, 'Mes Actual: $'+str(saldo_mensual))
-    p.drawString(350 , 620, 'Cargos del Mes')
-    p.drawString(210 , 610, 'Fecha')
-    p.drawString(290 , 610, 'Concepto')
-    p.drawString(430 , 610, 'ABONO')
-    p.drawString(500 , 610, 'Cargo')
-    num_tmp = 610
+    p.drawString(250 , 590, 'Cargos del Mes')
+    p.drawString(70 , 580, 'Fecha')
+    p.drawString(120 , 580, 'Concepto')
+    p.drawString(430 , 580, 'ABONO')
+    p.drawString(500 , 580, 'CARGO')
+    num_tmp = 580
     for i in mov:
       num_tmp -= 10
       fecha = datetime.strptime(str(i.fecha_registro),"%Y-%m-%d").strftime("%d/%m/%Y")
@@ -459,8 +459,8 @@ def vista_estado_cuenta(request,pk=None):
       if str(i.concepto.tipo)=='I':
         p.drawString(500 , num_tmp, '$ 0.0')
         p.drawString(430 , num_tmp, '$ '+str(i.monto))
-      p.drawString(210 , num_tmp, fecha)
-      p.drawString(290 , num_tmp, i.concepto.descripcion)
+      p.drawString(60 , num_tmp, fecha)
+      p.drawString(120 , num_tmp, i.concepto.descripcion)
 
     
 
