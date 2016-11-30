@@ -49,7 +49,8 @@ pronto_pagoFormset = forms.inlineformset_factory(
 #    )
 
 class condicionForm(CustomModelForm):
-    concepto     = forms.ModelChoiceField(queryset=concepto.objects.filter(tipo='E'))
+    from django.db.models import Q
+    concepto     = forms.ModelChoiceField(queryset=concepto.objects.filter(Q(clave='INSCRIPCION')|Q(clave='REINSCRIPCION')))
     class Meta:
         model = condicionantes
         fields = '__all__'
