@@ -25,10 +25,11 @@ def vista_inscripcion(request,pk=None):
     pk_alumno          = request.POST.get('alumno')
     alumno_inscripcion = alumno.objects.get(pk=pk_alumno)
     inscripcion_tmp    = inscripcion.objects.filter(alumno=alumno_inscripcion)
-    if inscripcion.objects.filter(alumno=alumno_inscripcion):
-      auto_inscripcion(request,alumno_inscripcion,True)
-    else:
-      auto_inscripcion(request,alumno_inscripcion,False)
+    if not obj:
+      if inscripcion.objects.filter(alumno=alumno_inscripcion):
+        auto_inscripcion(request,alumno_inscripcion,True)
+      else:
+        auto_inscripcion(request,alumno_inscripcion,False)
       
     obj = form.save(commit=False)
     obj.save()
