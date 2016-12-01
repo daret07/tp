@@ -12,8 +12,6 @@
     $('#id_ciclo').combobox();
     $('#id_concepto').combobox();
 
-    $("#id_anticipo").bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
-
     $('#id_concepto').on('change',function(){
       let value = $(this).val();
       var params={
@@ -25,10 +23,10 @@
         let tipo = data.response.tipo;
         $('#id_monto').val(data.response.importe);
         if(tipo=='I'){
-          $('#anticipos').show();
+          $('#id_anticipo').val(1)
         }
         if(tipo=='E'){
-          $('#anticipos').hide();
+          $('#id_anticipo').val(0)
         }
       });
     });
@@ -94,15 +92,15 @@
             {%endif%}
             <div class="row">
               <div class="col-md-3 {%if form.monto.errors %} error {% endif %}">{{form.monto.label_tag}}</div>
-              <div class="col-md-3">
+              <div class="col-md-4">
                 <div class="input-group"> 
                   <div class="input-group-addon">$</div>
                     {{form.monto}}
                   </div>
                 </div>
                 <div id='anticipos' hidden>
-                <div class="col-md-3">Mensualidad Anticipada</div>
-                <div class="col-md-3">{{form.anticipo}}</div>
+                <div class="col-md-1">Mensualidad Anticipada</div>
+                <div class="col-md-3"><input type="text" name="anticipo" id='id_anticipo'></div>
                 </div>
               </div>
             </div>

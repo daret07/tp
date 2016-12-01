@@ -97,7 +97,7 @@ def vista_movimiento(request,pk=None):
       obj.descripcion = 'Movimiento Manual'
       obj.save()
       descuentos(alumno,obj.monto,obj.concepto,obj.ciclo)
-      if anticipo:
+      if int(anticipo)==1:
         monto_calc(obj)
       messages.success(request,"Se ha Guardado la información con éxito")
     else:

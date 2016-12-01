@@ -171,7 +171,6 @@ def vista_alumno(request,pk=None):
     obj.matricula = obj.matricula.zfill(4)
     if tmp_ref:
       for i in tmp_ref:
-        print i.descripcion
         if 'PRINCIPAL' in i.descripcion:
           ref_p = True
         if 'UNIFORME' in i.descripcion:
