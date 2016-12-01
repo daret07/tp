@@ -44,22 +44,46 @@ def estado_cuenta(request):
 
   if movs_mes:
     for i in movs_mes:
-      estado_cuentas.append((i.fecha_registro,i.concepto.nombre,i.concepto.tipo,i.monto),)
+      estado_cuentas.append((i.fecha_registro,i.concepto.descripcion,i.concepto.tipo,i.monto),)
 
       if str(i.concepto.tipo) == 'E':
         saldo_mensual += i.monto
       if str(i.concepto.tipo) == 'I':
         saldo_mensual -= i.monto
+  
+  mes_ant = mes_anterior(mes,anio)
+  movs_mes_ant = movimiento.objects.filter(alumno=alum,fecha_registro__month=mes_ant['mes'],fecha_registro__year=mes_ant['anio']).prefetch_related('concepto')
+  saldo_mensual_ant = 0
+  if movs_mes_ant:
+    for i in movs_mes_ant:
+      if str(i.concepto.tipo) == 'E':
+        saldo_mensual_ant += i.monto
+      if str(i.concepto.tipo) == 'I':
+        saldo_mensual_ant -= i.monto
 
 
   parametros ={
-  'total'          : debe,
+  'total'          : saldo_mensual,
   'saldo_mensual'  : saldo_mensual,
   'mensualidad'    : estado_cuentas,
-  'saldo_anterior' : float(debe)-float(saldo_mensual),
+  'saldo_anterior' : float(saldo_mensual_ant) + float(0.0),
+  'mensaje'        : '' if saldo_mensual > 0 else '( Mensualidad - Saldada )'
   }
   return parametros
 
+def mes_anterior(mes,anio):
+  anio_a = 0
+  mes_a  = 0
+  if int(mes) == 1:
+    mes_a = 12
+    anio_a = int(anio) - 1
+  else:
+    mes_a = int(mes) - 1
+    anio_a=anio
+  return {
+  'mes' :mes_a,
+  'anio':anio_a,
+  }
 
 def getvalue(request):
   from catalogo.models import concepto

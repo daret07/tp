@@ -8,7 +8,7 @@ from datetime import datetime
 # Register your models here.
 class movimientoAdmin(CustomModelAdmin):
   list_per_page = 50
-  list_display=('folio','matricula','alumno','referencia','descripcion','ciclo','concepto','campo_monto')
+  list_display=('folio','fecha_registro','matricula','alumno','referencia','descripcion','ciclo','concepto','campo_monto')
   list_display_links=('alumno','referencia',)
   list_filter=('alumno','referencia',)
   date_hierarchy='fecha_registro'

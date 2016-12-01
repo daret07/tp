@@ -98,7 +98,7 @@ def vista_movimiento(request,pk=None):
       obj.save()
       descuentos(alumno,obj.monto,obj.concepto,obj.ciclo)
       if anticipo:
-        anticipos(alumno,obj.monto,obj.concepto,obj.ciclo)
+        monto_calc(obj)
       messages.success(request,"Se ha Guardado la información con éxito")
     else:
       messages.error(request,'Se debe de colocar almenos una de las dos opciones, ya se archivo o llenar todos los campos')
@@ -128,57 +128,75 @@ def vista_movimiento(request,pk=None):
 
 def monto_calc(obj):
   from django.utils import timezone
+  import datetime
   tmp_concepto = concepto.objects.filter(clave='MENSUALIDAD')
   for item_tmp in tmp_concepto:
-    if float(item_tmp.importe) < float(obj.monto):
-      sub_total = float(obj.monto) - float(item_tmp.importe)
-      tmp = concepto.objects.filter(importe=float(sub_total))
-      if tmp:
-        for i in tmp:
-          print i.importe
-          if 'ANTICIPO_' not in i.clave:
-            movimiento.objects.filter(pk=obj.pk).update(monto=item_tmp.importe)
-            movimiento.objects.create(
-              fecha_registro=timezone.now(),
-              ciclo=obj.ciclo,
-              alumno=obj.alumno,
-              concepto=i,
-              monto=i.importe,
-              descripcion='Mensualidad de Anticipo')
-            anticipos(obj.alumno.pk,obj.monto,i,obj.ciclo)
-      else:
-        tmp = concepto.objects.filter(importe=float(obj.monto))
-        if tmp:
-          for i in tmp:
-            if 'ANTICIPO_' not in i.clave:
-              if i.importe == obj.monto:
-                movimiento.objects.filter(pk=obj.pk).update(monto=i.importe)
-              else:
+    if float(item_tmp.importe) == float(obj.monto):
+      pass
+    else:
+      try:
+        tmp_anticipo = concepto.objects.filter(importe=obj.monto)
+        for item_anticipo in tmp_anticipo:
+          tmp_beca_anticipo = concepto.objects.filter(clave__contains='ANTICIPO_%s'%item_anticipo.clave)
+          for item_beca in tmp_beca_anticipo:
+            calculo_mensualidad           = (float(obj.monto) + float(item_beca.importe))/float(item_tmp.importe)
+            calculo_divicion_mensualidad  = float(obj.monto)/calculo_mensualidad
+            calculo_divicion_bca          = float(item_beca.importe)/calculo_mensualidad
+            count                         = 0
+            date_count                    = obj.fecha_registro
+            while count < calculo_mensualidad:
+              if count == 0:
+                movimiento.objects.filter(pk=obj.pk).update(concepto=item_anticipo,monto=calculo_divicion_mensualidad,descripcion=item_anticipo.descripcion)
                 movimiento.objects.create(
-                  fecha_registro=timezone.now(),
+                folio=str(obj.folio)+'_A',
+                fecha_registro=date_count,
+                referencia=obj.referencia,
+                ciclo=obj.ciclo,
+                alumno=obj.alumno,
+                concepto=item_beca,
+                monto=calculo_divicion_bca,
+                descripcion=item_beca.descripcion)
+              else:
+                date_count=fecha(date_count,count)
+                movimiento.objects.create(
+                  folio=str(obj.folio)+'_A',
+                  fecha_registro=date_count,
+                  referencia=obj.referencia,
                   ciclo=obj.ciclo,
                   alumno=obj.alumno,
-                  concepto=i,
-                  monto=i.importe,
-                  descripcion='Mensualidad de Anticipo')
-              anticipos(obj.alumno.pk,obj.monto,i,obj.ciclo)
+                  concepto=item_anticipo,
+                  monto=calculo_divicion_mensualidad,
+                  descripcion=item_anticipo.descripcion)
+                movimiento.objects.create(
+                  folio=str(obj.folio)+'_A',
+                  fecha_registro=date_count,
+                  referencia=obj.referencia,
+                  ciclo=obj.ciclo,
+                  alumno=obj.alumno,
+                  concepto=item_beca,
+                  monto=calculo_divicion_bca,
+                  descripcion=item_beca.descripcion)
+              count = count + 1
+      except:
+        pass
 
 
+def fecha(date,count):
+  import datetime
+  fec = ''
+  y = date.year
+  m = date.month
+  d = date.day
+  if m == 12 and count == 0:
+    m = m
+  elif m == 12 and count >0:
+    m = 1
+    y = date.year + 1
+  else:
+    m = m+1
 
-def anticipos(alumno,monto,concepto,ciclo):
-  from catalogo.models import alumno as alm,concepto as concepto_fuente
-  from reporte.models import movimiento
-  alumno_antic = alm.objects.get(pk=alumno)
-  consep_tmp ='ANTICIPO_'+str(concepto)
-  concepto_tmp       = concepto_fuente.objects.filter(clave=consep_tmp,estatus=True)
-  f_i = datetime.now()
-  for concep in concepto_tmp:
-    movimiento.objects.create(fecha_registro=(datetime.strptime(str(f_i)[:10],"%Y-%m-%d").strftime("%Y-%m-%d")),
-      ciclo=ciclo,alumno=alumno_antic,concepto=concep,monto=concep.importe,descripcion='Descuento de Pago Anticipado')
-  parametros={
-    'mensaje':True
-  }
-  return parametros
+  fec = datetime.datetime(y,m,d)
+  return fec
 
 
 
@@ -392,18 +410,35 @@ def vista_estado_cuenta(request,pk=None):
     cargo_c_total = 0
     total_total_total = 0
 
-    # estado de cuenta
+    #calculo del saldo del mes seleccionado
+
+    movs_mes = movimiento.objects.filter(alumno=alumno_pdf,fecha_registro__month=mes,fecha_registro__year=anio).prefetch_related('concepto')
+
+    if movs_mes:
+      for i in movs_mes:
+        if str(i.concepto.tipo) == 'E':
+          saldo_mensual += i.monto
+        if str(i.concepto.tipo) == 'I':
+          saldo_mensual -= i.monto
+    # calculo del mes anterior
+
+    saldo_mensual_ant = 0
+    mes_ant = mes_anterior(mes,anio)
+    movs_mes_ant = movimiento.objects.filter(alumno=alumno_pdf,fecha_registro__month=mes_ant['mes'],fecha_registro__year=mes_ant['anio']).prefetch_related('concepto')
+    saldo_mensual_ant = 0
+    if movs_mes_ant:
+      for i in movs_mes_ant:
+        if str(i.concepto.tipo) == 'E':
+          saldo_mensual_ant += i.monto
+        if str(i.concepto.tipo) == 'I':
+          saldo_mensual_ant -= i.monto
+
+    # Referencia
     if alumno_temp:
       if movimiento_pdf:
         for movi in movimiento_pdf:
           if 'principal' in movi.descripcion.encode('utf-8').lower():
             refere = 'Referencia: '+movi.referencia
-            mov = movimiento.objects.filter(alumno=alumno_pdf,fecha_registro__month=mes,fecha_registro__year=anio).prefetch_related('concepto')
-            for i in mov:
-              if str(i.concepto.tipo) == 'E':
-                saldo_mensual += i.monto
-              if str(i.concepto.tipo) == 'I':
-                saldo_mensual -= i.monto
       else:
         messages.error(request,'El Alumno no tiene ninguna referencia asignada')
         parametros={
@@ -436,13 +471,13 @@ def vista_estado_cuenta(request,pk=None):
     p.drawString(50 , 650, padre)
     p.drawString(50 , 640, refere)
     p.drawString(350 , 670, fecha)
-    p.drawString(350 , 660, 'Total a pagar: $'+str(debe))
+    p.drawString(350 , 660, 'Total a pagar: $'+str(saldo_mensual))
     p.drawString(350 , 650, antes_de)
     p.setFont("Helvetica", 6)
     p.drawString(350 , 640, intereses)
     p.setFont("Helvetica", 8)
     p.drawString(50 , 620, 'Resumen Informativo')
-    p.drawString(50 , 610, 'Saldo Anterior: $'+str(float(debe)-float(saldo_mensual)))
+    p.drawString(50 , 610, 'Saldo Anterior: $'+str(saldo_mensual_ant))
     p.drawString(50 , 600, 'Mes Actual: $'+str(saldo_mensual))
     p.drawString(250 , 590, 'Cargos del Mes')
     p.drawString(70 , 580, 'Fecha')
@@ -450,7 +485,7 @@ def vista_estado_cuenta(request,pk=None):
     p.drawString(430 , 580, 'ABONO')
     p.drawString(500 , 580, 'CARGO')
     num_tmp = 580
-    for i in mov:
+    for i in movs_mes:
       num_tmp -= 10
       fecha = datetime.strptime(str(i.fecha_registro),"%Y-%m-%d").strftime("%d/%m/%Y")
       if str(i.concepto.tipo)=='E':
@@ -478,6 +513,21 @@ def vista_estado_cuenta(request,pk=None):
   'form':form,
   }
   return parametros
+
+def mes_anterior(mes,anio):
+  anio_a = 0
+  mes_a  = 0
+  if int(mes) == 1:
+    mes_a = 12
+    anio_a = int(anio) - 1
+  else:
+    mes_a = int(mes) - 1
+    anio_a=anio
+  return {
+  'mes' :mes_a,
+  'anio':anio_a,
+  }
+
 
 def listado_movimiento(request):
   abono      = 0
