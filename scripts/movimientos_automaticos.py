@@ -14,7 +14,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE","base.settings")
 django.setup()
 
 from catalogo.models import concepto,alumno,descuento as decs
-from automatico.models import cron_auto,pronto_pago,recargo_pago,excendente
+from automatico.models import cron_auto,pronto_pago,recargo_pago
 from inscripcion.models import inscripcion
 from reporte.models import movimiento
 from reporte.views import descuentos
@@ -134,6 +134,6 @@ for i in crons:
           elif i.tipo == '2':
             print 'pago'
             recargos(i)
-          elif i.tipo == '3':
-            print 'exedente'
-            excede(i)
+#          elif i.tipo == '3':
+#            print 'exedente'
+#            excede(i)
