@@ -136,38 +136,19 @@ def monto_calc(obj):
     else:
       try:
         tmp_anticipo = concepto.objects.filter(importe=obj.monto)
-        for item_anticipo in tmp_anticipo:
-          tmp_beca_anticipo = concepto.objects.filter(clave__contains='ANTICIPO_%s'%item_anticipo.clave)
-          for item_beca in tmp_beca_anticipo:
-            calculo_mensualidad           = (float(obj.monto) + float(item_beca.importe))/float(item_tmp.importe)
-            calculo_divicion_mensualidad  = float(obj.monto)/calculo_mensualidad
-            calculo_divicion_bca          = float(item_beca.importe)/calculo_mensualidad
-            count                         = 0
-            date_count                    = obj.fecha_registro
-            while count < calculo_mensualidad:
-              if count == 0:
-                movimiento.objects.filter(pk=obj.pk).update(concepto=item_anticipo,monto=calculo_divicion_mensualidad,descripcion=item_anticipo.descripcion)
-                movimiento.objects.create(
-                folio=str(obj.folio)+'_A',
-                fecha_registro=date_count,
-                referencia=obj.referencia,
-                ciclo=obj.ciclo,
-                alumno=obj.alumno,
-                concepto=item_beca,
-                monto=calculo_divicion_bca,
-                descripcion=item_beca.descripcion)
-              else:
-                date_count=fecha(date_count,count)
-                movimiento.objects.create(
-                  folio=str(obj.folio)+'_A',
-                  fecha_registro=date_count,
-                  referencia=obj.referencia,
-                  ciclo=obj.ciclo,
-                  alumno=obj.alumno,
-                  concepto=item_anticipo,
-                  monto=calculo_divicion_mensualidad,
-                  descripcion=item_anticipo.descripcion)
-                movimiento.objects.create(
+        if tmp_anticipo:
+          for item_anticipo in tmp_anticipo:
+            tmp_beca_anticipo = concepto.objects.filter(clave__contains='ANTICIPO_%s'%item_anticipo.clave)
+            for item_beca in tmp_beca_anticipo:
+              calculo_mensualidad           = (float(obj.monto) + float(item_beca.importe))/float(item_tmp.importe)
+              calculo_divicion_mensualidad  = float(obj.monto)/calculo_mensualidad
+              calculo_divicion_bca          = float(item_beca.importe)/calculo_mensualidad
+              count                         = 0
+              date_count                    = obj.fecha_registro
+              while count < calculo_mensualidad:
+                if count == 0:
+                  movimiento.objects.filter(pk=obj.pk).update(concepto=item_anticipo,monto=calculo_divicion_mensualidad,descripcion=item_anticipo.descripcion)
+                  movimiento.objects.create(
                   folio=str(obj.folio)+'_A',
                   fecha_registro=date_count,
                   referencia=obj.referencia,
@@ -176,9 +157,72 @@ def monto_calc(obj):
                   concepto=item_beca,
                   monto=calculo_divicion_bca,
                   descripcion=item_beca.descripcion)
-              count = count + 1
+                else:
+                  date_count=fecha(date_count,count)
+                  movimiento.objects.create(
+                    folio=str(obj.folio)+'_A',
+                    fecha_registro=date_count,
+                    referencia=obj.referencia,
+                    ciclo=obj.ciclo,
+                    alumno=obj.alumno,
+                    concepto=item_anticipo,
+                    monto=calculo_divicion_mensualidad,
+                    descripcion=item_anticipo.descripcion)
+                  movimiento.objects.create(
+                    folio=str(obj.folio)+'_A',
+                    fecha_registro=date_count,
+                    referencia=obj.referencia,
+                    ciclo=obj.ciclo,
+                    alumno=obj.alumno,
+                    concepto=item_beca,
+                    monto=calculo_divicion_bca,
+                    descripcion=item_beca.descripcion)
+                count = count + 1
+        else:
+          
+          tmp_1_mes         = float(obj.monto)-float(item_tmp.importe)
+          tmp_anticipo_mes  = concepto.objects.filter(importe=tmp_1_mes).exclude(clave__contains='ANTICIPO_')
+          
+          if tmp_anticipo_mes:
+
+            movimiento.objects.filter(pk=obj.pk).update(monto=item_tmp.importe)
+          
+            for tmp_mes in tmp_anticipo_mes:
+          
+              tmp_beca_anticipo_mes = concepto.objects.filter(clave__contains='ANTICIPO_%s'%tmp_mes.clave)
+              if tmp_beca_anticipo_mes:
+
+                for item_mes_tmp in tmp_beca_anticipo_mes:
+
+                  date_count=fecha(obj.fecha_registro,1)
+                  print date_count
+                  try:
+                    movimiento.objects.create(
+                      folio=str(obj.folio)+'_A',
+                      fecha_registro=date_count,
+                      referencia=obj.referencia,
+                      ciclo=obj.ciclo,
+                      alumno=obj.alumno,
+                      concepto=tmp_mes,
+                      monto=tmp_mes.importe,
+                      descripcion=tmp_mes.descripcion)
+
+                    movimiento.objects.create(
+                      folio=str(obj.folio)+'_A',
+                      fecha_registro=date_count,
+                      referencia=obj.referencia,
+                      ciclo=obj.ciclo,
+                      alumno=obj.alumno,
+                      concepto=item_mes_tmp,
+                      monto=item_mes_tmp.importe,
+                      descripcion=item_mes_tmp.descripcion)
+                  except Exception as e:
+                    print e
+          else:
+            pass
       except:
         pass
+
 
 
 def fecha(date,count):
