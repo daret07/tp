@@ -6,19 +6,17 @@ from catalogo.models import alumno,categoria,ciclo_escolar
 # Create your models here.
 
 escolar=(
+  (u'prescolar',u'Pre Escolar'),
   (u'primaria',u'Primaria'),
   (u'secundaria',u'Secundaria'),
   (u'preparatoria',u'Preparatoria'),
-  (u'licenciatura',u'Licenciatura'),
-  (u'posgrador',u'Pos-Grado'),
 )
 turnos=(
   (u'1',u'Matutino'),
   (u'2',u'Vespertino'),
-  (u'3',u'Sabatino'),
 )
 alumno_plaza=(
-  (u'1',u'Morelia CEFOMM'),
+  (u'1',u'Imperio Morelia'),
   (u'2',u'Otra Escuela'),
 )
 alumno_rama=(

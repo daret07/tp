@@ -39,7 +39,7 @@ class concepto(models.Model):
 class categoria(models.Model):
   nombre              = models.CharField(max_length=50)
   descripcion         = models.TextField(max_length=255)
-  cupo_maximo         = models.IntegerField(validators=[MaxValueValidator(100)])
+  cupo_maximo         = models.IntegerField(validators=[MaxValueValidator(100000)])
   estatus             = models.BooleanField(default=True)
   ciclo_escolar       = models.ForeignKey('catalogo.ciclo_escolar')
   def __unicode__(self):
@@ -74,7 +74,7 @@ class persona(models.Model):
       
 
 alumno_plaza=(
-  (u'1',u'Morelia CEFOMM'),
+  (u'1',u'Imperio Morelia'),
   (u'2',u'Otra Escuela'),
 )
 alumno_rama=(
@@ -91,7 +91,7 @@ class alumno(models.Model):
   lugar_de_nacimiento = models.CharField(max_length=50)
   matricula           = models.CharField(max_length=50)
   plaza               = models.CharField(max_length=50,choices=alumno_plaza)
-  equipo              = models.IntegerField()
+  equipo              = models.CharField(max_length=50)
   rama                = models.CharField(max_length=50,choices=alumno_rama)
   hermano_institucion = models.BooleanField(default=False,verbose_name='Tiene Hermano En La Institucion')
   padre               = models.ForeignKey('catalogo.persona',related_name='padre',blank=True,null=True,on_delete=models.SET_NULL)
