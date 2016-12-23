@@ -170,10 +170,9 @@ def vista_alumno(request,pk=None):
     tmp_ref = referencias.objects.filter(alumno=obj)
     obj.matricula = obj.matricula.zfill(4)
     if tmp_ref:
-      print tmp_ref
 
       for i in tmp_ref:
-        print i.descripcion
+    
         if 'PRINCIPAL' in i.descripcion.upper():
           ref_p = True
         if 'UNIFORME' in i.descripcion.upper():
