@@ -44,7 +44,7 @@ def vista_movimiento(request,pk=None):
       hojas = libro.sheet_names()
       hoja  = libro.sheet_by_name(hojas[0])
       columnas = hoja.ncols
-      if columnas == 10:
+      if columnas >= 10:
 
         for row in range(1, hoja.nrows):
           obj = movimiento.objects.create()
@@ -65,14 +65,18 @@ def vista_movimiento(request,pk=None):
             
             if label_numero.lower() == 'importe':
               obj.monto = hoja.cell(row,row_idx).value
+            
 
-            if label_numero.lower().encode('utf8') == 'numero operación':
+            if 'numero operaci' in label_numero.lower().encode('utf8'):
+              
               obj.folio = int(hoja.cell(row,row_idx).value)
 
             if label_numero.lower().encode('utf8') == 'fecha de operación':
               obj.fecha_registro = xlrd.xldate.xldate_as_datetime(hoja.cell(row,row_idx).value, libro.datemode)
             obj.concepto = concepto.objects.get(clave='ABONO')
-          if not movimiento.objects.filter(folio=obj.folio):
+          tmp_objeto = movimiento.objects.filter(folio=obj.folio)
+
+          if not tmp_objeto:
             obj.save()
             monto_calc(obj)
             try:

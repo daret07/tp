@@ -33,5 +33,4 @@ class movimiento(models.Model):
 def save_move(sender, instance, created, **kwargs):
     if not created:
         # User object updated
-        print instance.monto
         pass
