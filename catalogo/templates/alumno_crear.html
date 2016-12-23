@@ -143,7 +143,8 @@ $('#agregar_uniforme').on('click',function(){
           digito_verificador = 0;
         }
         var referencia = ingreso_uno + "" + ingreso_dos + "" + matricula_uno + "" + matricula_dos + "" + matricula_tres + "" + matricula_cuatro + "" + tipo_pago + "" + monto_1 + "" + monto_2 + "" + plaza + "" + ano_nacimiento_uno + "" + ano_nacimiento_dos + "" + equipo + "" + rama + "" + digito_verificador;
-    var vacio = $(".dynamic-form").last('tr').find('input').val()
+    var vacio = $("#ref .dynamic-form").last('tr').find('input').val()
+    
     if (vacio){
       addForm('','#referencias','referencias_set');
         $("#ref .dynamic-form").last('tr').find('input:first').val(referencia);
