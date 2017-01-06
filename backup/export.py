@@ -10,7 +10,7 @@ sys.setdefaultencoding("utf-8")
 db_host = "localhost"
 db_users = "root"
 db_password = "21Divox!="
-db_db   = "fbasicas_back"
+db_db   = "fbasicas_06_01_2016"
 resultado =''
 alumnos = []
 padre_obj=[]

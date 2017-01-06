@@ -199,7 +199,6 @@ def monto_calc(obj):
                 for item_mes_tmp in tmp_beca_anticipo_mes:
 
                   date_count=fecha(obj.fecha_registro,1)
-                  print date_count
                   try:
                     movimiento.objects.create(
                       folio=str(obj.folio)+'_A',
