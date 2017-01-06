@@ -35,7 +35,7 @@ class alumnoAdmin(CustomModelAdmin):
 	def custom_matricula(self,obj):
 		return obj.ant + obj.matricula
 
-	custom_matricula.admin_order_field = 'matricula'
+	custom_matricula.admin_order_field = 'Matricula'
 
 
 class personaAdmin(CustomModelAdmin):
