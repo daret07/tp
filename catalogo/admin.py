@@ -38,8 +38,8 @@ class alumnoAdmin(CustomModelAdmin):
 	custom_matricula.short_description = 'Matricula'
 	custom_matricula.admin_order_field = 'matricula'
 
-	custom_matricula.short_description = 'Estado'
-	custom_matricula.admin_order_field = 'custom_estado'
+	custom_estado.short_description = 'Estado'
+	custom_estado.admin_order_field = 'custom_estado'
 
 
 class personaAdmin(CustomModelAdmin):
