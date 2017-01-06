@@ -15,9 +15,10 @@ class conceptoAdmin(CustomModelAdmin):
 	list_display_links=('clave',)
 	list_filter=('clave',)
 	search_fields=('clave','descripcion')
+	
 	def custom_importe(self,obj):
-    valor = '%0.2f' % obj.importe
-    return "$ " + humanize.intcomma(valor)
+		valor = '%0.2f' % obj.importe
+		return "$ " + humanize.intcomma(valor)
 
 	custom_importe.short_description = 'Importe'
 	custom_importe.admin_order_field = 'importe'
