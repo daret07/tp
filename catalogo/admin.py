@@ -10,10 +10,17 @@ class ciclo_escolarAdmin(CustomModelAdmin):
 
 
 class conceptoAdmin(CustomModelAdmin):
-	list_display=('clave','descripcion','importe')
+	list_display=('clave','descripcion','custom_importe')
 	list_display_links=('clave',)
 	list_filter=('clave',)
-	search_fields=('clave','descripcion','importe')
+	search_fields=('clave','descripcion')
+	def custom_importe(self,obj):
+    valor = '%0.2f' % obj.importe
+    return "$ " + humanize.intcomma(valor)
+
+	custom_importe.short_description = 'Importe'
+	custom_importe.admin_order_field = 'importe'
+
 
 class categoriaAdmin(CustomModelAdmin):
 	list_display=('nombre','descripcion','cupo_maximo','ciclo_escolar')
