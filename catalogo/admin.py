@@ -22,12 +22,12 @@ class categoriaAdmin(CustomModelAdmin):
 	search_fields=('nombre','descripcion','cupo_maximo','ciclo_escolar')
 
 class alumnoAdmin(CustomModelAdmin):
-	list_display=('nombre','paterno','materno','custom_matricula','ciclo_escolar','padre','emergencia','estado')
+	list_display=('nombre','paterno','materno','custom_matricula','ciclo_escolar','padre','emergencia','custom_estado')
 	list_display_links=('nombre',)
 	list_filter=('ciclo_escolar',)
 	search_fields=('nombre','paterno','materno','ciclo_escolar')
 
-	def estado(self,obj):
+	def custom_estado(self,obj):
 		if obj.estatus == True:
 			return 'ALTA'
 		elif  obj.estatus == False:
@@ -37,6 +37,9 @@ class alumnoAdmin(CustomModelAdmin):
 
 	custom_matricula.short_description = 'Matricula'
 	custom_matricula.admin_order_field = 'matricula'
+
+	custom_matricula.short_description = 'Estado'
+	custom_matricula.admin_order_field = 'custom_estado'
 
 
 class personaAdmin(CustomModelAdmin):
