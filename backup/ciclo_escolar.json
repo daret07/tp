@@ -1,0 +1,38 @@
+[
+{
+  "model": "catalogo.ciclo_escolar",
+  "pk": 6,
+  "fields": {
+    "clave": "2014 - 2015",
+    "descripcion": "ciclo escolar 2014-2015",
+    "activo": false
+  }
+},
+{
+  "model": "catalogo.ciclo_escolar",
+  "pk": 7,
+  "fields": {
+    "clave": "2015-2016",
+    "descripcion": "Ciclo Escolar 2015-2016",
+    "activo": true
+  }
+},
+{
+  "model": "catalogo.ciclo_escolar",
+  "pk": 8,
+  "fields": {
+    "clave": "2016 - 2017",
+    "descripcion": "CICLO ESCOLAR 2017",
+    "activo": true
+  }
+},
+{
+  "model": "catalogo.ciclo_escolar",
+  "pk": 9,
+  "fields": {
+    "clave": "2016-2017",
+    "descripcion": "Ciclo Escolar 2016-2017",
+    "activo": true
+  }
+}
+]
