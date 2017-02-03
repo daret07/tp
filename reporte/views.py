@@ -596,7 +596,7 @@ def vista_estado_cuenta(request,pk=None):
 
   if 'PADRE' in perfil['perfil']:
     tmp_a= []
-    tmp_alumno = alm.objects.filter(matricula=request.user.username)
+    tmp_alumno = alm.objects.filter(matricula=request.user.username).first()
     form = estado_cuentaForm(request.POST or None,initial={'alumno':tmp_alumno})
     
   parametros={
