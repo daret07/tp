@@ -34,7 +34,6 @@ class alumnoAdmin(CustomModelAdmin):
 	list_display=('nombre','paterno','materno','custom_matricula','ciclo_escolar','padre','emergencia','estado')
 	list_display_links=('nombre',)
 	list_filter=('ciclo_escolar',)
-	search_fields=('nombre','paterno','materno','ciclo_escolar')
 
 	def estado(self,obj):
 		if obj.estatus == True:

@@ -199,6 +199,20 @@ $('.tab-pane').on('click','.delete-row',function(){
     showModal('catalogo','persona_modal',parametros);
   });
 
+{% if 'PADRE' in perfil.perfil%}
+$('input').attr('disabled','disabled');
+$('select').attr('disabled','disabled');
+$('#agregar_uniforme').hide();
+$('#agregar_principal').hide();
+$('#agregar_descuento').hide();
+$('#agregar').hide();
+$('.botton').hide();
+  $('#btn_guardar').hide();
+  $('#btn_guardar_editando').hide();
+  $('#btn_guardar_otro').hide();
+  $('#btn_eliminar').hide();
+{% endif %}
+
 });
 function comboboxes(){
   $('.super_switch select').combobox()
@@ -207,6 +221,11 @@ function comboboxes(){
 
 
 </script>
+{% endblock %}
+{% block boton_titulo %}
+{% if 'PADRE' not in perfil.perfil %}  
+<a href='{% url 'listar' app modelo %}' class='btn btn-sm btn-primary' style='margin-top:-10px;'><i class='fa fa-list-alt'></i> Listado</a>
+{% endif %}
 {% endblock %}
 {% block contenido %}
 <form method="post" enctype="multipart/form-data" action="">

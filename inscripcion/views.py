@@ -4,6 +4,7 @@ from inscripcion.forms import (inscripcionForm)
 from inscripcion.models import (inscripcion)
 from catalogo.models import alumno,categoria,ciclo_escolar
 from django.contrib import messages
+from usuario.models import usuario 
 # Create your views here.
 
 def vista_inscripcion(request,pk=None):
@@ -12,7 +13,7 @@ def vista_inscripcion(request,pk=None):
   obj = None
   maximo = 0
   cupo     = 0
-
+  perfil = get_perfil(request)
   if pk is not None:
     obj = inscripcion.objects.get(pk=pk)
     cupo = obj.categoria.cupo_maximo
@@ -33,9 +34,19 @@ def vista_inscripcion(request,pk=None):
       
     obj = form.save(commit=False)
     obj.save()
+     
+    if len(usuario.objects.filter(username=str(obj.alumno_matricula)))==0:
+      users = usuario.objects.create(username=str(obj.alumno_matricula),first_name=str(obj.alumno_nombre)+' '+str(obj.alumno_paterno),email=str(obj.alumno_email))
+      users.set_password(str(obj.alumno_paterno)+str(obj.alumno_matricula))
+      grupo = get_perfil_user(request)
+      users.groups.add(grupo['perfil'][0])
+      users.save()
+      messages.success(request,"Se ha Guardado la información con éxito y Se ha Creado un usuario: "+str(obj.alumno_matricula)+", Contraseña: "+str(obj.alumno_paterno)+str(obj.alumno_matricula))
+    else:
+      messages.success(request,"Se ha Guardado la información con éxito")
     
     alumno.objects.filter(pk=obj.alumno.pk).update(ciclo_escolar=obj.ciclo)
-    messages.success(request,"Se ha Guardado la información con éxito")
+    
 
   catego   = categoria.objects.all()
   tmp_id_ins =[]
@@ -62,6 +73,26 @@ def vista_inscripcion(request,pk=None):
     'modulo'  : 'inscripcion',
     'cupo'    : cupo,
     'maximo'  : maximo,
+    'perfil'  : perfil,
+  }
+  return parametros
+
+def get_perfil_user(request):
+  from django.contrib.auth.models import Group
+  perfil = []
+  for i in Group.objects.filter(name='PADRE'):
+    perfil.append(i.pk)
+  parametros={
+    'perfil'  : perfil
+  }
+  return parametros
+
+def get_perfil(request):
+  perfil = []
+  for i in request.user.groups.all():
+    perfil.append(i.name)
+  parametros={
+    'perfil'  : perfil
   }
   return parametros
 

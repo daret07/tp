@@ -12,15 +12,25 @@
       $('#id_anio').val(anio);
       var mes = new Date().getMonth();
       $('#id_mes').val(mes+1);
-      $('#id_alumno').combobox();
+
+      $('#id_mes').on('change',function(){
+        $('#id_alumno').trigger('change');
+      });
+      
+      $('#id_anio').on('keyup',function(){
+        if(($(this).val()).length>3 ){
+         $('#id_alumno').trigger('change'); 
+        }
+      });
    
       $('#id_alumno').on('change',function(){
         $('#cuerpo_table').html('')
         $('.row').css('cursor','progress');
+
       var params={
         'app'    : 'reporte',
         'method' : 'estado_cuenta',
-        'cuenta' : $(this).val(),
+        'cuenta' : $('#id_alumno').val(),
         'mes'    : $('#id_mes').val(),
         'anio'   : $('#id_anio').val(),
       } 
@@ -44,15 +54,20 @@
             $('#cuerpo_table').append('<tr><td>'+v[0]+'</td><td>'+v[1]+'</td><td>0.00</td><td>$ '+v[3]+'</td></tr>');
           }else if (String(v[2])=='E'){
             $('#cuerpo_table').append('<tr><td>'+v[0]+'</td><td>'+v[1]+'</td><td>$ '+v[3]+'</td><td>0.00</td></tr>');
-
           }  
+
         });
         }
         $('#export').show();
         $('.row').css('cursor','default');
       });
     });
-  
+    {% if 'PADRE' in perfil.perfil%}
+      $('#id_alumno').attr('disabled','disabled');
+      {%else%}
+      $('#id_alumno').combobox();
+    {% endif %}
+
   });
 </script>
 {{block.super}}

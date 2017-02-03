@@ -85,7 +85,7 @@ class inscripcion(models.Model):
   emergencia_telefono_casa       = models.CharField(max_length=255,verbose_name='Telefono de Casa')
   emergencia_telefono_celular    = models.CharField(max_length=255,verbose_name='Telefono Celular')
   emergencia_email               = models.CharField(max_length=50,verbose_name='Email')
-  observaciones                  = models.TextField(max_length=255,verbose_name='Observaciónes')
+  observaciones                  = models.TextField(max_length=255,verbose_name='Observaciónes',blank=True,null=True)
   doc_acta                       = models.BooleanField(default=False,verbose_name='Acta de Nacimiento(copia)')
   doc_curp                       = models.BooleanField(default=False,verbose_name='CURP')
   doc_fotografias                = models.BooleanField(default=False,verbose_name='Fotografias 4 Tamaño infantil Color')

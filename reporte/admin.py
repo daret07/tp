@@ -30,6 +30,13 @@ class movimientoAdmin(CustomModelAdmin):
     else:
       return 'Movimiento Manual'
 
+  def get_queryset(self,request):
+    queryset = super(movimientoAdmin,self).get_queryset(request)
+    perfil = request.user.groups.filter(name='PADRE')
+    if perfil:
+      obj    = alm.objects.filter(matricula=request.user.username).first()
+      queryset = queryset.filter(alumno=obj)
+    return queryset
 
   def campo_monto(self,obj):
     
@@ -37,3 +44,4 @@ class movimientoAdmin(CustomModelAdmin):
 
   #def campo_fecha_registro(self,obj):
     #return '%s'%datetime.strftime(obj.fecha_registro,"%d/%m/%Y")
+

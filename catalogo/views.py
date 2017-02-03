@@ -164,6 +164,8 @@ def vista_alumno(request,pk=None):
   ref_p = False
   ref_u = False
   ant = str(time.strftime("%y"))
+  perfil = get_perfil(request)
+
   if pk is not None:
     obj = alumno.objects.get(pk=pk)
     mat = False
@@ -234,6 +236,16 @@ def vista_alumno(request,pk=None):
     'modulo'    : 'categoria',
     'matricula' : matricula,
     'principal' : ref_p,
-    'uniforme'  : ref_u
+    'uniforme'  : ref_u,
+    'perfil'    : perfil
+  }
+  return parametros
+
+def get_perfil(request):
+  perfil = []
+  for i in request.user.groups.all():
+    perfil.append(i.name)
+  parametros={
+    'perfil'  : perfil
   }
   return parametros

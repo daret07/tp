@@ -274,43 +274,79 @@ def descuentos(alumno,monto,concepto,ciclo):
 def vista_ficha_inscripcion(request,pk=None):
   from catalogo.models import ciclo_escolar,categoria
   from django.db.models import Q
-  ciclo = ciclo_escolar.objects.all()
-  categ = categoria.objects.all()
   inscripcion_filtro = None
   tmp_ciclo =''
   tmp_categoria=''
-  form = ficha_inscricionForm()
-  if request.POST:
-    
-    if request.POST.get('ciclo'):
-      tmp_ciclo     = ciclo_escolar.objects.get(pk=request.POST.get('ciclo'))
-    
-    if request.POST.get('categoria'):
-      tmp_categoria = categoria.objects.get(pk=request.POST.get('categoria'))
+  perfil = get_perfil_user(request)
+  if 'PADRE' in perfil['perfil']:
+    tmp_matricula = request.user.username
 
-    if tmp_categoria != '' and tmp_ciclo != '':
-      inscripcion_filtro   = inscripcion.objects.filter(ciclo=tmp_ciclo,categoria=tmp_categoria)
-    elif tmp_categoria == '' and tmp_ciclo != '':
-      inscripcion_filtro   = inscripcion.objects.filter(ciclo=tmp_ciclo)
-    elif tmp_categoria != '' and tmp_ciclo == '':
-      inscripcion_filtro   = inscripcion.objects.filter(categoria=tmp_categoria)
-    elif tmp_categoria == '' and tmp_ciclo == '':
-      inscripcion_filtro = inscripcion.objects.all()
+    ciclo = ciclo_escolar.objects.all()
+    categ = categoria.objects.all()
+    form = ficha_inscricionForm()
+    inscripcion_filtro = inscripcion.objects.filter(alumno_matricula=tmp_matricula)
+    if request.POST:
+      
+      if request.POST.get('ciclo'):
+        tmp_ciclo     = ciclo_escolar.objects.get(pk=request.POST.get('ciclo'))
+      
+      if request.POST.get('categoria'):
+        tmp_categoria = categoria.objects.get(pk=request.POST.get('categoria'))
 
-    form = ficha_inscricionForm(request.POST)
+      if tmp_categoria != '' and tmp_ciclo != '':
+        inscripcion_filtro   = inscripcion.objects.filter(ciclo=tmp_ciclo,categoria=tmp_categoria,alumno_matricula=tmp_matricula)
+      elif tmp_categoria == '' and tmp_ciclo != '':
+        inscripcion_filtro   = inscripcion.objects.filter(ciclo=tmp_ciclo,alumno_matricula=tmp_matricula)
+      elif tmp_categoria != '' and tmp_ciclo == '':
+        inscripcion_filtro   = inscripcion.objects.filter(categoria=tmp_categoria,alumno_matricula=tmp_matricula)
+      elif tmp_categoria == '' and tmp_ciclo == '':
+        inscripcion_filtro = inscripcion.objects.filter(alumno_matricula=tmp_matricula)
+
+      form = ficha_inscricionForm(request.POST)
+  else:
+    ciclo = ciclo_escolar.objects.all()
+    categ = categoria.objects.all()
+    form = ficha_inscricionForm()
+
+    if request.POST:
+      
+      if request.POST.get('ciclo'):
+        tmp_ciclo     = ciclo_escolar.objects.get(pk=request.POST.get('ciclo'))
+      
+      if request.POST.get('categoria'):
+        tmp_categoria = categoria.objects.get(pk=request.POST.get('categoria'))
+
+      if tmp_categoria != '' and tmp_ciclo != '':
+        inscripcion_filtro   = inscripcion.objects.filter(ciclo=tmp_ciclo,categoria=tmp_categoria)
+      elif tmp_categoria == '' and tmp_ciclo != '':
+        inscripcion_filtro   = inscripcion.objects.filter(ciclo=tmp_ciclo)
+      elif tmp_categoria != '' and tmp_ciclo == '':
+        inscripcion_filtro   = inscripcion.objects.filter(categoria=tmp_categoria)
+      elif tmp_categoria == '' and tmp_ciclo == '':
+        inscripcion_filtro = inscripcion.objects.all()
+
+      form = ficha_inscricionForm(request.POST)
   parametros={
     'ciclo'      : ciclo,
     'categoria'  : categ,
     'inscripcion': inscripcion_filtro,
-    'form'       : form
+    'form'       : form,
+    'perfil'     : perfil
   }
   return parametros
 
 def vista_reporte_referencia(request,pk=None):
-  refe = ref.objects.all().prefetch_related('alumno')
+  perfil = get_perfil_user(request)
   referes=[]
-  for i in refe:
-    referes.append((i.alumno.pk,i.referencia,i.descripcion,str(i.alumno.ant)+str(i.alumno.matricula),i.alumno.nombre+' '+i.alumno.paterno+' '+i.alumno.materno,i.alumno.fecha_de_nacimiento,i.alumno.estatus))
+  if 'PADRE' in perfil['perfil']:
+    tmp_matricula = request.user.username
+    refe = ref.objects.filter(alumno__matricula=tmp_matricula).prefetch_related('alumno')
+    for i in refe:
+      referes.append((i.alumno.pk,i.referencia,i.descripcion,str(i.alumno.ant)+str(i.alumno.matricula),i.alumno.nombre+' '+i.alumno.paterno+' '+i.alumno.materno,i.alumno.fecha_de_nacimiento,i.alumno.estatus))
+  else:
+    refe = ref.objects.all().prefetch_related('alumno')
+    for i in refe:
+      referes.append((i.alumno.pk,i.referencia,i.descripcion,str(i.alumno.ant)+str(i.alumno.matricula),i.alumno.nombre+' '+i.alumno.paterno+' '+i.alumno.materno,i.alumno.fecha_de_nacimiento,i.alumno.estatus))
   parametros={'referencias':referes}
   return parametros
 
@@ -409,8 +445,9 @@ def vista_deudores(request,pk=None):
 def vista_estado_cuenta(request,pk=None):
   from base import settings
   from django.db.models import Sum
-  form = estado_cuentaForm
+  form = estado_cuentaForm()
   algo =None
+  perfil = get_perfil_user(request)
   if request.POST:
     response = HttpResponse(content_type='application/pdf')
     logo =str(settings.BASE_DIR)+ str('/static/images/fmonarca2.jpg')
@@ -556,8 +593,15 @@ def vista_estado_cuenta(request,pk=None):
     response.write(pdf)
     form = estado_cuentaForm(request.POST or None)
     return response
+
+  if 'PADRE' in perfil['perfil']:
+    tmp_a= []
+    tmp_alumno = alm.objects.filter(matricula=request.user.username)
+    form = estado_cuentaForm(request.POST or None,initial={'alumno':tmp_alumno})
+    
   parametros={
   'form':form,
+  'perfil':perfil,
   }
   return parametros
 
@@ -580,7 +624,16 @@ def listado_movimiento(request):
   abono      = 0
   cargo      = 0
   diferencia = 0
-  abonos = movimiento.objects.all().prefetch_related('concepto')
+  perfil     = get_perfil_user(request)
+  abonos     = None
+  if 'PADRE' in perfil['perfil']:
+    tmp_a= []
+    tmp_alumno = alm.objects.filter(matricula=request.user.username)
+    for items in tmp_alumno:
+      tmp_a.append(items.pk)
+    abonos = movimiento.objects.filter(alumno__pk__in=tmp_a).prefetch_related('concepto')
+  else:
+    abonos = movimiento.objects.all().prefetch_related('concepto')
   for i in abonos:
     try:
       if 'I' == str(i.concepto.tipo):
@@ -592,3 +645,12 @@ def listado_movimiento(request):
       abono +=0
   diferencia = abono - cargo
   return {'abono':abono,'cargo':cargo,'diferencia':diferencia}
+
+def get_perfil_user(request):
+  perfil = []
+  for i in request.user.groups.all():
+    perfil.append(i.name)
+  parametros={
+    'perfil'  : perfil
+  }
+  return parametros

@@ -7,6 +7,7 @@
   }
 </style>
 <script type="text/javascript">
+
   $(document).ready(function(){
     $('#id_categoria option').hide();
     $('#id_doc_acta').bootstrapSwitch({'onText':'Si','offText':'No','size':'small','handleWidth':35,'offColor':'danger','labelWidth':0});
@@ -95,6 +96,7 @@
           $('#id_emergencia_tipo').val(data.response.emergencia.em_tipo);
         });
     });
+
     $('#id_ciclo').on('change',function(){
       $('#id_categoria option').hide();
       var ciclo = $(this).val();
@@ -114,11 +116,42 @@
       }
       });
     });
-    $('#id_alumno').combobox();
+    {% if 'PADRE' not in perfil.perfil %}
+      $('#id_alumno').combobox();
+    {% else %}
+    $('select').attr('disabled','disabled');
+    $('input').attr('disabled','disabled');
+    $('textarea').attr('disabled','disabled');
+    $('#btn_guardar').hide()
+    $('#btn_guardar_editando').hide()
+    $('#btn_guardar_otro').hide()
+    $('#btn_eliminar').hide()
+    {%endif%}
+    
   });
+
 </script>
+
 {% endblock %}
+
+
+{% block boton_titulo %}
+{% if 'PADRE' not in perfil.perfil %}  
+<a href='{% url 'listar' app modelo %}' class='btn btn-sm btn-primary' style='margin-top:-10px;'><i class='fa fa-list-alt'></i> Listado</a>
+{% endif %}
+{% endblock %}
+
+
 {% block contenido %}
+{% if 'PADRE' in perfil.perfil %} 
+    <div class="row">
+      <div class="col-md-12"> 
+        <div class='box box-danger' style="padding: 25px">
+          <h3>Toda La información Mostrada es Informativa</h3>
+        </div>
+      </div>
+    </div>
+{% endif %}
 <form method="post" enctype="multipart/form-data" action="">
   {% csrf_token %}
     <div class="row">

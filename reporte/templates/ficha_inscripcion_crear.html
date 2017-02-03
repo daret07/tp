@@ -29,6 +29,10 @@
 {% block boton_titulo %}
 {% endblock %}
 {% block contenido %}
+
+{% if 'PADRE' not in perfil.perfil %}
+
+
   <div class="row">
     <div class="col-md-12">
       <div class="box box-danger">
@@ -59,6 +63,7 @@
       </div>
     </div>
   </div>
+{% endif %}
   <div class="row">
     <div class="col-md-12">
       <div class="box box-danger">
