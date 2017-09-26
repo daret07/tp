@@ -11,6 +11,7 @@ from base.utilidades import enviar_email
 # Create your views here.
 
 def main_index(request):
+	
 	jefe = False
 
 	if request.user.groups.filter(name='CabezaDpto'):
@@ -19,7 +20,9 @@ def main_index(request):
 	elif request.user.groups.filter(name='Gerente'):
 		jefe = True
 	
-
+	elif request.user.is_superuser:
+		jefe = True
+	
 	# BITACORA
 	if request.user.is_superuser:
 		reg = registro.objects.filter(capturado=False)
@@ -45,8 +48,7 @@ def main_index(request):
 		for i in ids:
 			arr_id.append(i.id)
 			taskP = task.objects.filter(usuario__in=arr_id,estatus='1').order_by('proyecto')
-
-
+  
 	parametros = {
 	'task':taskP,
 	'permiso':jefe,
