@@ -8,7 +8,6 @@ from django.contrib import messages
 from bitacora.models import bitacora,registro
 from usuario.models import usuario
 from base.utilidades import enviar_email
-# Create your views here.
 
 def main_index(request):
 	
