@@ -5,22 +5,16 @@ from django.contrib.admin import helpers
 from django.contrib.admin.views.main import ChangeList
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
+from django.core.mail import send_mail
 from django.contrib import messages
 import csv
 
-def export_as_csv_action(description="Exportar registros seleccionados a CSV",
+"""def export_as_csv_action(description="Exportar registros seleccionados a CSV",
                          fields=None, exclude=None, header=True):
     
-    """
-    This function returns an export csv action
-    'fields' and 'exclude' work like in django ModelForm
-    'header' is whether or not to output the column names as the first row
-    """
+  
     def export_as_csv(modeladmin, request, queryset):
-        """
-        Generic csv export admin action.
-        based on http://djangosnippets.org/snippets/1697/
-        """
+  
         opts = modeladmin.model._meta
         field_names = set([field.name for field in opts.fields])
         if fields:
@@ -40,7 +34,7 @@ def export_as_csv_action(description="Exportar registros seleccionados a CSV",
             writer.writerow([unicode(getattr(obj, field)).encode("utf-8","replace") for field in field_names])
         return response
     export_as_csv.short_description = description
-    return export_as_csv
+    return export_as_csv"""
 
 def eliminar_usuario(modeladmin,request,queryset):
     queryset.delete()
@@ -50,7 +44,7 @@ eliminar_usuario.short_description = 'Eliminar registros seleccionados'
 custom_site = AdminSite()
 custom_site.disable_action('delete_selected')
 custom_site.add_action(eliminar_usuario)
-custom_site.add_action(export_as_csv_action())
+"""custom_site.add_action(export_as_csv_action())"""
 
 """
 Clase ChangeList modificada, con la finalidad de poder establecer la direccion
@@ -201,5 +195,24 @@ def obtener_listado_admin(
   }
 
   return parametros
+
+def enviar_email(asunto,mensaje,envio,destinatario):
+  enviado = False
+  
+  try:
+    send_mail(
+        asunto,
+        mensaje,
+        envio,
+        destinatario,
+        fail_silently=False,
+    )
+    enviado = True
+  except Exception as e:
+    print e
+    enviado= False
+
+  return enviado
+
 
 

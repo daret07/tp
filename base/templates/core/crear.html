@@ -50,7 +50,7 @@ $(document).ready(function() {
   {% endif %}
 {% endblock %}
 {% block cuerpo %}
-<form id='form' name='form' method='POST' action='{% if obj.pk %}{% url 'editar' app modelo obj.pk %}{% else %}{% url 'crear' app modelo %}{% endif %}' enctype='multipart/form-data'>
+<form id='form' name='form' method='POST' action='{% if obj.pk %}{% url 'editar' app modelo obj.pk %}{% else %}{% url 'crear' app modelo %}{% endif %}' enctype='multipart/form-data' autocomplete="off">
     <input id='form_action' type='hidden' name='form_action' value='' />
   {% csrf_token %}
   {% block contenido %}

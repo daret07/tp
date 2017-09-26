@@ -1,0 +1,36 @@
+{% extends 'core/modal.html'%}
+{%block size_modal%} modal-lg {% endblock %}
+{% load static %}
+{% block modal_title %}Agregar Proyecto{{tipo}}{% endblock %}
+{% block modal_body %}
+<script type="text/javascript">
+  $(document).ready(function(){
+  	if('{{realizado}}' == 'True'){
+  		$('#myModal').modal('toggle');
+      if(String(window.location.href).includes('/modal')){
+      	
+      }else{
+      	window.location.href = window.location.href;
+      }
+  	}
+  });
+</script>
+<div class="row">
+	<div class="col-md-6 col-sm-6 col-xs-6">{{form.start_line.label_tag}}</div>
+	<div class="col-md-6 col-sm-6 col-xs-6">{{form.dead_line.label_tag}}</div>
+</div>
+<div class="row">
+	<div class="col-md-6 col-sm-6 col-xs-6">{{form.start_line}}</div>
+	<div class="col-md-6 col-sm-6 col-xs-6">{{form.dead_line}}</div>
+</div>
+<div class="row">
+	<div class="col-md-12 text-center">{{form.titulo.label_tag}}</div>
+	<div class="col-md-12">{{form.titulo}}</div>
+	<div class="col-md-12 text-center">{{form.descripcion.label_tag}}</div>
+	<div class="col-md-12 text-center">{{form.descripcion}}</div>
+</div>
+{% endblock %}
+{% block modal_footer %}
+<input type="submit" name="guardar" class='btn btn-primary' value='Guardar'>
+{% endblock %}
+

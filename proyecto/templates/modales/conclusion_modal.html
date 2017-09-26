@@ -1,0 +1,27 @@
+{% extends 'core/modal.html'%}
+{%block size_modal%} modal-lg {% endblock %}
+{% load static %}
+{% block modal_title %}Agregar Conclusion {{tipo}}{% endblock %}
+{% block modal_body %}
+<script type="text/javascript">
+  $(document).ready(function(){
+    var reload =String('{{realizado}}');
+    if(reload == 'True'){
+      $('#myModal').modal('toggle');
+      if(String(window.location.href).includes('/modal')){
+      	
+      }else{
+      	window.location.href = window.location.href;
+      }
+    } 
+  });
+</script>
+<div>
+{{form}}
+</div>
+{% endblock %}
+{% block modal_footer %}
+<input type="text" name="pk" id='pk' value='{{pk}}' hidden>
+<input type="submit" name="guardar" class='btn btn-primary' value='Guardar'>
+{% endblock %}
+

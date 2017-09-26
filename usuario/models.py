@@ -36,6 +36,7 @@ class usuario(AbstractBaseUser,PermissionsMixin):
   email                = models.EmailField(verbose_name='Email',blank=True,null=True)
   avatar               = models.ImageField(upload_to='avatars/',blank=True,null=True)
   metodo_autenticacion = models.CharField(max_length=10,choices=tTipoLogin,default='password')
+  Superior             = models.ForeignKey('usuario',blank=True,null=True,on_delete=models.SET_NULL,default=None)
   is_staff             = models.BooleanField(default=False)
 
   objects        = CustomUserManager()

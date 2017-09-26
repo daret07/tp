@@ -41,73 +41,74 @@
        "nivel": 0,
        "activo": true}
   },
-  {
+    {
     "model": "navegacion.menu",
     "pk": 4,
     "fields": {
-      "nombre": "Catalogos",
+      "nombre": "Proyectos",
        "app": "",
        "modelo": "",
        "padre": null,
-       "icono": "fa fa-list-ul",
-       "permiso": null,
+       "icono": "fa fa-user-plus",
+       "permiso": "proyecto.proyecto_menu",
        "listar": true,
        "nivel": 0,
        "activo": true}
   },
-  {
+
+    {
     "model": "navegacion.menu",
     "pk": 5,
     "fields": {
-      "nombre": "Ciclo Escolar",
-       "app": "catalogo",
-       "modelo": "ciclo_escolar",
+      "nombre": "Proyectos",
+       "app": "proyecto",
+       "modelo": "project",
        "padre": 4,
-       "icono": "fa fa-calendar",
-       "permiso": "catalogo.add_ciclo_escolar",
+       "icono": "fa fa-user-plus",
+       "permiso": "proyecto.add_project",
        "listar": true,
        "nivel": 0,
        "activo": true}
   },
-  {
+    {
     "model": "navegacion.menu",
     "pk": 6,
     "fields": {
-      "nombre": "Conceptos",
-       "app": "catalogo",
-       "modelo": "concepto",
+      "nombre": "Tareas",
+       "app": "proyecto",
+       "modelo": "task",
        "padre": 4,
-       "icono": "fa fa-list-alt",
-       "permiso": "catalogo.add_concepto",
+       "icono": "fa fa-user-plus",
+       "permiso": "proyecto.add_task",
        "listar": true,
        "nivel": 0,
        "activo": true}
   },
-  {
+    {
     "model": "navegacion.menu",
     "pk": 7,
     "fields": {
-      "nombre": "Categorias",
-       "app": "catalogo",
-       "modelo": "categoria",
+      "nombre": "Archivos de Tareas",
+       "app": "proyecto",
+       "modelo": "filetask",
        "padre": 4,
-       "icono": "fa fa-th",
-       "permiso": "catalogo.add_categoria",
+       "icono": "fa fa-user-plus",
+       "permiso": "proyecto.add_filetask",
        "listar": true,
        "nivel": 0,
        "activo": true}
   },
-  {
+    {
     "model": "navegacion.menu",
     "pk": 8,
     "fields": {
-      "nombre": "Alumnos",
-       "app": "catalogo",
-       "modelo": "alumno",
-       "padre": 4,
-       "icono": "fa fa-users",
-       "permiso": "catalogo.add_alumno",
-       "listar": true,
+      "nombre": "Bitacora",
+       "app": "",
+       "modelo": "",
+       "padre": null,
+       "icono": "fa fa-user-plus",
+       "permiso": "bitacora.bitacora_menu",
+       "listar": false,
        "nivel": 0,
        "activo": true}
   },
@@ -115,12 +116,12 @@
     "model": "navegacion.menu",
     "pk": 9,
     "fields": {
-      "nombre": "Inscripción",
-       "app": "inscripcion",
-       "modelo": "inscripcion",
-       "padre": 4,
+      "nombre": "Bitacora",
+       "app": "bitacora",
+       "modelo": "bitacora",
+       "padre": 8,
        "icono": "fa fa-user-plus",
-       "permiso": "inscripcion.add_inscripcion",
+       "permiso": "bitacora.add_bitacora",
        "listar": true,
        "nivel": 0,
        "activo": true}
@@ -129,125 +130,12 @@
     "model": "navegacion.menu",
     "pk": 10,
     "fields": {
-      "nombre": "Reportes",
-       "app": "",
-       "modelo": "",
-       "padre": null,
-       "icono": "fa fa-folder",
-       "permiso": null,
-       "listar": true,
-       "nivel": 0,
-       "activo": true}
-  },
-    {
-    "model": "navegacion.menu",
-    "pk": 11,
-    "fields": {
-      "nombre": "Movimientos",
-       "app": "reporte",
-       "modelo": "movimiento",
-       "padre": 10,
-       "icono": "fa fa-file",
-       "permiso": "reporte.add_movimiento",
-       "listar": true,
-       "nivel": 0,
-       "activo": true}
-  },
-    {
-    "model": "navegacion.menu",
-    "pk": 12,
-    "fields": {
-      "nombre": "Ficha Inscripcion",
-       "app": "reporte",
-       "modelo": "ficha_inscripcion",
-       "padre": 10,
-       "icono": "fa fa-th",
-       "permiso": "reporte.ficha_inscripcion",
-       "listar": false,
-       "nivel": 0,
-       "activo": true}
-  },
-    {
-    "model": "navegacion.menu",
-    "pk": 13,
-    "fields": {
-      "nombre": "Referencias",
-       "app": "reporte",
-       "modelo": "reporte_referencia",
-       "padre": 10,
-       "icono": "fa fa-th-large",
-       "permiso": "reporte.reporte_referencia",
-       "listar": false,
-       "nivel": 0,
-       "activo": true}
-  },
-    {
-    "model": "navegacion.menu",
-    "pk": 14,
-    "fields": {
-      "nombre": "Saldos",
-       "app": "reporte",
-       "modelo": "reporte_saldos",
-       "padre": 10,
-       "icono": "fa fa-dollar",
-       "permiso": "reporte.reporte_saldos",
-       "listar": false,
-       "nivel": 0,
-       "activo": true}
-  },
-    {
-    "model": "navegacion.menu",
-    "pk": 15,
-    "fields": {
-      "nombre": "Deudores",
-       "app": "reporte",
-       "modelo": "deudores",
-       "padre": 10,
-       "icono": "fa fa-gg",
-       "permiso": "reporte.deudores",
-       "listar": false,
-       "nivel": 0,
-       "activo": true}
-  },
-    {
-    "model": "navegacion.menu",
-    "pk": 16,
-    "fields": {
-      "nombre": "Estado De Cuenta",
-       "app": "reporte",
-       "modelo": "estado_cuenta",
-       "padre": 10,
-       "icono": "fa fa-table",
-       "permiso": "reporte.estado_cuenta",
-       "listar": false,
-       "nivel": 0,
-       "activo": true}
-  },
-  {
-    "model": "navegacion.menu",
-    "pk": 17,
-    "fields": {
-      "nombre": "Movimientos Automáticos",
-       "app": "automatico",
-       "modelo": "cron_auto",
-       "padre": 1,
-       "icono": "fa fa-plus",
-       "permiso": "automatico.add_cron_auto",
-       "listar": true,
-       "nivel": 0,
-       "activo": true}
-  }
-  ,
-  {
-    "model": "navegacion.menu",
-    "pk": 18,
-    "fields": {
-      "nombre": "Movimientos Inscripcion",
-       "app": "automatico",
-       "modelo": "condicionantes",
-       "padre": 1,
-       "icono": "fa fa-plus",
-       "permiso": "automatico.add_condicionantes",
+      "nombre": "Actividades",
+       "app": "bitacora",
+       "modelo": "registro",
+       "padre": 8,
+       "icono": "fa fa-user-plus",
+       "permiso": "bitacora.add_registro",
        "listar": true,
        "nivel": 0,
        "activo": true}

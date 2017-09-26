@@ -26,7 +26,7 @@ SECRET_KEY = 's0#x3rw5v7ej1t&obuiw!$ub)ghse1)5ctquy3e57q-77@uoet'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,14 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'fbasica',
+    'proyecto',
     'base',
-    'navegacion',
     'usuario',
-    'catalogo',
-    'inscripcion',
-    'reporte',
-    'automatico',
+    'navegacion',
+    'bitacora',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -87,14 +84,14 @@ WSGI_APPLICATION = 'base.wsgi.application'
 
 DATABASES = {
     'default': {
-        #'ENGINE': 'django.db.backends.sqlite3',
-        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'fbasicas',
-        'USER': 'root',
-        'PASSWORD': '046797993',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #'ENGINE': 'django.db.backends.mysql', 
+        #'NAME': 'fbasicas',
+        #'USER': 'root',
+        #'PASSWORD': '046797993',
+        #'HOST': 'localhost',
+        #'PORT': '3306',
     }
 }
 
@@ -130,7 +127,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_PATH = '/dj_fbasicas'
+STATIC_PATH = ''
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
@@ -146,5 +143,11 @@ AUTH_USER_MODEL         = 'usuario.usuario'
 LOGIN_URL               = STATIC_PATH+'/login/'
 LOGIN_REDIRECT_URL      = STATIC_PATH+'/login/'
 
-PROJECT_NAME      = '<b>I Morelia</b>'
-PROJECT_NAME_MINI = '<b>I</b>M'
+PROJECT_NAME      = '<b>Gestor</b>'
+PROJECT_NAME_MINI = '<b>G</b>S'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'daret07@gmail.com'
+EMAIL_HOST_PASSWORD = '14031992Daret'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

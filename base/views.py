@@ -240,7 +240,6 @@ def eliminar(request,app,modelo,pk):
 def modal(request):
     app   = request.POST.get('app',None)
     popup = request.POST.get('popup',None)
-
     parametros = {
         'app'   : app,
         'modal' : popup,
@@ -250,7 +249,7 @@ def modal(request):
         _mod = import_module("%s.modal" % app)
     except:
         _mod = None
-
+    
     if hasattr(_mod,'%s' % popup):
         tmp_extra = getattr(_mod,'%s' % popup)(request)
         parametros.update(tmp_extra);

@@ -1,12 +1,3 @@
-def testing(request):
-  from django.utils import timezone
-
-  parametros = {
-    'mensaje' : 'Alejandro Ambriz',
-    'hora'    : timezone.now(),
-  }
-  
-  return parametros
 
 def modal_generico(request):
   from base.views import obtener_form

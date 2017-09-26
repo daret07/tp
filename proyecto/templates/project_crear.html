@@ -1,0 +1,121 @@
+{% extends 'core/crear.html' %}
+{% load static %}
+{% block extra_head %}
+{{ block.super }}
+<style type="text/css">
+  .box-danger{
+    padding: 25px;
+  }
+</style>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#add_task').on('click',function(){
+			addForm('','#tarea','task_set',false);
+		});
+		$('#add_file').on('click',function(){
+			addForm('','#file','file_set',false);
+		});
+	});
+</script>
+{% endblock %}
+{% block contenido %}
+<div id="tabs">
+   <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#proyecto" aria-controls="ref" role="tab" data-toggle="tab">Proyecto</a></li>
+    <li role="presentation"><a href="#tarea" aria-controls="desc" role="tab" data-toggle="tab">Tareas</a></li>
+    <li role="presentation"><a href="#archivo" aria-controls="ref" role="tab" data-toggle="tab">Archivos del Proyecto</a></li>
+  </ul>
+  <div class="box box-danger">
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="proyecto">
+				<div class="proyectos">
+							<div class="row">
+					<div class="col-md-6">
+						<div class="row">
+							<div class="col-md-4">{{form.titulo.label_tag}}</div>
+							<div class="col-md-8">{{form.titulo}}</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">{{form.estatus.label_tag}}</div>
+							<div class="col-md-8">{{form.estatus}}</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">{{form.start_line.label_tag}}</div>
+							<div class="col-md-8">{{form.start_line}}</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">{{form.dead_line.label_tag}}</div>
+							<div class="col-md-8">{{form.dead_line}}</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="row text-center">
+							<div class="col-md-12">{{form.descripcion.label_tag}}</div>
+							<div class="col-md-12">{{form.descripcion}}</div>
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		  <div role="tabpanel" class="tab-pane" id="tarea">
+		      <i class="btn btn-primary fa fa-plus" id='add_task'> Agregar Tarea</i>
+		      <div id="tareas">
+		        {{form_task.management_form}}
+		          <table class='table table-condensed'>
+		            <thead>
+		              <tr>
+		                <th>Asignado a</th>
+		                <th>Titulo</th>
+		                <th>Estado</th>
+		                <th>Descripcion</th>
+		                <th>Prioridad</th>
+		                <th>Fecha Inicio</th>
+		                <th>Fecha Fin</th>
+		                <th>Eliminar</th>
+		              </tr>
+		            </thead>
+		          <tbody>
+		            {%for i in form_task%}
+		                <tr class="dynamic-form" >
+											<td>{{i.usuario}}{{i.id}}</td>
+											<td>{{i.titulo}}</td>
+											<td>{{i.estatus}}</td>
+											<td>{{i.descripcion}}</td>
+											<td>{{i.prioridad}}</td>
+											<td>{{i.start_line}}</td>
+											<td>{{i.dead_line}}</td>
+											<td>{{i.DELETE}}</td>
+		                </tr>
+		            {%endfor%}
+		          </tbody>
+		        </table>
+		      </div>
+		    </div>
+		    <div class="tab-pane" role="tabpanel" id="archivo">
+		    	<i class="btn btn-primary fa fa-plus" id='add_file'> Agregar Archivos</i>
+		    	<div id="file">
+		    		{{form_file.management_form}}
+		    		<table class="table table-condensed">
+		    			<thead>
+		    				<tr>
+		    					<th>Archivo</th>
+		    					<th>Descripcion</th>
+		    					<th>Eliminar</th>
+		    				</tr>
+		    			</thead>
+		    			<tbody>
+		    				{%for i in form_file%}
+		    					<tr class="dynamic-form" >
+			    					<td>{{i.file}}{{i.id}}</td>
+			    					<td>{{i.descripcion}}</td>
+			    					<td>{{i.DELETE}}</td>
+			    				</tr>
+		    				{% endfor %}
+		    			</tbody>
+		    		</table>
+		    	</div>
+		    </div>
+			</div>
+		</div>
+
+{% endblock %}

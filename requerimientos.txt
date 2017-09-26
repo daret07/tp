@@ -1,5 +1,5 @@
 django==1.10.1
-MySQL-python 
+##MySQL-python 
 pillow
 pytz
 xlrd

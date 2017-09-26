@@ -1,0 +1,15 @@
+{% extends 'core/listar.html' %}
+{% block extra_head %}
+{{ block.super }}
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.modals').on('click',function(){
+			ids = $(this).data('id');
+			parametros = {'pk' : ids}
+			showModal('proyecto','task_modal',parametros);
+		});
+	});
+</script>
+{% endblock %}
+{% block content_bottom %} 
+{% endblock %}

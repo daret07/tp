@@ -9,6 +9,12 @@
 }
 .img-responsive {margin:0 auto;  }
 </style>
+<script type="text/javascript">
+    $(document).ready(function(){
+    $("#id_usuario").data("enter",1) 
+    $("#id_contrasena").data("enter",1) 
+  });
+</script>
 {% endblock %}
 {% block body %}
 
@@ -17,12 +23,12 @@
   <form method='POST' action='' enctype='multipart/form-data'>
     {% csrf_token %}
     <p style='height:10px;'></p>
-    <div class='' style='max-width:600px;height:40px;margin:0px auto;'>
+    <div class='' style='max-width:600px;height:80px;margin:0px auto;'>
       <h3 style='margin-top:-10px;'><center>{% block titulo %}{% endblock %}</center></h3>
     </div>
     {% block logo %}
     {% endblock %}
-    <div style='max-width:400px;padding:30px;margin:0px auto;'>
+    <div style='max-width:400px;padding:30px;margin:0px auto; background-color: gray; border-radius: 10px;'>
       <div class="row">
         <div class='col-lg-12'><b>{{ form.usuario.label }}</b></div>
       </div>
@@ -44,10 +50,6 @@
       <button class='btn btn-primary pull-right'>Iniciar Sesión</button><br />
     </div>
     {% block aviso %}
-      <p align="center">
-        Esta aplicación ha sido desarrollada por <a href="http://www.divox.com.mx/" target="_blank">DIVOX S.A de C.V.</a>
-        Se encuentra optimizada para visualizarse sobre navegador:<a href="https://www.mozilla.org/es-MX/firefox/new/" target="_blank" > <i class="fa fa-firefox"> </i> firefox</a>
-      </p>
     {% endblock %}
   </form>
 </div>

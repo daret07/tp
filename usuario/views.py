@@ -25,13 +25,15 @@ def vista_usuario(request,pk=None):
     clave_confirmacion = form.cleaned_data['clave_confirmacion']
     if pk is None:
       if clave == clave_confirmacion:
-        obj = form.save()
+        obj = form.save(commit = False)
         obj.set_password(clave)
         obj.save()
+        form = usuarioForm(instance = obj)
         messages.info(request,'Se ha guardado con éxito la información.')
       else:
         form.add_error('clave','Las claves son incorrectas, por favor reviselo.')
     else:
+      print request.POST['groups']
       obj = form.save()
       messages.info(request,'Se ha guardado con éxito la información.')
 

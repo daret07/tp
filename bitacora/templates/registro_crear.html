@@ -1,0 +1,21 @@
+{% extends 'core/crear.html' %}
+{% load static %}
+{% block extra_head %}
+{{ block.super }}
+<style type="text/css">
+  .box-danger{
+    padding: 25px;
+  }
+</style>
+<script type="text/javascript">
+	$(document).ready(function(){
+		 
+	})
+</script>
+{% endblock %}
+{% block contenido %}
+<div class="box box-danger">
+{{form}}
+</div>
+
+{% endblock %}

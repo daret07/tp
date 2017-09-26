@@ -1,0 +1,318 @@
+{% extends 'core/core.html' %}
+{% block extra_head %}
+<style type="text/css">
+	.box{padding: 25px;}
+    .btns{
+        width: 100%;
+        margin-bottom: 2%;
+    }
+</style>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#add_tarea').on('click',function(){
+			showModal('proyecto','tarea_modal','');	
+		});
+
+		$('#add_proyecto').on('click',function(){
+			showModal('proyecto','project_modal','');	
+		});		
+		$('#add_bitacora').on('click',function(){
+			showModal('proyecto','bitacora_modal','');	
+		});	
+		$('#add_a_bitacora').on('click',function(){
+			showModal('proyecto','registro_modal','');	
+		});	
+        $('.modals').on('click',function(){
+            ids = $(this).data('id');
+            parametros = {'pk' : ids}
+            showModal('proyecto','task_modal',parametros);
+      });
+        $('.file').on('click',function(){
+            ids = $(this).data('id');
+            parametros = {'pk' : ids}
+            showModal('proyecto','file_modal',parametros);
+      });
+        $('.fileB').on('click',function(){
+            ids = $(this).data('id');
+            parametros = {'pk' : ids}
+            showModal('proyecto','filereg_modal',parametros);
+      });
+        $('.conclusion').on('click',function(){
+            ids = $(this).data('id');
+            parametros = {'pk' : ids}
+            showModal('proyecto','conclusion_modal',parametros);
+      });
+        
+
+Highcharts.chart('container', {
+    chart: {
+        type: 'pie'
+    },
+    title: {
+        text: 'Browser market shares. January, 2015 to May, 2015'
+    },
+    subtitle: {
+        text: 'Click the slices to view versions. Source: netmarketshare.com.'
+    },
+    plotOptions: {
+        series: {
+            dataLabels: {
+                enabled: true,
+                format: '{point.name}: {point.y:.1f}%'
+            }
+        }
+    },
+
+    tooltip: {
+        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+    },
+    series: [{
+        name: 'Brands',
+        colorByPoint: true,
+        data: [{
+            name: 'Microsoft Internet Explorer',
+            y: 56.33,
+            drilldown: 'Microsoft Internet Explorer'
+        }, {
+            name: 'Chrome',
+            y: 24.03,
+            drilldown: 'Chrome'
+        }, {
+            name: 'Firefox',
+            y: 10.38,
+            drilldown: 'Firefox'
+        }, {
+            name: 'Safari',
+            y: 4.77,
+            drilldown: 'Safari'
+        }, {
+            name: 'Opera',
+            y: 0.91,
+            drilldown: 'Opera'
+        }, {
+            name: 'Proprietary or Undetectable',
+            y: 0.2,
+            drilldown: null
+        }]
+    }],
+    drilldown: {
+        series: [{
+            name: 'Microsoft Internet Explorer',
+            id: 'Microsoft Internet Explorer',
+            data: [
+                ['v11.0', 24.13],
+                ['v8.0', 17.2],
+                ['v9.0', 8.11],
+                ['v10.0', 5.33],
+                ['v6.0', 1.06],
+                ['v7.0', 0.5]
+            ]
+        }, {
+            name: 'Chrome',
+            id: 'Chrome',
+            data: [
+                ['v40.0', 5],
+                ['v41.0', 4.32],
+                ['v42.0', 3.68],
+                ['v39.0', 2.96],
+                ['v36.0', 2.53],
+                ['v43.0', 1.45],
+                ['v31.0', 1.24],
+                ['v35.0', 0.85],
+                ['v38.0', 0.6],
+                ['v32.0', 0.55],
+                ['v37.0', 0.38],
+                ['v33.0', 0.19],
+                ['v34.0', 0.14],
+                ['v30.0', 0.14]
+            ]
+        }, {
+            name: 'Firefox',
+            id: 'Firefox',
+            data: [
+                ['v35', 2.76],
+                ['v36', 2.32],
+                ['v37', 2.31],
+                ['v34', 1.27],
+                ['v38', 1.02],
+                ['v31', 0.33],
+                ['v33', 0.22],
+                ['v32', 0.15]
+            ]
+        }, {
+            name: 'Safari',
+            id: 'Safari',
+            data: [
+                ['v8.0', 2.56],
+                ['v7.1', 0.77],
+                ['v5.1', 0.42],
+                ['v5.0', 0.3],
+                ['v6.1', 0.29],
+                ['v7.0', 0.26],
+                ['v6.2', 0.17]
+            ]
+        }, {
+            name: 'Opera',
+            id: 'Opera',
+            data: [
+                ['v12.x', 0.34],
+                ['v28', 0.24],
+                ['v27', 0.17],
+                ['v29', 0.16]
+            ]
+        }]
+    	}
+		});
+	
+	//otro
+
+Highcharts.chart('container2', {
+
+    title: {
+        text: 'Solar Employment Growth by Sector, 2010-2016'
+    },
+
+    subtitle: {
+        text: 'Source: thesolarfoundation.com'
+    },
+
+    yAxis: {
+        title: {
+            text: 'Number of Employees'
+        }
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        series: {
+            pointStart: 2010
+        }
+    },
+
+    series: [{
+        name: 'Installation',
+        data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
+    }, {
+        name: 'Manufacturing',
+        data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+    }, {
+        name: 'Sales & Distribution',
+        data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+    }, {
+        name: 'Project Development',
+        data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
+    }, {
+        name: 'Other',
+        data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+    }]
+
+});
+
+});
+</script>
+{% endblock %}
+{% block cuerpo %}
+<div class="row">
+	<div class="col-md-12">
+		<div class="box text-center">
+            <div class="row">
+                {% if permiso%}
+                <div class="col-md-3 col-xs-6 {% if permiso == False %} col-md-offset-2 {% endif %}">
+                    <input type="button" class="btn btn-primary btns" name="" id="add_proyecto" value="Agregar Proyecto">
+                </div>
+                {% endif %}
+                <div class="col-md-3 col-xs-6">
+                    <input type="button" class="btn btn-primary btns" name="" id="add_tarea" value="Agregar Tarea">
+                </div>
+                
+                    <div class="col-md-3 col-xs-6">
+                        <input type="button" class="btn btn-primary btns" name="" id="add_a_bitacora" value="Agregar bitacora">
+                    </div>
+                {% if permiso%}
+                <div class="col-md-3 col-xs-6">
+                  <input type="button" class="btn btn-primary btns" name="" id="add_bitacora" value="Agregar a bitacora">  
+                </div>
+                {% endif %}
+            </div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="box">
+			<h4>Registro Bitacora</h4>
+			<div class="table-responsive">
+				<table class="table table-responsive">
+					<thead>
+						<tr>
+							<th>Bitacora</th>
+							<th>Proyecto</th>
+                            <th>Usuario</th>
+							<th>Actividad</th>
+                            <th>Agregar Archivo</th>
+							<th>Conclusion</th>
+						</tr>
+					</thead>
+					<tbody>
+                        {% for item in regi%}
+						<tr>
+							<td>{{item.bitacora.titulo}}</td>
+							<td>{{item.bitacora.proyecto.titulo}}</td>
+                            <td>{{item.usuario}}</td>
+							<td>{{item.actividad}}</td>
+                            <td><input type="button" name="" class="btn btn-default fileB" data-id="{{item.pk}}" data-id="id" value="Agregar archivo"></td>
+							<td><input type="button" name="" class="btn btn-primary conclusion" data-id="{{item.pk}}" value="Agregar"></td>
+						</tr>
+                        {% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="box">
+			<h4>Tareas Pendientes</h4>
+            <div class="table-responsive">
+    			<table class="table table-responsive">
+    				<thead>
+    					<tr>
+    						<th>Proyecto</th>
+    						<th>Tarea</th>
+    						<th>Prioridad</th>
+    						<th>Fecha Inicio</th>
+                            <th>Agrear archivo</th>
+    						<th>Finalizar</th>
+    					</tr>
+    				</thead>
+    				<tbody>
+                        {% for item in task %}
+        					<tr>
+        						<td>{{item.proyecto}}</td>
+        						<td>{{item.titulo}}</td>
+        						<td>{% if item.prioridad == '1' %}Baja{%elif item.prioridad == '2'%} Media {% else %} Alta {% endif %}</td>
+        						<td>{{item.start_line|date:"D M Y"}}</td>
+                                <td><input type="button" name="" class="btn btn-default file" data-id="{{item.pk}}" data-id="id" value="Agregar archivo"></td>
+        						<td><input type="button" name="" class="btn btn-primary modals" data-id="{{item.pk}}" data-id="id" value="Finalizar"></td>
+        					</tr>
+                        {% endfor %}
+    				</tbody>
+    			</table>
+            </div>
+		</div>
+	</div>
+</div>
+{% if permiso %}
+<div class="row">
+	<div class="col-md-6"><div id="container"></div></div>
+	<div class="col-md-6"><div id="container2"></div></div>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'core/crear.html' %}
+{% load static %}
+{% block extra_head %}
+{{ block.super }}
+<style type="text/css">
+  .box-danger{
+    padding: 25px;
+  }
+</style>
+<script type="text/javascript">
+	$(document).ready(function(){
+				$('#add_participante').on('click',function(){
+			addForm('','#participante','participante_set',false);
+		});
+	})
+</script>
+{% endblock %}
+{% block contenido %}
+<div id="tabs">
+   <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#proyecto" aria-controls="ref" role="tab" data-toggle="tab">Bitacora</a></li>
+    <li role="presentation"><a href="#tarea" aria-controls="desc" role="tab" data-toggle="tab">Participantes</a></li>
+  </ul>
+  <div class="box box-danger">
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="proyecto">
+				<div class="proyectos">
+							<div class="row">
+					<div class="col-md-10">
+						<div class="row">
+							<div class="col-md-4">{{form.proyecto.label_tag}}</div>
+							<div class="col-md-8">{{form.proyecto}}</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">{{form.titulo.label_tag}}</div>
+							<div class="col-md-8">{{form.titulo}}</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4">{{form.descripcion.label_tag}}</div>
+							<div class="col-md-8">{{form.descripcion}}</div>
+						</div>
+					</div>
+				</div>
+				</div>
+			</div>
+		  <div role="tabpanel" class="tab-pane" id="tarea">
+		      <i class="btn btn-primary fa fa-plus" id='add_participante'> Agregar participantes</i>
+		      <div id="participante">
+		        {{form_p.management_form}}
+		          <table class='table table-condensed'>
+		            <thead>
+		              <tr>
+		                <th>Agregar</th>
+		                <th>Eliminar</th>
+		              </tr>
+		            </thead>
+		          <tbody>
+		            {%for i in form_p%}
+		                <tr class="dynamic-form" >
+											<td>{{i.usuario}}{{i.id}}</td>
+											<td>{{i.DELETE}}</td>
+		                </tr>
+		            {%endfor%}
+		          </tbody>
+		        </table>
+		      </div>
+		    </div>
+			</div>
+		</div>
+{% endblock %}
