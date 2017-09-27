@@ -34,7 +34,8 @@ def index(request):
                 _view_gen = import_module("%s.views" % app)
                 if hasattr(_view_gen,'main_index'):
                     parametros.update(getattr(_view_gen,'main_index')(request))
-            except:
+            except Exception as e:
+                print e
                 pass
     
     return TemplateResponse(request,'core/dashboard.html',parametros)

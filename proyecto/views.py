@@ -8,18 +8,18 @@ from django.contrib import messages
 from bitacora.models import bitacora,registro
 from usuario.models import usuario
 from base.utilidades import enviar_email
+# Create your views here.
 
 def main_index(request):
-	
 	jefe = False
 
 	if request.user.groups.filter(name='CabezaDpto'):
 		jefe = True
 		
-	elif request.user.groups.filter(name='Gerente'):
+	if request.user.groups.filter(name='Gerente'):
 		jefe = True
 	
-	elif request.user.is_superuser:
+	if request.user.is_superuser:
 		jefe = True
 	
 	# BITACORA
@@ -41,6 +41,8 @@ def main_index(request):
 		taskP = task.objects.filter(usuario=request.user,estatus='1').order_by('proyecto')
 	elif request.user.groups.filter(name='Gerente'):
 		taskP = task.objects.filter(estatus='1')
+	elif request.user.is_superuser:
+		taskP = task.objects.all()
 	elif request.user.groups.filter(name='CabezaDpto'):
 		ids = usuario.objects.filter(Superior=request.user)
 		arr_id = []

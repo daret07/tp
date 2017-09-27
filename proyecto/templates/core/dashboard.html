@@ -221,6 +221,7 @@ Highcharts.chart('container2', {
 	<div class="col-md-12">
 		<div class="box text-center">
             <div class="row">
+
                 {% if permiso == True %}
                 <div class="col-md-3 col-xs-6 {% if permiso == False %} col-md-offset-2 {% endif %}">
                     <input type="button" class="btn btn-primary btns" name="" id="add_proyecto" value="Agregar Proyecto">
@@ -233,7 +234,7 @@ Highcharts.chart('container2', {
                     <div class="col-md-3 col-xs-6">
                         <input type="button" class="btn btn-primary btns" name="" id="add_a_bitacora" value="Agregar bitacora">
                     </div>
-                {% if permiso == True %}
+                {% if permiso %}
                 <div class="col-md-3 col-xs-6">
                   <input type="button" class="btn btn-primary btns" name="" id="add_bitacora" value="Agregar a bitacora">  
                 </div>
